@@ -2,6 +2,9 @@ export const locales = ["en", "id", "pt"] as const;
 
 export type Locale = (typeof locales)[number];
 
+/** Locale shown when visitors open the non-localized root route. */
+export const defaultLocale: Locale = "en";
+
 export const isLocale = (value: string): value is Locale =>
   locales.includes(value as Locale);
 

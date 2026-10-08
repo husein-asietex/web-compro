@@ -36,7 +36,7 @@ function PagesList({ pages }: { pages: { slug: string; status: string }[] }) {
         return (
           <Link
             key={slug}
-            href={`/admin/content/pages/${slug}`}
+            href={`/dashboard/content/pages/${slug}`}
             className={`flex items-center justify-between ${CARD_LINK_CLASS}`}
           >
             <span className="capitalize">{slug}</span>
@@ -66,7 +66,7 @@ function DivisionsList({
       {divisions.map((division) => (
         <Link
           key={division.id}
-          href={`/admin/content/divisions/${division.slug}`}
+          href={`/dashboard/content/divisions/${division.slug}`}
           className={`capitalize ${CARD_LINK_CLASS}`}
         >
           {division.order}. {division.slug.replaceAll("-", " ")}
@@ -135,7 +135,7 @@ export default async function ContentIndex() {
   return (
     <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-12">
       <header className="mx-auto flex max-w-6xl items-center justify-between">
-        <Link href="/admin" className="font-serif text-2xl">
+        <Link href="/dashboard" className="font-serif text-2xl">
           Asietex CMS
         </Link>
         <Badge variant="outline">{user.role}</Badge>

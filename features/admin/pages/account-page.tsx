@@ -14,7 +14,7 @@ export default async function Account() {
 
   return (
     <main className="min-h-dvh bg-[#f8f7f2] p-6 md:p-12">
-      <Link href="/admin" className="text-sm underline">
+      <Link href="/dashboard" className="text-sm underline">
         ← Dashboard
       </Link>
 

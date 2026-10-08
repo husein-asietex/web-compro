@@ -26,11 +26,11 @@ import {
 // Urutan array = urutan tampil di sidebar.
 // `adminOnly: true` -> hanya muncul untuk ADMIN.
 const NAV_LINKS = [
-  { href: "/admin", label: "Overview", icon: Home01Icon },
-  { href: "/admin/content", label: "Content", icon: Settings02Icon },
-  { href: "/admin/media", label: "Media", icon: Image01Icon, adminOnly: true },
-  { href: "/admin/users", label: "People", icon: UserAccountIcon, adminOnly: true },
-  { href: "/admin/account", label: "My account", icon: UserAccountIcon },
+  { href: "/dashboard", label: "Overview", icon: Home01Icon },
+  { href: "/dashboard/content", label: "Content", icon: Settings02Icon },
+  { href: "/dashboard/media", label: "Media", icon: Image01Icon, adminOnly: true },
+  { href: "/dashboard/users", label: "People", icon: UserAccountIcon, adminOnly: true },
+  { href: "/dashboard/account", label: "My account", icon: UserAccountIcon },
 ];
 
 export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
@@ -41,7 +41,7 @@ export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>
         <Link
-          href="/admin"
+          href="/dashboard"
           className="flex items-center gap-2 px-2 py-2 font-serif text-xl"
         >
           Asietex<span className="text-[#ab873e]">.</span>

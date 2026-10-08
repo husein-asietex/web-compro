@@ -95,7 +95,7 @@ export async function savePageAction(formData: FormData) {
   await audit(user.id, "page", page.id, "saved-draft");
 
   revalidatePath(`/${slug}`);
-  redirect(`/admin/content/pages/${slug}?saved=1`);
+  redirect(`/dashboard/content/pages/${slug}?saved=1`);
 }
 
 export async function publishPageAction(formData: FormData) {
@@ -110,7 +110,7 @@ export async function publishPageAction(formData: FormData) {
   await audit(user.id, "page", page.id, "published");
 
   revalidatePath(`/${slug}`);
-  redirect(`/admin/content/pages/${slug}?published=1`);
+  redirect(`/dashboard/content/pages/${slug}?published=1`);
 }
 
 // ---------------------------------------------------------------------------
@@ -130,8 +130,8 @@ export async function createDivisionsAction() {
 
   await audit(user.id, "division", "collection", "seeded");
 
-  revalidatePath("/admin/content");
-  redirect("/admin/content");
+  revalidatePath("/dashboard/content");
+  redirect("/dashboard/content");
 }
 
 export async function saveDivisionAction(formData: FormData) {
@@ -154,7 +154,7 @@ export async function saveDivisionAction(formData: FormData) {
   await saveDivisionTranslations(division.id, formData);
   await audit(user.id, "division", division.id, "saved-draft");
 
-  redirect(`/admin/content/divisions/${slug}?saved=1`);
+  redirect(`/dashboard/content/divisions/${slug}?saved=1`);
 }
 
 export async function publishDivisionAction(formData: FormData) {
@@ -172,7 +172,7 @@ export async function publishDivisionAction(formData: FormData) {
     revalidatePath(`/${locale}/products/${slug}`);
   }
 
-  redirect(`/admin/content/divisions/${slug}?published=1`);
+  redirect(`/dashboard/content/divisions/${slug}?published=1`);
 }
 
 // ---------------------------------------------------------------------------
@@ -195,5 +195,5 @@ export async function saveCatalogAction(formData: FormData) {
 
   await audit(user.id, "setting", "site", "saved");
 
-  redirect("/admin/content?settings=1");
+  redirect("/dashboard/content?settings=1");
 }

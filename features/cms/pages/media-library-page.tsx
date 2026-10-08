@@ -11,7 +11,7 @@ export default async function MediaPage() {
     const assets = await prisma.mediaAsset.findMany({ orderBy: { createdAt: "desc" } });
     return (
         <main className="min-h-dvh bg-[#f8f7f2] p-6 md:p-12">
-            <Link href="/admin" className="text-sm underline">← Dashboard</Link>
+            <Link href="/dashboard" className="text-sm underline">← Dashboard</Link>
             <section className="mx-auto mt-14 max-w-5xl">
                 <h1 className="font-serif text-5xl">Media library</h1>
                 <form action={addMediaAction} className="mt-8 rounded-2xl border border-black/10 bg-white p-6">

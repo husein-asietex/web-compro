@@ -29,5 +29,5 @@ export async function addMediaAction(formData: FormData) {
     },
   });
 
-  redirect("/admin/media");
+  redirect("/dashboard/media");
 }

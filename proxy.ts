@@ -4,7 +4,7 @@ import { locales } from "@/lib/i18n";
 const DEFAULT_LOCALE = "en";
 
 // Path yang tidak memakai prefix bahasa
-const BYPASS_PREFIXES = ["/admin", "/login", "/api", "/_next"];
+const BYPASS_PREFIXES = ["/dashboard", "/login", "/api", "/_next"];
 
 function shouldBypass(pathname: string) {
   return BYPASS_PREFIXES.some((prefix) => pathname.startsWith(prefix));
@@ -18,6 +18,13 @@ function hasLocalePrefix(pathname: string) {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Pertahankan tautan lama agar selalu masuk ke area CMS yang baru.
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.replace(/^\/admin/, "/dashboard");
+    return NextResponse.redirect(url);
+  }
 
   if (shouldBypass(pathname) || hasLocalePrefix(pathname)) return;
 

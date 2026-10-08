@@ -45,7 +45,7 @@ function LocaleFieldset({ locale, title, body }: LocaleFieldsetProps) {
 
 export default async function PageEditor({
   params,
-}: PageProps<"/admin/content/pages/[slug]">) {
+}: PageProps<"/dashboard/content/pages/[slug]">) {
   const user = await requireUser();
   const { slug } = await params;
   if (!ALLOWED_SLUGS.includes(slug)) notFound();
@@ -64,7 +64,7 @@ export default async function PageEditor({
   return (
     <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-12">
       <header className="mx-auto flex max-w-4xl items-center justify-between">
-        <Link href="/admin/content" className="text-sm underline">
+        <Link href="/dashboard/content" className="text-sm underline">
           ← Content library
         </Link>
 

@@ -58,10 +58,10 @@ export default async function LocalizedPage({
           </p>
         </div>
 
-        <aside
+        {/* <aside
           aria-hidden="true"
           className="min-h-80 rounded-[2rem] bg-[#d8d0bc] md:col-span-4"
-        />
+        /> */}
       </section>
     </main>
   );

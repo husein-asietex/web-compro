@@ -7,6 +7,7 @@ import { prisma } from "@/backend/prisma";
 const COOKIE = "asietex_session";
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 hari (detik)
 const KEY_LENGTH = 64;
+const WORKSPACE_ROLES = new Set(["ADMIN", "STAFF"]);
 
 // ---------------------------------------------------------------------------
 // Helper
@@ -67,7 +68,8 @@ export async function requireUser(admin = false) {
   const user = await currentUser();
 
   if (!user) redirect("/login");
-  if (admin && user.role !== "ADMIN") redirect("/admin");
+  if (!WORKSPACE_ROLES.has(user.role)) redirect("/login");
+  if (admin && user.role !== "ADMIN") redirect("/dashboard");
 
   return user;
 }

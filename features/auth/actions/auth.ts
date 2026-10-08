@@ -8,7 +8,7 @@ export async function loginAction(formData: FormData) {
   const password = String(formData.get("password") || "");
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user || !passwordMatches(password, user.passwordHash)) redirect("/login?error=invalid");
-  await createSession(user.id); redirect("/admin");
+  await createSession(user.id); redirect("/dashboard");
 }
 
 

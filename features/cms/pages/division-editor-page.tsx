@@ -10,7 +10,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 export const instant = false;
-export default async function DivisionEditor({ params }: PageProps<"/admin/content/divisions/[slug]">) {
+export default async function DivisionEditor({ params }: PageProps<"/dashboard/content/divisions/[slug]">) {
     const user = await requireUser(); const { slug } = await params;
     const division = await prisma.division.findUnique({
         where: { slug },
@@ -20,7 +20,7 @@ export default async function DivisionEditor({ params }: PageProps<"/admin/conte
     const translation = (locale: string) => division.translations.find((item) => item.locale === locale);
     return <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-12">
         <header className="mx-auto flex max-w-4xl items-center justify-between">
-            <Link href="/admin/content" className="text-sm underline">← Content library</Link>
+            <Link href="/dashboard/content" className="text-sm underline">← Content library</Link>
             <Badge variant={division.status === "PUBLISHED" ? "default" : "outline"}>{division.status}</Badge>
         </header><section className="mx-auto mt-14 max-w-4xl">
             <h1 className="font-serif text-5xl capitalize">{slug.replace("-", " ")}</h1>

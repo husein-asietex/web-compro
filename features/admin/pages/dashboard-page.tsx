@@ -25,15 +25,15 @@ export default async function AdminPage() {
                     Manage published content, roles and media from this workspace.
                 </p>
                 <div className="mt-10 grid gap-3 md:grid-cols-3">
-                    <Link href="/admin/content" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
+                    <Link href="/dashboard/content" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
                         <p className="font-serif text-2xl">Content</p>
                         <p className="mt-2 text-sm text-[#5b5d54]">Pages, translations and divisions</p>
                     </Link>
-                    <Link href="/admin/users" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
+                    <Link href="/dashboard/users" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
                         <p className="font-serif text-2xl">People</p>
                         <p className="mt-2 text-sm text-[#5b5d54]">Staff access and roles</p>
                     </Link>
-                    <Link href="/admin/account" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
+                    <Link href="/dashboard/account" className="rounded-2xl border border-black/10 bg-white p-6 hover:bg-[#eeeadf]">
                         <p className="font-serif text-2xl">My account</p>
                         <p className="mt-2 text-sm text-[#5b5d54]">Password and profile</p>
                     </Link>

@@ -33,7 +33,7 @@ export async function changeMyPasswordAction(formData: FormData) {
   const user = await requireUser();
   const password = getText(formData, "password");
 
-  if (!isStrongPassword(password)) redirect("/admin/account?error=weak");
+  if (!isStrongPassword(password)) redirect("/dashboard/account?error=weak");
 
   await prisma.user.update({
     where: { id: user.id },
@@ -42,7 +42,7 @@ export async function changeMyPasswordAction(formData: FormData) {
 
   await audit(user.id, "user", user.id, "password-changed");
 
-  redirect("/admin/account?saved=1");
+  redirect("/dashboard/account?saved=1");
 }
 
 export async function createStaffAction(formData: FormData) {
@@ -53,7 +53,7 @@ export async function createStaffAction(formData: FormData) {
   const password = getText(formData, "password");
 
   if (!name || !email || !isStrongPassword(password)) {
-    redirect("/admin/users?error=invalid");
+    redirect("/dashboard/users?error=invalid");
   }
 
   const hash = passwordHash(password);
@@ -66,7 +66,7 @@ export async function createStaffAction(formData: FormData) {
 
   await audit(admin.id, "user", email, "staff-created");
 
-  redirect("/admin/users?saved=1");
+  redirect("/dashboard/users?saved=1");
 }
 
 export async function toggleUserAction(formData: FormData) {
@@ -76,12 +76,12 @@ export async function toggleUserAction(formData: FormData) {
   const active = formData.get("active") === "true";
 
   // Admin tidak boleh menonaktifkan akunnya sendiri
-  if (id === admin.id) redirect("/admin/users?error=self");
+  if (id === admin.id) redirect("/dashboard/users?error=self");
 
   await prisma.user.update({ where: { id }, data: { active } });
 
   // Hapus semua sesi supaya perubahan status langsung berlaku
   await prisma.session.deleteMany({ where: { userId: id } });
 
-  redirect("/admin/users");
+  redirect("/dashboard/users");
 }

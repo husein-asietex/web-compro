@@ -1,1 +1,2 @@
-export { default } from "@/features/admin/pages/sidebar-preview-page";
+export const instant = false;
+export { default } from "@/features/admin/pages/dashboard-page";
