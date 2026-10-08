@@ -1,0 +1,3 @@
+import Link from "next/link";
+const divisions = ["spinning", "twisting", "knitting", "weaving", "dyeing", "yarn-dyeing", "garment", "printing", "finishing"];
+export default function ProductsPage() { return <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-16"><Link href="/" className="text-sm underline">← Asietex</Link><h1 className="mt-12 font-serif text-6xl">Nine divisions.</h1><div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{divisions.map((division, i) => <Link className="rounded-2xl border border-black/10 bg-white p-6 font-serif text-3xl capitalize hover:bg-[#e4dbc6]" href={`/products/${division}`} key={division}>0{i + 1} · {division.replace("-", " ")}</Link>)}</div></main>; }

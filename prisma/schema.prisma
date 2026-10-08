@@ -1,13 +1,104 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  STAFF
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  name         String
+  passwordHash String
+  role         Role       @default(STAFF)
+  active       Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  sessions     Session[]
+  revisions    Revision[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model SiteSetting {
+  id         String   @id @default("site")
+  catalogUrl String   @default("https://e-catalog.asietex.web.id")
+  catalogOn  Boolean  @default(true)
+  updatedAt  DateTime @updatedAt
+}
+
+model Page {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  status       ContentStatus @default(DRAFT)
+  translations Translation[]
+  updatedAt    DateTime      @updatedAt
+}
+
+model Division {
+  id           String        @id @default(cuid())
+  slug         String        @unique
+  order        Int           @unique
+  capacity     String?
+  products     String[]      @default([])
+  machinery    String?
+  videoEn      String?
+  videoId      String?
+  videoPt      String?
+  gallery      String[]      @default([])
+  status       ContentStatus @default(DRAFT)
+  translations Translation[]
+  updatedAt    DateTime      @updatedAt
+}
+
+model Translation {
+  id         String    @id @default(cuid())
+  locale     String
+  title      String
+  body       String
+  pageId     String?
+  divisionId String?
+  page       Page?     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  division   Division? @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+
+  @@unique([pageId, locale])
+  @@unique([divisionId, locale])
+}
+
+model MediaAsset {
+  id        String   @id @default(cuid())
+  url       String
+  altEn     String
+  altId     String
+  altPt     String
+  createdAt DateTime @default(now())
+}
+
+model Revision {
+  id        String   @id @default(cuid())
+  entity    String
+  entityId  String
+  action    String
+  userId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

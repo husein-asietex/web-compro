@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const instant = false;
+export default async function DivisionPage({ params }: PageProps<"/products/[slug]">) { const { slug } = await params; const name = slug.replaceAll("-", " "); return <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-16"><Link href="/products" className="text-sm underline">← All divisions</Link><p className="mt-16 text-sm text-[#765b25]">Asietex integrated chain</p><h1 className="mt-3 font-serif text-7xl capitalize">{name}</h1><p className="mt-8 max-w-2xl text-lg leading-8 text-[#5b5d54]">Detailed products, capacity, machinery, photo gallery and localised video are managed from the CMS before publishing.</p></main>; }
