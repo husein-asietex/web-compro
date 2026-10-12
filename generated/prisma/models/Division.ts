@@ -72,6 +72,7 @@ export type DivisionCountAggregateOutputType = {
   videoPt: number
   gallery: number
   status: number
+  draft: number
   updatedAt: number
   _all: number
 }
@@ -123,6 +124,7 @@ export type DivisionCountAggregateInputType = {
   videoPt?: true
   gallery?: true
   status?: true
+  draft?: true
   updatedAt?: true
   _all?: true
 }
@@ -225,6 +227,7 @@ export type DivisionGroupByOutputType = {
   videoPt: string | null
   gallery: string[]
   status: $Enums.ContentStatus
+  draft: runtime.JsonValue | null
   updatedAt: Date
   _count: DivisionCountAggregateOutputType | null
   _avg: DivisionAvgAggregateOutputType | null
@@ -263,8 +266,10 @@ export type DivisionWhereInput = {
   videoPt?: Prisma.StringNullableFilter<"Division"> | string | null
   gallery?: Prisma.StringNullableListFilter<"Division">
   status?: Prisma.EnumContentStatusFilter<"Division"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableFilter<"Division">
   updatedAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   translations?: Prisma.TranslationListRelationFilter
+  media?: Prisma.MediaAssetListRelationFilter
 }
 
 export type DivisionOrderByWithRelationInput = {
@@ -279,8 +284,10 @@ export type DivisionOrderByWithRelationInput = {
   videoPt?: Prisma.SortOrderInput | Prisma.SortOrder
   gallery?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   translations?: Prisma.TranslationOrderByRelationAggregateInput
+  media?: Prisma.MediaAssetOrderByRelationAggregateInput
 }
 
 export type DivisionWhereUniqueInput = Prisma.AtLeast<{
@@ -298,8 +305,10 @@ export type DivisionWhereUniqueInput = Prisma.AtLeast<{
   videoPt?: Prisma.StringNullableFilter<"Division"> | string | null
   gallery?: Prisma.StringNullableListFilter<"Division">
   status?: Prisma.EnumContentStatusFilter<"Division"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableFilter<"Division">
   updatedAt?: Prisma.DateTimeFilter<"Division"> | Date | string
   translations?: Prisma.TranslationListRelationFilter
+  media?: Prisma.MediaAssetListRelationFilter
 }, "id" | "slug" | "order">
 
 export type DivisionOrderByWithAggregationInput = {
@@ -314,6 +323,7 @@ export type DivisionOrderByWithAggregationInput = {
   videoPt?: Prisma.SortOrderInput | Prisma.SortOrder
   gallery?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DivisionCountOrderByAggregateInput
   _avg?: Prisma.DivisionAvgOrderByAggregateInput
@@ -337,6 +347,7 @@ export type DivisionScalarWhereWithAggregatesInput = {
   videoPt?: Prisma.StringNullableWithAggregatesFilter<"Division"> | string | null
   gallery?: Prisma.StringNullableListFilter<"Division">
   status?: Prisma.EnumContentStatusWithAggregatesFilter<"Division"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableWithAggregatesFilter<"Division">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Division"> | Date | string
 }
 
@@ -352,8 +363,10 @@ export type DivisionCreateInput = {
   videoPt?: string | null
   gallery?: Prisma.DivisionCreategalleryInput | string[]
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   translations?: Prisma.TranslationCreateNestedManyWithoutDivisionInput
+  media?: Prisma.MediaAssetCreateNestedManyWithoutDivisionInput
 }
 
 export type DivisionUncheckedCreateInput = {
@@ -368,8 +381,10 @@ export type DivisionUncheckedCreateInput = {
   videoPt?: string | null
   gallery?: Prisma.DivisionCreategalleryInput | string[]
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   translations?: Prisma.TranslationUncheckedCreateNestedManyWithoutDivisionInput
+  media?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutDivisionInput
 }
 
 export type DivisionUpdateInput = {
@@ -384,8 +399,10 @@ export type DivisionUpdateInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.TranslationUpdateManyWithoutDivisionNestedInput
+  media?: Prisma.MediaAssetUpdateManyWithoutDivisionNestedInput
 }
 
 export type DivisionUncheckedUpdateInput = {
@@ -400,8 +417,10 @@ export type DivisionUncheckedUpdateInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.TranslationUncheckedUpdateManyWithoutDivisionNestedInput
+  media?: Prisma.MediaAssetUncheckedUpdateManyWithoutDivisionNestedInput
 }
 
 export type DivisionCreateManyInput = {
@@ -416,6 +435,7 @@ export type DivisionCreateManyInput = {
   videoPt?: string | null
   gallery?: Prisma.DivisionCreategalleryInput | string[]
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
@@ -431,6 +451,7 @@ export type DivisionUpdateManyMutationInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -446,15 +467,8 @@ export type DivisionUncheckedUpdateManyInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
 }
 
 export type DivisionCountOrderByAggregateInput = {
@@ -469,6 +483,7 @@ export type DivisionCountOrderByAggregateInput = {
   videoPt?: Prisma.SortOrder
   gallery?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -557,6 +572,22 @@ export type DivisionUpdateOneWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DivisionUpdateToOneWithWhereWithoutTranslationsInput, Prisma.DivisionUpdateWithoutTranslationsInput>, Prisma.DivisionUncheckedUpdateWithoutTranslationsInput>
 }
 
+export type DivisionCreateNestedOneWithoutMediaInput = {
+  create?: Prisma.XOR<Prisma.DivisionCreateWithoutMediaInput, Prisma.DivisionUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.DivisionCreateOrConnectWithoutMediaInput
+  connect?: Prisma.DivisionWhereUniqueInput
+}
+
+export type DivisionUpdateOneWithoutMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.DivisionCreateWithoutMediaInput, Prisma.DivisionUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.DivisionCreateOrConnectWithoutMediaInput
+  upsert?: Prisma.DivisionUpsertWithoutMediaInput
+  disconnect?: Prisma.DivisionWhereInput | boolean
+  delete?: Prisma.DivisionWhereInput | boolean
+  connect?: Prisma.DivisionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DivisionUpdateToOneWithWhereWithoutMediaInput, Prisma.DivisionUpdateWithoutMediaInput>, Prisma.DivisionUncheckedUpdateWithoutMediaInput>
+}
+
 export type DivisionCreateWithoutTranslationsInput = {
   id?: string
   slug: string
@@ -569,7 +600,9 @@ export type DivisionCreateWithoutTranslationsInput = {
   videoPt?: string | null
   gallery?: Prisma.DivisionCreategalleryInput | string[]
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
+  media?: Prisma.MediaAssetCreateNestedManyWithoutDivisionInput
 }
 
 export type DivisionUncheckedCreateWithoutTranslationsInput = {
@@ -584,7 +617,9 @@ export type DivisionUncheckedCreateWithoutTranslationsInput = {
   videoPt?: string | null
   gallery?: Prisma.DivisionCreategalleryInput | string[]
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
+  media?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutDivisionInput
 }
 
 export type DivisionCreateOrConnectWithoutTranslationsInput = {
@@ -615,7 +650,9 @@ export type DivisionUpdateWithoutTranslationsInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.MediaAssetUpdateManyWithoutDivisionNestedInput
 }
 
 export type DivisionUncheckedUpdateWithoutTranslationsInput = {
@@ -630,7 +667,93 @@ export type DivisionUncheckedUpdateWithoutTranslationsInput = {
   videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gallery?: Prisma.DivisionUpdategalleryInput | string[]
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.MediaAssetUncheckedUpdateManyWithoutDivisionNestedInput
+}
+
+export type DivisionCreateWithoutMediaInput = {
+  id?: string
+  slug: string
+  order: number
+  capacity?: string | null
+  products?: Prisma.DivisionCreateproductsInput | string[]
+  machinery?: string | null
+  videoEn?: string | null
+  videoId?: string | null
+  videoPt?: string | null
+  gallery?: Prisma.DivisionCreategalleryInput | string[]
+  status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Date | string
+  translations?: Prisma.TranslationCreateNestedManyWithoutDivisionInput
+}
+
+export type DivisionUncheckedCreateWithoutMediaInput = {
+  id?: string
+  slug: string
+  order: number
+  capacity?: string | null
+  products?: Prisma.DivisionCreateproductsInput | string[]
+  machinery?: string | null
+  videoEn?: string | null
+  videoId?: string | null
+  videoPt?: string | null
+  gallery?: Prisma.DivisionCreategalleryInput | string[]
+  status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Date | string
+  translations?: Prisma.TranslationUncheckedCreateNestedManyWithoutDivisionInput
+}
+
+export type DivisionCreateOrConnectWithoutMediaInput = {
+  where: Prisma.DivisionWhereUniqueInput
+  create: Prisma.XOR<Prisma.DivisionCreateWithoutMediaInput, Prisma.DivisionUncheckedCreateWithoutMediaInput>
+}
+
+export type DivisionUpsertWithoutMediaInput = {
+  update: Prisma.XOR<Prisma.DivisionUpdateWithoutMediaInput, Prisma.DivisionUncheckedUpdateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.DivisionCreateWithoutMediaInput, Prisma.DivisionUncheckedCreateWithoutMediaInput>
+  where?: Prisma.DivisionWhereInput
+}
+
+export type DivisionUpdateToOneWithWhereWithoutMediaInput = {
+  where?: Prisma.DivisionWhereInput
+  data: Prisma.XOR<Prisma.DivisionUpdateWithoutMediaInput, Prisma.DivisionUncheckedUpdateWithoutMediaInput>
+}
+
+export type DivisionUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.DivisionUpdateproductsInput | string[]
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gallery?: Prisma.DivisionUpdategalleryInput | string[]
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.TranslationUpdateManyWithoutDivisionNestedInput
+}
+
+export type DivisionUncheckedUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.DivisionUpdateproductsInput | string[]
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoPt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gallery?: Prisma.DivisionUpdategalleryInput | string[]
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.TranslationUncheckedUpdateManyWithoutDivisionNestedInput
 }
 
 
@@ -640,10 +763,12 @@ export type DivisionUncheckedUpdateWithoutTranslationsInput = {
 
 export type DivisionCountOutputType = {
   translations: number
+  media: number
 }
 
 export type DivisionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | DivisionCountOutputTypeCountTranslationsArgs
+  media?: boolean | DivisionCountOutputTypeCountMediaArgs
 }
 
 /**
@@ -663,6 +788,13 @@ export type DivisionCountOutputTypeCountTranslationsArgs<ExtArgs extends runtime
   where?: Prisma.TranslationWhereInput
 }
 
+/**
+ * DivisionCountOutputType without action
+ */
+export type DivisionCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MediaAssetWhereInput
+}
+
 
 export type DivisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -676,8 +808,10 @@ export type DivisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   videoPt?: boolean
   gallery?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
   translations?: boolean | Prisma.Division$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Division$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.DivisionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["division"]>
 
@@ -693,6 +827,7 @@ export type DivisionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   videoPt?: boolean
   gallery?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["division"]>
 
@@ -708,6 +843,7 @@ export type DivisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   videoPt?: boolean
   gallery?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["division"]>
 
@@ -723,12 +859,14 @@ export type DivisionSelectScalar = {
   videoPt?: boolean
   gallery?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }
 
-export type DivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "order" | "capacity" | "products" | "machinery" | "videoEn" | "videoId" | "videoPt" | "gallery" | "status" | "updatedAt", ExtArgs["result"]["division"]>
+export type DivisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "order" | "capacity" | "products" | "machinery" | "videoEn" | "videoId" | "videoPt" | "gallery" | "status" | "draft" | "updatedAt", ExtArgs["result"]["division"]>
 export type DivisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.Division$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Division$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.DivisionCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DivisionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -738,6 +876,7 @@ export type $DivisionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Division"
   objects: {
     translations: Prisma.$TranslationPayload<ExtArgs>[]
+    media: Prisma.$MediaAssetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -751,6 +890,7 @@ export type $DivisionPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     videoPt: string | null
     gallery: string[]
     status: $Enums.ContentStatus
+    draft: runtime.JsonValue | null
     updatedAt: Date
   }, ExtArgs["result"]["division"]>
   composites: {}
@@ -1147,6 +1287,7 @@ readonly fields: DivisionFieldRefs;
 export interface Prisma__DivisionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   translations<T extends Prisma.Division$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Division$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.Division$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Division$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1187,6 +1328,7 @@ export interface DivisionFieldRefs {
   readonly videoPt: Prisma.FieldRef<"Division", 'String'>
   readonly gallery: Prisma.FieldRef<"Division", 'String[]'>
   readonly status: Prisma.FieldRef<"Division", 'ContentStatus'>
+  readonly draft: Prisma.FieldRef<"Division", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"Division", 'DateTime'>
 }
     
@@ -1602,6 +1744,30 @@ export type Division$translationsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.TranslationScalarFieldEnum | Prisma.TranslationScalarFieldEnum[]
+}
+
+/**
+ * Division.media
+ */
+export type Division$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+  orderBy?: Prisma.MediaAssetOrderByWithRelationInput | Prisma.MediaAssetOrderByWithRelationInput[]
+  cursor?: Prisma.MediaAssetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MediaAssetScalarFieldEnum | Prisma.MediaAssetScalarFieldEnum[]
 }
 
 /**

@@ -40,17 +40,25 @@ model Session {
 }
 
 model SiteSetting {
-  id         String   @id @default("site")
-  catalogUrl String   @default("https://e-catalog.asietex.web.id")
-  catalogOn  Boolean  @default(true)
-  updatedAt  DateTime @updatedAt
+  id                 String   @id @default("site")
+  catalogUrl         String   @default("https://e-catalog.asietex.web.id")
+  catalogOn          Boolean  @default(true)
+  catalogLabelEn     String   @default("Explore e-catalog")
+  catalogLabelId     String   @default("Buka e-catalog")
+  catalogLabelPt     String   @default("Ver e-catalog")
+  catalogPlacements  String[] @default(["home", "about", "products", "division", "network", "career", "contact", "footer"])
+  catalogOpenNewTab  Boolean  @default(true)
+  draft              Json?
+  updatedAt          DateTime @updatedAt
 }
 
 model Page {
   id           String        @id @default(cuid())
   slug         String        @unique
   status       ContentStatus @default(DRAFT)
+  draft        Json?
   translations Translation[]
+  media        MediaAsset[]
   updatedAt    DateTime      @updatedAt
 }
 
@@ -66,7 +74,9 @@ model Division {
   videoPt      String?
   gallery      String[]      @default([])
   status       ContentStatus @default(DRAFT)
+  draft        Json?
   translations Translation[]
+  media        MediaAsset[]
   updatedAt    DateTime      @updatedAt
 }
 
@@ -85,12 +95,33 @@ model Translation {
 }
 
 model MediaAsset {
-  id        String   @id @default(cuid())
-  url       String
-  altEn     String
-  altId     String
-  altPt     String
-  createdAt DateTime @default(now())
+  id         String    @id @default(cuid())
+  url        String
+  altEn      String
+  altId      String
+  altPt      String
+  credit     String?
+  approved   Boolean   @default(false)
+  pageId     String?
+  divisionId String?
+  page       Page?     @relation(fields: [pageId], references: [id], onDelete: SetNull)
+  division   Division? @relation(fields: [divisionId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+}
+
+model NetworkLocation {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  name      String
+  country   String
+  city      String
+  address   String?
+  kind      String
+  order     Int           @default(0)
+  status    ContentStatus @default(DRAFT)
+  draft     Json?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 }
 
 model Revision {

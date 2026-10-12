@@ -42,6 +42,7 @@ export type PageCountAggregateOutputType = {
   id: number
   slug: number
   status: number
+  draft: number
   updatedAt: number
   _all: number
 }
@@ -65,6 +66,7 @@ export type PageCountAggregateInputType = {
   id?: true
   slug?: true
   status?: true
+  draft?: true
   updatedAt?: true
   _all?: true
 }
@@ -145,6 +147,7 @@ export type PageGroupByOutputType = {
   id: string
   slug: string
   status: $Enums.ContentStatus
+  draft: runtime.JsonValue | null
   updatedAt: Date
   _count: PageCountAggregateOutputType | null
   _min: PageMinAggregateOutputType | null
@@ -173,16 +176,20 @@ export type PageWhereInput = {
   id?: Prisma.StringFilter<"Page"> | string
   slug?: Prisma.StringFilter<"Page"> | string
   status?: Prisma.EnumContentStatusFilter<"Page"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableFilter<"Page">
   updatedAt?: Prisma.DateTimeFilter<"Page"> | Date | string
   translations?: Prisma.TranslationListRelationFilter
+  media?: Prisma.MediaAssetListRelationFilter
 }
 
 export type PageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   translations?: Prisma.TranslationOrderByRelationAggregateInput
+  media?: Prisma.MediaAssetOrderByRelationAggregateInput
 }
 
 export type PageWhereUniqueInput = Prisma.AtLeast<{
@@ -192,14 +199,17 @@ export type PageWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PageWhereInput[]
   NOT?: Prisma.PageWhereInput | Prisma.PageWhereInput[]
   status?: Prisma.EnumContentStatusFilter<"Page"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableFilter<"Page">
   updatedAt?: Prisma.DateTimeFilter<"Page"> | Date | string
   translations?: Prisma.TranslationListRelationFilter
+  media?: Prisma.MediaAssetListRelationFilter
 }, "id" | "slug">
 
 export type PageOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PageCountOrderByAggregateInput
   _max?: Prisma.PageMaxOrderByAggregateInput
@@ -213,6 +223,7 @@ export type PageScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Page"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Page"> | string
   status?: Prisma.EnumContentStatusWithAggregatesFilter<"Page"> | $Enums.ContentStatus
+  draft?: Prisma.JsonNullableWithAggregatesFilter<"Page">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Page"> | Date | string
 }
 
@@ -220,38 +231,47 @@ export type PageCreateInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   translations?: Prisma.TranslationCreateNestedManyWithoutPageInput
+  media?: Prisma.MediaAssetCreateNestedManyWithoutPageInput
 }
 
 export type PageUncheckedCreateInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   translations?: Prisma.TranslationUncheckedCreateNestedManyWithoutPageInput
+  media?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutPageInput
 }
 
 export type PageUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.TranslationUpdateManyWithoutPageNestedInput
+  media?: Prisma.MediaAssetUpdateManyWithoutPageNestedInput
 }
 
 export type PageUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.TranslationUncheckedUpdateManyWithoutPageNestedInput
+  media?: Prisma.MediaAssetUncheckedUpdateManyWithoutPageNestedInput
 }
 
 export type PageCreateManyInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
@@ -259,6 +279,7 @@ export type PageUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -266,6 +287,7 @@ export type PageUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -273,6 +295,7 @@ export type PageCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -315,18 +338,38 @@ export type PageUpdateOneWithoutTranslationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PageUpdateToOneWithWhereWithoutTranslationsInput, Prisma.PageUpdateWithoutTranslationsInput>, Prisma.PageUncheckedUpdateWithoutTranslationsInput>
 }
 
+export type PageCreateNestedOneWithoutMediaInput = {
+  create?: Prisma.XOR<Prisma.PageCreateWithoutMediaInput, Prisma.PageUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.PageCreateOrConnectWithoutMediaInput
+  connect?: Prisma.PageWhereUniqueInput
+}
+
+export type PageUpdateOneWithoutMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.PageCreateWithoutMediaInput, Prisma.PageUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.PageCreateOrConnectWithoutMediaInput
+  upsert?: Prisma.PageUpsertWithoutMediaInput
+  disconnect?: Prisma.PageWhereInput | boolean
+  delete?: Prisma.PageWhereInput | boolean
+  connect?: Prisma.PageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PageUpdateToOneWithWhereWithoutMediaInput, Prisma.PageUpdateWithoutMediaInput>, Prisma.PageUncheckedUpdateWithoutMediaInput>
+}
+
 export type PageCreateWithoutTranslationsInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
+  media?: Prisma.MediaAssetCreateNestedManyWithoutPageInput
 }
 
 export type PageUncheckedCreateWithoutTranslationsInput = {
   id?: string
   slug: string
   status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
+  media?: Prisma.MediaAssetUncheckedCreateNestedManyWithoutPageInput
 }
 
 export type PageCreateOrConnectWithoutTranslationsInput = {
@@ -349,14 +392,70 @@ export type PageUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.MediaAssetUpdateManyWithoutPageNestedInput
 }
 
 export type PageUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.MediaAssetUncheckedUpdateManyWithoutPageNestedInput
+}
+
+export type PageCreateWithoutMediaInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Date | string
+  translations?: Prisma.TranslationCreateNestedManyWithoutPageInput
+}
+
+export type PageUncheckedCreateWithoutMediaInput = {
+  id?: string
+  slug: string
+  status?: $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Date | string
+  translations?: Prisma.TranslationUncheckedCreateNestedManyWithoutPageInput
+}
+
+export type PageCreateOrConnectWithoutMediaInput = {
+  where: Prisma.PageWhereUniqueInput
+  create: Prisma.XOR<Prisma.PageCreateWithoutMediaInput, Prisma.PageUncheckedCreateWithoutMediaInput>
+}
+
+export type PageUpsertWithoutMediaInput = {
+  update: Prisma.XOR<Prisma.PageUpdateWithoutMediaInput, Prisma.PageUncheckedUpdateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.PageCreateWithoutMediaInput, Prisma.PageUncheckedCreateWithoutMediaInput>
+  where?: Prisma.PageWhereInput
+}
+
+export type PageUpdateToOneWithWhereWithoutMediaInput = {
+  where?: Prisma.PageWhereInput
+  data: Prisma.XOR<Prisma.PageUpdateWithoutMediaInput, Prisma.PageUncheckedUpdateWithoutMediaInput>
+}
+
+export type PageUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.TranslationUpdateManyWithoutPageNestedInput
+}
+
+export type PageUncheckedUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  translations?: Prisma.TranslationUncheckedUpdateManyWithoutPageNestedInput
 }
 
 
@@ -366,10 +465,12 @@ export type PageUncheckedUpdateWithoutTranslationsInput = {
 
 export type PageCountOutputType = {
   translations: number
+  media: number
 }
 
 export type PageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | PageCountOutputTypeCountTranslationsArgs
+  media?: boolean | PageCountOutputTypeCountMediaArgs
 }
 
 /**
@@ -389,13 +490,22 @@ export type PageCountOutputTypeCountTranslationsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.TranslationWhereInput
 }
 
+/**
+ * PageCountOutputType without action
+ */
+export type PageCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MediaAssetWhereInput
+}
+
 
 export type PageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   slug?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
   translations?: boolean | Prisma.Page$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Page$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["page"]>
 
@@ -403,6 +513,7 @@ export type PageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   slug?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["page"]>
 
@@ -410,6 +521,7 @@ export type PageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   slug?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["page"]>
 
@@ -417,12 +529,14 @@ export type PageSelectScalar = {
   id?: boolean
   slug?: boolean
   status?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }
 
-export type PageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "updatedAt", ExtArgs["result"]["page"]>
+export type PageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "status" | "draft" | "updatedAt", ExtArgs["result"]["page"]>
 export type PageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.Page$translationsArgs<ExtArgs>
+  media?: boolean | Prisma.Page$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -432,11 +546,13 @@ export type $PagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Page"
   objects: {
     translations: Prisma.$TranslationPayload<ExtArgs>[]
+    media: Prisma.$MediaAssetPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     slug: string
     status: $Enums.ContentStatus
+    draft: runtime.JsonValue | null
     updatedAt: Date
   }, ExtArgs["result"]["page"]>
   composites: {}
@@ -833,6 +949,7 @@ readonly fields: PageFieldRefs;
 export interface Prisma__PageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   translations<T extends Prisma.Page$translationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Page$translationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranslationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.Page$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Page$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -865,6 +982,7 @@ export interface PageFieldRefs {
   readonly id: Prisma.FieldRef<"Page", 'String'>
   readonly slug: Prisma.FieldRef<"Page", 'String'>
   readonly status: Prisma.FieldRef<"Page", 'ContentStatus'>
+  readonly draft: Prisma.FieldRef<"Page", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"Page", 'DateTime'>
 }
     
@@ -1280,6 +1398,30 @@ export type Page$translationsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.TranslationScalarFieldEnum | Prisma.TranslationScalarFieldEnum[]
+}
+
+/**
+ * Page.media
+ */
+export type Page$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+  orderBy?: Prisma.MediaAssetOrderByWithRelationInput | Prisma.MediaAssetOrderByWithRelationInput[]
+  cursor?: Prisma.MediaAssetWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MediaAssetScalarFieldEnum | Prisma.MediaAssetScalarFieldEnum[]
 }
 
 /**

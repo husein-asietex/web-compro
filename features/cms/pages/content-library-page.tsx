@@ -1,7 +1,11 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { createDivisionsAction, saveCatalogAction } from "@/features/cms/actions/content";
+import { requireUser } from "@/backend/auth";
+import { prisma } from "@/backend/prisma";
+import {
+  createDivisionsAction,
+  publishCatalogAction,
+  saveCatalogAction,
+} from "@/features/cms/actions/content";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -9,11 +13,18 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export const instant = false;
 
-const PAGE_SLUGS = ["home", "about", "products", "network", "contact"];
+const PAGE_SLUGS = [
+  "home",
+  "about",
+  "products",
+  "network",
+  "career",
+  "contact",
+];
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 
 const CARD_LINK_CLASS =
-  "rounded-xl border border-black/10 bg-white p-4 hover:bg-[#eeeadf]";
+  "rounded-xl border border-border-subtle bg-card p-4 hover:bg-secondary";
 
 // ---------------------------------------------------------------------------
 // Komponen kecil
@@ -78,44 +89,135 @@ function DivisionsList({
 
 function CatalogSettingsForm({
   settings,
-  canEdit,
+  canPublish,
 }: {
-  settings: { catalogUrl: string | null; catalogOn: boolean } | null;
-  canEdit: boolean;
+  settings: {
+    catalogUrl: string;
+    catalogOn: boolean;
+    catalogLabelEn: string;
+    catalogLabelId: string;
+    catalogLabelPt: string;
+    catalogPlacements: string[];
+    catalogOpenNewTab: boolean;
+    draft: unknown;
+  } | null;
+  canPublish: boolean;
 }) {
+  const draft = settings?.draft as Partial<NonNullable<typeof settings>> | null;
   return (
-    <form
-      action={saveCatalogAction}
-      className="rounded-2xl border border-black/10 bg-white p-6 h-fit"
-    >
+    <div className="rounded-2xl border border-border-subtle bg-card p-6 h-fit">
       <h2 className="font-serif text-3xl">E-catalog CTA</h2>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Save creates a draft; only ADMIN can publish it.
+      </p>
+      <form action={saveCatalogAction} className="mt-6">
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="catalogUrl">Destination URL</FieldLabel>
+            <Input
+              id="catalogUrl"
+              name="catalogUrl"
+              type="url"
+              defaultValue={
+                draft?.catalogUrl ?? settings?.catalogUrl ?? DEFAULT_CATALOG_URL
+              }
+              required
+            />
+          </Field>
 
-      <FieldGroup className="mt-6">
-        <Field>
-          <FieldLabel htmlFor="catalogUrl">Destination URL</FieldLabel>
-          <Input
-            id="catalogUrl"
-            name="catalogUrl"
-            type="url"
-            defaultValue={settings?.catalogUrl ?? DEFAULT_CATALOG_URL}
-            required
-          />
-        </Field>
+          {[
+            [
+              "catalogLabelEn",
+              "Label (EN)",
+              draft?.catalogLabelEn ??
+                settings?.catalogLabelEn ??
+                "Explore e-catalog",
+            ],
+            [
+              "catalogLabelId",
+              "Label (ID)",
+              draft?.catalogLabelId ??
+                settings?.catalogLabelId ??
+                "Buka e-catalog",
+            ],
+            [
+              "catalogLabelPt",
+              "Label (PT)",
+              draft?.catalogLabelPt ??
+                settings?.catalogLabelPt ??
+                "Ver e-catalog",
+            ],
+          ].map(([name, label, value]) => (
+            <Field key={name}>
+              <FieldLabel htmlFor={name}>{label}</FieldLabel>
+              <Input id={name} name={name} defaultValue={value} required />
+            </Field>
+          ))}
 
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            name="catalogOn"
-            type="checkbox"
-            defaultChecked={settings?.catalogOn ?? true}
-          />
-          Enable CTA
-        </label>
+          <fieldset>
+            <legend className="mb-2 text-sm font-medium">Show CTA on</legend>
+            <div className="grid gap-2 text-sm">
+              {[
+                "home",
+                "about",
+                "products",
+                "division",
+                "network",
+                "career",
+                "contact",
+                "footer",
+              ].map((placement) => (
+                <label
+                  key={placement}
+                  className="flex items-center gap-2 capitalize"
+                >
+                  <input
+                    type="checkbox"
+                    name="catalogPlacements"
+                    value={placement}
+                    defaultChecked={
+                      (
+                        draft?.catalogPlacements ?? settings?.catalogPlacements
+                      )?.includes(placement) ?? true
+                    }
+                  />
+                  {placement}
+                </label>
+              ))}
+            </div>
+          </fieldset>
 
-        <Button type="submit" disabled={!canEdit}>
-          Save setting
-        </Button>
-      </FieldGroup>
-    </form>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              name="catalogOn"
+              type="checkbox"
+              defaultChecked={draft?.catalogOn ?? settings?.catalogOn ?? true}
+            />
+            Enable CTA
+          </label>
+
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              name="catalogOpenNewTab"
+              type="checkbox"
+              defaultChecked={
+                draft?.catalogOpenNewTab ?? settings?.catalogOpenNewTab ?? true
+              }
+            />
+            Open CTA in a new tab
+          </label>
+
+          <Button type="submit">Save draft</Button>
+        </FieldGroup>
+      </form>
+      {canPublish && settings?.draft != null && (
+        <form action={publishCatalogAction} className="mt-3">
+          <Button type="submit" variant="outline">
+            Publish CTA settings
+          </Button>
+        </form>
+      )}
+    </div>
   );
 }
 
@@ -133,7 +235,7 @@ export default async function ContentIndex() {
   ]);
 
   return (
-    <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-12">
+    <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
       <header className="mx-auto flex max-w-6xl items-center justify-between">
         <Link href="/dashboard" className="font-serif text-2xl">
           Asietex CMS
@@ -143,7 +245,7 @@ export default async function ContentIndex() {
 
       <section className="mx-auto mt-14 max-w-6xl">
         <h1 className="font-serif text-5xl">Content library</h1>
-        <p className="mt-3 text-[#5b5d54]">
+        <p className="mt-3 text-muted-foreground">
           Staff saves drafts; only an admin can publish them.
         </p>
 
@@ -154,11 +256,19 @@ export default async function ContentIndex() {
 
             <h2 className="mt-10 font-serif text-3xl">Divisions</h2>
             <DivisionsList divisions={divisions} />
+
+            <h2 className="mt-10 font-serif text-3xl">Network</h2>
+            <Link
+              href="/dashboard/content/network"
+              className={`mt-4 block ${CARD_LINK_CLASS}`}
+            >
+              Manage offices, factories, and warehouses
+            </Link>
           </div>
 
           <CatalogSettingsForm
             settings={settings}
-            canEdit={user.role === "ADMIN"}
+            canPublish={user.role === "ADMIN"}
           />
         </div>
       </section>

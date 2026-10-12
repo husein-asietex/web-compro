@@ -28,6 +28,10 @@ export type SiteSettingMinAggregateOutputType = {
   id: string | null
   catalogUrl: string | null
   catalogOn: boolean | null
+  catalogLabelEn: string | null
+  catalogLabelId: string | null
+  catalogLabelPt: string | null
+  catalogOpenNewTab: boolean | null
   updatedAt: Date | null
 }
 
@@ -35,6 +39,10 @@ export type SiteSettingMaxAggregateOutputType = {
   id: string | null
   catalogUrl: string | null
   catalogOn: boolean | null
+  catalogLabelEn: string | null
+  catalogLabelId: string | null
+  catalogLabelPt: string | null
+  catalogOpenNewTab: boolean | null
   updatedAt: Date | null
 }
 
@@ -42,6 +50,12 @@ export type SiteSettingCountAggregateOutputType = {
   id: number
   catalogUrl: number
   catalogOn: number
+  catalogLabelEn: number
+  catalogLabelId: number
+  catalogLabelPt: number
+  catalogPlacements: number
+  catalogOpenNewTab: number
+  draft: number
   updatedAt: number
   _all: number
 }
@@ -51,6 +65,10 @@ export type SiteSettingMinAggregateInputType = {
   id?: true
   catalogUrl?: true
   catalogOn?: true
+  catalogLabelEn?: true
+  catalogLabelId?: true
+  catalogLabelPt?: true
+  catalogOpenNewTab?: true
   updatedAt?: true
 }
 
@@ -58,6 +76,10 @@ export type SiteSettingMaxAggregateInputType = {
   id?: true
   catalogUrl?: true
   catalogOn?: true
+  catalogLabelEn?: true
+  catalogLabelId?: true
+  catalogLabelPt?: true
+  catalogOpenNewTab?: true
   updatedAt?: true
 }
 
@@ -65,6 +87,12 @@ export type SiteSettingCountAggregateInputType = {
   id?: true
   catalogUrl?: true
   catalogOn?: true
+  catalogLabelEn?: true
+  catalogLabelId?: true
+  catalogLabelPt?: true
+  catalogPlacements?: true
+  catalogOpenNewTab?: true
+  draft?: true
   updatedAt?: true
   _all?: true
 }
@@ -145,6 +173,12 @@ export type SiteSettingGroupByOutputType = {
   id: string
   catalogUrl: string
   catalogOn: boolean
+  catalogLabelEn: string
+  catalogLabelId: string
+  catalogLabelPt: string
+  catalogPlacements: string[]
+  catalogOpenNewTab: boolean
+  draft: runtime.JsonValue | null
   updatedAt: Date
   _count: SiteSettingCountAggregateOutputType | null
   _min: SiteSettingMinAggregateOutputType | null
@@ -173,6 +207,12 @@ export type SiteSettingWhereInput = {
   id?: Prisma.StringFilter<"SiteSetting"> | string
   catalogUrl?: Prisma.StringFilter<"SiteSetting"> | string
   catalogOn?: Prisma.BoolFilter<"SiteSetting"> | boolean
+  catalogLabelEn?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogLabelId?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogLabelPt?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogOpenNewTab?: Prisma.BoolFilter<"SiteSetting"> | boolean
+  draft?: Prisma.JsonNullableFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeFilter<"SiteSetting"> | Date | string
 }
 
@@ -180,6 +220,12 @@ export type SiteSettingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   catalogUrl?: Prisma.SortOrder
   catalogOn?: Prisma.SortOrder
+  catalogLabelEn?: Prisma.SortOrder
+  catalogLabelId?: Prisma.SortOrder
+  catalogLabelPt?: Prisma.SortOrder
+  catalogPlacements?: Prisma.SortOrder
+  catalogOpenNewTab?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -190,6 +236,12 @@ export type SiteSettingWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.SiteSettingWhereInput | Prisma.SiteSettingWhereInput[]
   catalogUrl?: Prisma.StringFilter<"SiteSetting"> | string
   catalogOn?: Prisma.BoolFilter<"SiteSetting"> | boolean
+  catalogLabelEn?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogLabelId?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogLabelPt?: Prisma.StringFilter<"SiteSetting"> | string
+  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogOpenNewTab?: Prisma.BoolFilter<"SiteSetting"> | boolean
+  draft?: Prisma.JsonNullableFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeFilter<"SiteSetting"> | Date | string
 }, "id">
 
@@ -197,6 +249,12 @@ export type SiteSettingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   catalogUrl?: Prisma.SortOrder
   catalogOn?: Prisma.SortOrder
+  catalogLabelEn?: Prisma.SortOrder
+  catalogLabelId?: Prisma.SortOrder
+  catalogLabelPt?: Prisma.SortOrder
+  catalogPlacements?: Prisma.SortOrder
+  catalogOpenNewTab?: Prisma.SortOrder
+  draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteSettingCountOrderByAggregateInput
   _max?: Prisma.SiteSettingMaxOrderByAggregateInput
@@ -210,6 +268,12 @@ export type SiteSettingScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
   catalogUrl?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
   catalogOn?: Prisma.BoolWithAggregatesFilter<"SiteSetting"> | boolean
+  catalogLabelEn?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
+  catalogLabelId?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
+  catalogLabelPt?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
+  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogOpenNewTab?: Prisma.BoolWithAggregatesFilter<"SiteSetting"> | boolean
+  draft?: Prisma.JsonNullableWithAggregatesFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteSetting"> | Date | string
 }
 
@@ -217,6 +281,12 @@ export type SiteSettingCreateInput = {
   id?: string
   catalogUrl?: string
   catalogOn?: boolean
+  catalogLabelEn?: string
+  catalogLabelId?: string
+  catalogLabelPt?: string
+  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
@@ -224,6 +294,12 @@ export type SiteSettingUncheckedCreateInput = {
   id?: string
   catalogUrl?: string
   catalogOn?: boolean
+  catalogLabelEn?: string
+  catalogLabelId?: string
+  catalogLabelPt?: string
+  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
@@ -231,6 +307,12 @@ export type SiteSettingUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   catalogUrl?: Prisma.StringFieldUpdateOperationsInput | string
   catalogOn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -238,6 +320,12 @@ export type SiteSettingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   catalogUrl?: Prisma.StringFieldUpdateOperationsInput | string
   catalogOn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -245,6 +333,12 @@ export type SiteSettingCreateManyInput = {
   id?: string
   catalogUrl?: string
   catalogOn?: boolean
+  catalogLabelEn?: string
+  catalogLabelId?: string
+  catalogLabelPt?: string
+  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
 }
 
@@ -252,6 +346,12 @@ export type SiteSettingUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   catalogUrl?: Prisma.StringFieldUpdateOperationsInput | string
   catalogOn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -259,13 +359,33 @@ export type SiteSettingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   catalogUrl?: Prisma.StringFieldUpdateOperationsInput | string
   catalogOn?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
+  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type SiteSettingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   catalogUrl?: Prisma.SortOrder
   catalogOn?: Prisma.SortOrder
+  catalogLabelEn?: Prisma.SortOrder
+  catalogLabelId?: Prisma.SortOrder
+  catalogLabelPt?: Prisma.SortOrder
+  catalogPlacements?: Prisma.SortOrder
+  catalogOpenNewTab?: Prisma.SortOrder
+  draft?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -273,6 +393,10 @@ export type SiteSettingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   catalogUrl?: Prisma.SortOrder
   catalogOn?: Prisma.SortOrder
+  catalogLabelEn?: Prisma.SortOrder
+  catalogLabelId?: Prisma.SortOrder
+  catalogLabelPt?: Prisma.SortOrder
+  catalogOpenNewTab?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
@@ -280,7 +404,20 @@ export type SiteSettingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   catalogUrl?: Prisma.SortOrder
   catalogOn?: Prisma.SortOrder
+  catalogLabelEn?: Prisma.SortOrder
+  catalogLabelId?: Prisma.SortOrder
+  catalogLabelPt?: Prisma.SortOrder
+  catalogOpenNewTab?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SiteSettingCreatecatalogPlacementsInput = {
+  set: string[]
+}
+
+export type SiteSettingUpdatecatalogPlacementsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 
@@ -289,6 +426,12 @@ export type SiteSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   id?: boolean
   catalogUrl?: boolean
   catalogOn?: boolean
+  catalogLabelEn?: boolean
+  catalogLabelId?: boolean
+  catalogLabelPt?: boolean
+  catalogPlacements?: boolean
+  catalogOpenNewTab?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSetting"]>
 
@@ -296,6 +439,12 @@ export type SiteSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   id?: boolean
   catalogUrl?: boolean
   catalogOn?: boolean
+  catalogLabelEn?: boolean
+  catalogLabelId?: boolean
+  catalogLabelPt?: boolean
+  catalogPlacements?: boolean
+  catalogOpenNewTab?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSetting"]>
 
@@ -303,6 +452,12 @@ export type SiteSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   id?: boolean
   catalogUrl?: boolean
   catalogOn?: boolean
+  catalogLabelEn?: boolean
+  catalogLabelId?: boolean
+  catalogLabelPt?: boolean
+  catalogPlacements?: boolean
+  catalogOpenNewTab?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSetting"]>
 
@@ -310,10 +465,16 @@ export type SiteSettingSelectScalar = {
   id?: boolean
   catalogUrl?: boolean
   catalogOn?: boolean
+  catalogLabelEn?: boolean
+  catalogLabelId?: boolean
+  catalogLabelPt?: boolean
+  catalogPlacements?: boolean
+  catalogOpenNewTab?: boolean
+  draft?: boolean
   updatedAt?: boolean
 }
 
-export type SiteSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "catalogUrl" | "catalogOn" | "updatedAt", ExtArgs["result"]["siteSetting"]>
+export type SiteSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "catalogUrl" | "catalogOn" | "catalogLabelEn" | "catalogLabelId" | "catalogLabelPt" | "catalogPlacements" | "catalogOpenNewTab" | "draft" | "updatedAt", ExtArgs["result"]["siteSetting"]>
 
 export type $SiteSettingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteSetting"
@@ -322,6 +483,12 @@ export type $SiteSettingPayload<ExtArgs extends runtime.Types.Extensions.Interna
     id: string
     catalogUrl: string
     catalogOn: boolean
+    catalogLabelEn: string
+    catalogLabelId: string
+    catalogLabelPt: string
+    catalogPlacements: string[]
+    catalogOpenNewTab: boolean
+    draft: runtime.JsonValue | null
     updatedAt: Date
   }, ExtArgs["result"]["siteSetting"]>
   composites: {}
@@ -749,6 +916,12 @@ export interface SiteSettingFieldRefs {
   readonly id: Prisma.FieldRef<"SiteSetting", 'String'>
   readonly catalogUrl: Prisma.FieldRef<"SiteSetting", 'String'>
   readonly catalogOn: Prisma.FieldRef<"SiteSetting", 'Boolean'>
+  readonly catalogLabelEn: Prisma.FieldRef<"SiteSetting", 'String'>
+  readonly catalogLabelId: Prisma.FieldRef<"SiteSetting", 'String'>
+  readonly catalogLabelPt: Prisma.FieldRef<"SiteSetting", 'String'>
+  readonly catalogPlacements: Prisma.FieldRef<"SiteSetting", 'String[]'>
+  readonly catalogOpenNewTab: Prisma.FieldRef<"SiteSetting", 'Boolean'>
+  readonly draft: Prisma.FieldRef<"SiteSetting", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"SiteSetting", 'DateTime'>
 }
     

@@ -3,37 +3,47 @@ import { locales } from "@/lib/i18n";
 
 const DEFAULT_LOCALE = "en";
 
-// Path yang tidak memakai prefix bahasa
+// Path berikut tidak perlu ditambahkan prefix bahasa.
 const BYPASS_PREFIXES = ["/dashboard", "/login", "/api", "/_next"];
 
 function shouldBypass(pathname: string) {
-  return BYPASS_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  // Lewati path yang sama persis atau berada di bawah prefix pengecualian.
+  return BYPASS_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
 }
 
 function hasLocalePrefix(pathname: string) {
+  // Cek apakah path sudah menggunakan bahasa yang tersedia.
   return locales.some(
-    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
 }
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const localePath = hasLocalePrefix(pathname);
 
-  // Pertahankan tautan lama agar selalu masuk ke area CMS yang baru.
-  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-    const url = request.nextUrl.clone();
-    url.pathname = pathname.replace(/^\/admin/, "/dashboard");
-    return NextResponse.redirect(url);
+  // Jangan ubah path yang dikecualikan.
+  if (shouldBypass(pathname)) return;
+
+  // Teruskan locale agar layout dapat mengatur bahasa halaman.
+  if (localePath) {
+    const headers = new Headers(request.headers);
+    headers.set("x-locale", pathname.split("/")[1]);
+
+    return NextResponse.next({ request: { headers } });
   }
 
-  if (shouldBypass(pathname) || hasLocalePrefix(pathname)) return;
-
-  // "/" -> "/en", "/about" -> "/en/about"
   const url = request.nextUrl.clone();
+
+  // Tambahkan bahasa default ke path yang belum memiliki bahasa.
+  // "/" menjadi "/en", sedangkan "/about" menjadi "/en/about".
   url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
 
   return NextResponse.redirect(url);
 }
 
-// Lewati semua path yang mengandung titik (file statis: .png, .css, .ico, dst.)
+// Proxy hanya memproses URL tanpa titik.
+// URL seperti file gambar, CSS, dan favicon akan dilewati.
 export const config = { matcher: "/((?!.*\\..*).*)" };

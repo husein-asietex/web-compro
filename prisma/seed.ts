@@ -12,8 +12,16 @@ const prisma = new PrismaClient({
 
 const PASSWORD_SALT = "asietex-demo-salt"; // hanya untuk demo
 const CATALOG_URL = "https://e-catalog.asietex.web.id";
+const DUMMY_IMAGE_BASE = "https://placehold.co/1200x800/png";
 
-const PAGE_SLUGS = ["home", "about", "products", "network", "contact"] as const;
+const PAGE_SLUGS = [
+  "home",
+  "about",
+  "products",
+  "network",
+  "career",
+  "contact",
+] as const;
 
 const DIVISION_SLUGS = [
   "spinning",
@@ -45,6 +53,30 @@ const COPY: Record<Locale, { title: string; body: string }> = {
   },
 };
 
+const PAGE_COPY: Record<
+  Locale,
+  Partial<Record<(typeof PAGE_SLUGS)[number], { title: string; body: string }>>
+> = {
+  en: {
+    career: {
+      title: "Build the next thread of Asietex.",
+      body: "Careers at Asietex are shaped by curiosity, care, and the discipline to make good work repeatable. Join a team connecting people, process, and possibility across the textile chain.\n\nWe are building a growing team across production, quality, engineering, commercial, and operations. Send us your profile and tell us where your craft can move the work forward.",
+    },
+  },
+  id: {
+    career: {
+      title: "Bangun benang masa depan Asietex.",
+      body: "Karier di Asietex dibentuk oleh rasa ingin tahu, kepedulian, dan disiplin untuk membuat pekerjaan baik dapat diulang. Bergabunglah dengan tim yang menghubungkan manusia, proses, dan peluang di sepanjang rantai tekstil.\n\nKami membangun tim di bidang produksi, kualitas, engineering, komersial, dan operasional. Kirimkan profil Anda dan ceritakan bagaimana keahlian Anda dapat mendorong pekerjaan ini maju.",
+    },
+  },
+  pt: {
+    career: {
+      title: "Construa o próximo fio da Asietex.",
+      body: "As carreiras na Asietex são feitas de curiosidade, cuidado e disciplina para tornar o bom trabalho repetível. Junte-se a uma equipa que liga pessoas, processos e possibilidades em toda a cadeia têxtil.\n\nEstamos a formar uma equipa nas áreas de produção, qualidade, engenharia, comercial e operações. Envie o seu perfil e diga-nos como a sua experiência pode fazer o trabalho avançar.",
+    },
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Helper
 // ---------------------------------------------------------------------------
@@ -64,7 +96,7 @@ function getSeedEnv() {
 
   if (!adminEmail || !adminPassword || !staffEmail || !staffPassword) {
     throw new Error(
-      "Set SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, SEED_STAFF_EMAIL, and SEED_STAFF_PASSWORD before running the seed."
+      "Set SEED_ADMIN_EMAIL, SEED_ADMIN_PASSWORD, SEED_STAFF_EMAIL, and SEED_STAFF_PASSWORD before running the seed.",
     );
   }
 
@@ -76,10 +108,29 @@ function getSeedEnv() {
 // ---------------------------------------------------------------------------
 
 async function seedSiteSetting() {
+  const settings = {
+    catalogUrl: CATALOG_URL,
+    catalogOn: true,
+    catalogLabelEn: "Explore e-catalog",
+    catalogLabelId: "Buka e-catalog",
+    catalogLabelPt: "Ver e-catalog",
+    catalogPlacements: [
+      "home",
+      "about",
+      "products",
+      "division",
+      "network",
+      "career",
+      "contact",
+      "footer",
+    ],
+    catalogOpenNewTab: true,
+  };
+
   await prisma.siteSetting.upsert({
     where: { id: "site" },
-    create: { id: "site", catalogUrl: CATALOG_URL, catalogOn: true },
-    update: {},
+    create: { id: "site", ...settings },
+    update: settings,
   });
 }
 
@@ -87,7 +138,7 @@ async function seedUser(
   name: string,
   email: string,
   password: string,
-  role: "ADMIN" | "STAFF"
+  role: "ADMIN" | "STAFF",
 ) {
   const passwordHash = hashPassword(password);
 
@@ -114,8 +165,10 @@ async function seedPages() {
         create: {
           pageId: page.id,
           locale,
-          title: slug === "home" ? title : `${title} — ${slug}`,
-          body,
+          title:
+            PAGE_COPY[locale][slug]?.title ||
+            (slug === "home" ? title : `${title} — ${slug}`),
+          body: PAGE_COPY[locale][slug]?.body || body,
         },
         update: {},
       });
@@ -133,9 +186,18 @@ async function seedDivisions() {
         capacity: slug === "dyeing" ? "50,000 t / yr" : "To be provided",
         products: ["Example product A", "Example product B"],
         machinery: "Asian and European machinery",
+        gallery: [
+          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
+          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
+        ],
         status: "PUBLISHED",
       },
-      update: {},
+      update: {
+        gallery: [
+          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
+          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
+        ],
+      },
     });
 
     for (const locale of LOCALES) {
@@ -150,6 +212,56 @@ async function seedDivisions() {
         update: {},
       });
     }
+
+    const mediaUrl = `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} division`)}`;
+    const existingMedia = await prisma.mediaAsset.findFirst({
+      where: { url: mediaUrl },
+    });
+
+    if (!existingMedia) {
+      await prisma.mediaAsset.create({
+        data: {
+          url: mediaUrl,
+          altEn: `${slug} textile production`,
+          altId: `Produksi tekstil ${slug}`,
+          altPt: `Produção têxtil ${slug}`,
+          credit: "Dummy placeholder — replace before production",
+          approved: true,
+          divisionId: division.id,
+        },
+      });
+    }
+  }
+}
+
+async function seedNetworkLocations() {
+  const locations = [
+    {
+      slug: "indonesia-hq",
+      name: "Asietex Headquarters & Factory",
+      country: "Indonesia",
+      city: "Jakarta",
+      address: "Dummy address — replace with approved company address",
+      kind: "HQ & Factory",
+      order: 1,
+    },
+    {
+      slug: "europe-warehouse",
+      name: "Europe Warehouse",
+      country: "Portugal",
+      city: "Porto",
+      address: "Dummy address — replace before production",
+      kind: "Warehouse",
+      order: 2,
+    },
+  ];
+
+  for (const location of locations) {
+    await prisma.networkLocation.upsert({
+      where: { slug: location.slug },
+      create: { ...location, status: "PUBLISHED" },
+      update: location,
+    });
   }
 }
 
@@ -161,6 +273,7 @@ async function main() {
   await seedUser("Asietex Staff", staffEmail, staffPassword, "STAFF");
   await seedPages();
   await seedDivisions();
+  await seedNetworkLocations();
 }
 
 main()

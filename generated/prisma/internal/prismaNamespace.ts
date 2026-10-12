@@ -404,6 +404,7 @@ export const ModelName = {
   Division: 'Division',
   Translation: 'Translation',
   MediaAsset: 'MediaAsset',
+  NetworkLocation: 'NetworkLocation',
   Revision: 'Revision'
 } as const
 
@@ -420,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "siteSetting" | "page" | "division" | "translation" | "mediaAsset" | "revision"
+    modelProps: "user" | "session" | "siteSetting" | "page" | "division" | "translation" | "mediaAsset" | "networkLocation" | "revision"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -942,6 +943,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NetworkLocation: {
+      payload: Prisma.$NetworkLocationPayload<ExtArgs>
+      fields: Prisma.NetworkLocationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NetworkLocationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NetworkLocationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        findFirst: {
+          args: Prisma.NetworkLocationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NetworkLocationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        findMany: {
+          args: Prisma.NetworkLocationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
+        }
+        create: {
+          args: Prisma.NetworkLocationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        createMany: {
+          args: Prisma.NetworkLocationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NetworkLocationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
+        }
+        delete: {
+          args: Prisma.NetworkLocationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        update: {
+          args: Prisma.NetworkLocationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        deleteMany: {
+          args: Prisma.NetworkLocationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NetworkLocationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NetworkLocationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
+        }
+        upsert: {
+          args: Prisma.NetworkLocationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
+        }
+        aggregate: {
+          args: Prisma.NetworkLocationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNetworkLocation>
+        }
+        groupBy: {
+          args: Prisma.NetworkLocationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NetworkLocationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NetworkLocationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NetworkLocationCountAggregateOutputType> | number
+        }
+      }
+    }
     Revision: {
       payload: Prisma.$RevisionPayload<ExtArgs>
       fields: Prisma.RevisionFieldRefs
@@ -1084,6 +1159,12 @@ export const SiteSettingScalarFieldEnum = {
   id: 'id',
   catalogUrl: 'catalogUrl',
   catalogOn: 'catalogOn',
+  catalogLabelEn: 'catalogLabelEn',
+  catalogLabelId: 'catalogLabelId',
+  catalogLabelPt: 'catalogLabelPt',
+  catalogPlacements: 'catalogPlacements',
+  catalogOpenNewTab: 'catalogOpenNewTab',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -1094,6 +1175,7 @@ export const PageScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   status: 'status',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -1112,6 +1194,7 @@ export const DivisionScalarFieldEnum = {
   videoPt: 'videoPt',
   gallery: 'gallery',
   status: 'status',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -1136,10 +1219,32 @@ export const MediaAssetScalarFieldEnum = {
   altEn: 'altEn',
   altId: 'altId',
   altPt: 'altPt',
+  credit: 'credit',
+  approved: 'approved',
+  pageId: 'pageId',
+  divisionId: 'divisionId',
   createdAt: 'createdAt'
 } as const
 
 export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+
+
+export const NetworkLocationScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  country: 'country',
+  city: 'city',
+  address: 'address',
+  kind: 'kind',
+  order: 'order',
+  status: 'status',
+  draft: 'draft',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NetworkLocationScalarFieldEnum = (typeof NetworkLocationScalarFieldEnum)[keyof typeof NetworkLocationScalarFieldEnum]
 
 
 export const RevisionScalarFieldEnum = {
@@ -1162,12 +1267,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {
@@ -1230,6 +1352,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1432,6 +1568,7 @@ export type GlobalOmitConfig = {
   division?: Prisma.DivisionOmit
   translation?: Prisma.TranslationOmit
   mediaAsset?: Prisma.MediaAssetOmit
+  networkLocation?: Prisma.NetworkLocationOmit
   revision?: Prisma.RevisionOmit
 }
 

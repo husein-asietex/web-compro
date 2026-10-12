@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { requireUser } from "@/lib/auth";
+import { requireUser } from "@/backend/auth";
 import { changeMyPasswordAction } from "@/features/admin/actions/users";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,18 +13,18 @@ export default async function Account() {
   const user = await requireUser();
 
   return (
-    <main className="min-h-dvh bg-[#f8f7f2] p-6 md:p-12">
+    <main className="min-h-dvh bg-background p-6 md:p-12">
       <Link href="/dashboard" className="text-sm underline">
         ← Dashboard
       </Link>
 
       <section className="mx-auto mt-14 max-w-md">
         <h1 className="font-serif text-5xl">My account</h1>
-        <p className="mt-3 text-[#5b5d54]">{user.email}</p>
+        <p className="mt-3 text-muted-foreground">{user.email}</p>
 
         <form
           action={changeMyPasswordAction}
-          className="mt-8 rounded-2xl border border-black/10 bg-white p-6"
+          className="mt-8 rounded-2xl border border-border-subtle bg-card p-6"
         >
           <FieldGroup>
             <Field>

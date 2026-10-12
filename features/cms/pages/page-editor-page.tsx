@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { requireUser } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { requireUser } from "@/backend/auth";
+import { prisma } from "@/backend/prisma";
 import { locales } from "@/lib/i18n";
-import { publishPageAction, savePageAction } from "@/features/cms/actions/content";
+import {
+  publishPageAction,
+  savePageAction,
+} from "@/features/cms/actions/content";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -12,7 +15,14 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const instant = false;
 
-const ALLOWED_SLUGS = ["home", "about", "products", "network", "contact"];
+const ALLOWED_SLUGS = [
+  "home",
+  "about",
+  "products",
+  "network",
+  "career",
+  "contact",
+];
 
 type LocaleFieldsetProps = {
   locale: string;
@@ -20,12 +30,14 @@ type LocaleFieldsetProps = {
   body: string;
 };
 
+type PageDraft = Record<string, { title?: string; body?: string }>;
+
 function LocaleFieldset({ locale, title, body }: LocaleFieldsetProps) {
   const titleId = `${locale}_title`;
   const bodyId = `${locale}_body`;
 
   return (
-    <fieldset className="rounded-2xl border border-black/10 bg-white p-6">
+    <fieldset className="rounded-2xl border border-border-subtle bg-card p-6">
       <legend className="px-2 text-sm font-medium uppercase">{locale}</legend>
 
       <FieldGroup>
@@ -45,24 +57,29 @@ function LocaleFieldset({ locale, title, body }: LocaleFieldsetProps) {
 
 export default async function PageEditor({
   params,
+  searchParams,
 }: PageProps<"/dashboard/content/pages/[slug]">) {
   const user = await requireUser();
   const { slug } = await params;
+  const query = await searchParams;
   if (!ALLOWED_SLUGS.includes(slug)) notFound();
 
   const page = await prisma.page.findUnique({
     where: { slug },
     include: { translations: true },
   });
+  const draft = page?.draft as PageDraft | null;
 
-  const findTranslation = (locale: string) =>
-    page?.translations.find((item) => item.locale === locale);
+  const findTranslation = (locale: string) => {
+    const published = page?.translations.find((item) => item.locale === locale);
+    return draft?.[locale] ?? published;
+  };
 
   const isPublished = page?.status === "PUBLISHED";
   const canPublish = user.role === "ADMIN";
 
   return (
-    <main className="min-h-dvh bg-[#f8f7f2] p-6 text-[#1f211d] md:p-12">
+    <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
       <header className="mx-auto flex max-w-4xl items-center justify-between">
         <Link href="/dashboard/content" className="text-sm underline">
           ← Content library
@@ -75,9 +92,18 @@ export default async function PageEditor({
 
       <section className="mx-auto mt-14 max-w-4xl">
         <h1 className="font-serif text-5xl capitalize">Edit {slug}</h1>
-        <p className="mt-3 text-[#5b5d54]">
-          Content is saved separately in all three published languages.
+        <p className="mt-3 text-muted-foreground">
+          Draft tersimpan terpisah. Konten publik tidak berubah sampai ADMIN
+          menekan publish.
         </p>
+        {query.error === "incomplete" && (
+          <p
+            role="alert"
+            className="mt-4 rounded-xl bg-red-50 p-4 text-sm text-red-800"
+          >
+            Isi judul dan body untuk ketiga bahasa sebelum publish.
+          </p>
+        )}
 
         <form action={savePageAction} className="mt-10">
           <input type="hidden" name="slug" value={slug} />

@@ -77,6 +77,11 @@ export type Translation = Prisma.TranslationModel
  */
 export type MediaAsset = Prisma.MediaAssetModel
 /**
+ * Model NetworkLocation
+ * 
+ */
+export type NetworkLocation = Prisma.NetworkLocationModel
+/**
  * Model Revision
  * 
  */

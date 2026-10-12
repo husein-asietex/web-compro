@@ -58,6 +58,7 @@ export const ModelName = {
   Division: 'Division',
   Translation: 'Translation',
   MediaAsset: 'MediaAsset',
+  NetworkLocation: 'NetworkLocation',
   Revision: 'Revision'
 } as const
 
@@ -106,6 +107,12 @@ export const SiteSettingScalarFieldEnum = {
   id: 'id',
   catalogUrl: 'catalogUrl',
   catalogOn: 'catalogOn',
+  catalogLabelEn: 'catalogLabelEn',
+  catalogLabelId: 'catalogLabelId',
+  catalogLabelPt: 'catalogLabelPt',
+  catalogPlacements: 'catalogPlacements',
+  catalogOpenNewTab: 'catalogOpenNewTab',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -116,6 +123,7 @@ export const PageScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   status: 'status',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -134,6 +142,7 @@ export const DivisionScalarFieldEnum = {
   videoPt: 'videoPt',
   gallery: 'gallery',
   status: 'status',
+  draft: 'draft',
   updatedAt: 'updatedAt'
 } as const
 
@@ -158,10 +167,32 @@ export const MediaAssetScalarFieldEnum = {
   altEn: 'altEn',
   altId: 'altId',
   altPt: 'altPt',
+  credit: 'credit',
+  approved: 'approved',
+  pageId: 'pageId',
+  divisionId: 'divisionId',
   createdAt: 'createdAt'
 } as const
 
 export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+
+
+export const NetworkLocationScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  country: 'country',
+  city: 'city',
+  address: 'address',
+  kind: 'kind',
+  order: 'order',
+  status: 'status',
+  draft: 'draft',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NetworkLocationScalarFieldEnum = (typeof NetworkLocationScalarFieldEnum)[keyof typeof NetworkLocationScalarFieldEnum]
 
 
 export const RevisionScalarFieldEnum = {
@@ -184,12 +215,29 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
 export const NullsOrder = {

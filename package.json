@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prisma:generate": "bunx --bun prisma generate",
+    "prebuild": "bun run prisma:generate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -54,7 +56,10 @@
     "unrs-resolver"
   ],
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "bun run lint",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
     "*.{json,md,css}": "prettier --write"
   }
 }
