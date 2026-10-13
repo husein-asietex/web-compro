@@ -1,13 +1,17 @@
 import "dotenv/config";
 import { Prisma, PrismaClient } from "../generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { scryptSync } from "node:crypto";
 
 import { ABOUT_CONTENT } from "./seed-data/about";
 
-const prisma = new PrismaClient({
-  adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
-});
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error("DATABASE_URL is not configured");
+}
+
+const prisma = new PrismaClient({ adapter: new PrismaMariaDb(databaseUrl) });
 
 // ---------------------------------------------------------------------------
 // Konstanta & data seed

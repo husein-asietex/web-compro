@@ -208,6 +208,13 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
 export const NullableJsonNullValueInput = {
   DbNull: DbNull,
   JsonNull: JsonNull
@@ -216,19 +223,23 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
-export const JsonNullValueInput = {
-  JsonNull: JsonNull
+export const UserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  passwordHash: 'passwordHash'
 } as const
 
-export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
 
 
-export const QueryMode = {
-  default: 'default',
-  insensitive: 'insensitive'
+export const SessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  tokenHash: 'tokenHash'
 } as const
 
-export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
 export const JsonNullValueFilter = {
@@ -240,10 +251,94 @@ export const JsonNullValueFilter = {
 export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const SiteSettingOrderByRelevanceFieldEnum = {
+  id: 'id',
+  catalogUrl: 'catalogUrl',
+  catalogLabelEn: 'catalogLabelEn',
+  catalogLabelId: 'catalogLabelId',
+  catalogLabelPt: 'catalogLabelPt'
+} as const
+
+export type SiteSettingOrderByRelevanceFieldEnum = (typeof SiteSettingOrderByRelevanceFieldEnum)[keyof typeof SiteSettingOrderByRelevanceFieldEnum]
+
+
+export const ContentCollectionOrderByRelevanceFieldEnum = {
+  key: 'key'
+} as const
+
+export type ContentCollectionOrderByRelevanceFieldEnum = (typeof ContentCollectionOrderByRelevanceFieldEnum)[keyof typeof ContentCollectionOrderByRelevanceFieldEnum]
+
+
+export const PageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  slug: 'slug'
+} as const
+
+export type PageOrderByRelevanceFieldEnum = (typeof PageOrderByRelevanceFieldEnum)[keyof typeof PageOrderByRelevanceFieldEnum]
+
+
+export const ProductOrderByRelevanceFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  capacity: 'capacity',
+  machinery: 'machinery',
+  videoEn: 'videoEn',
+  videoId: 'videoId',
+  videoPt: 'videoPt'
+} as const
+
+export type ProductOrderByRelevanceFieldEnum = (typeof ProductOrderByRelevanceFieldEnum)[keyof typeof ProductOrderByRelevanceFieldEnum]
+
+
+export const TranslationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  locale: 'locale',
+  title: 'title',
+  body: 'body',
+  pageId: 'pageId',
+  productId: 'productId'
+} as const
+
+export type TranslationOrderByRelevanceFieldEnum = (typeof TranslationOrderByRelevanceFieldEnum)[keyof typeof TranslationOrderByRelevanceFieldEnum]
+
+
+export const MediaAssetOrderByRelevanceFieldEnum = {
+  id: 'id',
+  url: 'url',
+  altEn: 'altEn',
+  altId: 'altId',
+  altPt: 'altPt',
+  credit: 'credit',
+  pageId: 'pageId',
+  productId: 'productId'
+} as const
+
+export type MediaAssetOrderByRelevanceFieldEnum = (typeof MediaAssetOrderByRelevanceFieldEnum)[keyof typeof MediaAssetOrderByRelevanceFieldEnum]
+
+
+export const RevisionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  entity: 'entity',
+  entityId: 'entityId',
+  action: 'action',
+  userId: 'userId'
+} as const
+
+export type RevisionOrderByRelevanceFieldEnum = (typeof RevisionOrderByRelevanceFieldEnum)[keyof typeof RevisionOrderByRelevanceFieldEnum]
 

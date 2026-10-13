@@ -1,0 +1,11 @@
+---
+deployment:
+  tasks:
+    - export APPPATH=/home/asietexc/web-compro
+    - /bin/mkdir -p $APPPATH
+    - /bin/cp -R server.js package.json $APPPATH/
+    - /bin/cp -R .next $APPPATH/
+    - /bin/cp -R public $APPPATH/
+    - /bin/cp -R node_modules $APPPATH/
+    - /bin/mkdir -p $APPPATH/tmp
+    - /bin/touch $APPPATH/tmp/restart.txt

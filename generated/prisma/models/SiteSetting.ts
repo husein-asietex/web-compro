@@ -176,7 +176,7 @@ export type SiteSettingGroupByOutputType = {
   catalogLabelEn: string
   catalogLabelId: string
   catalogLabelPt: string
-  catalogPlacements: string[]
+  catalogPlacements: runtime.JsonValue
   catalogOpenNewTab: boolean
   draft: runtime.JsonValue | null
   updatedAt: Date
@@ -210,7 +210,7 @@ export type SiteSettingWhereInput = {
   catalogLabelEn?: Prisma.StringFilter<"SiteSetting"> | string
   catalogLabelId?: Prisma.StringFilter<"SiteSetting"> | string
   catalogLabelPt?: Prisma.StringFilter<"SiteSetting"> | string
-  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogPlacements?: Prisma.JsonFilter<"SiteSetting">
   catalogOpenNewTab?: Prisma.BoolFilter<"SiteSetting"> | boolean
   draft?: Prisma.JsonNullableFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeFilter<"SiteSetting"> | Date | string
@@ -227,6 +227,7 @@ export type SiteSettingOrderByWithRelationInput = {
   catalogOpenNewTab?: Prisma.SortOrder
   draft?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  _relevance?: Prisma.SiteSettingOrderByRelevanceInput
 }
 
 export type SiteSettingWhereUniqueInput = Prisma.AtLeast<{
@@ -239,7 +240,7 @@ export type SiteSettingWhereUniqueInput = Prisma.AtLeast<{
   catalogLabelEn?: Prisma.StringFilter<"SiteSetting"> | string
   catalogLabelId?: Prisma.StringFilter<"SiteSetting"> | string
   catalogLabelPt?: Prisma.StringFilter<"SiteSetting"> | string
-  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogPlacements?: Prisma.JsonFilter<"SiteSetting">
   catalogOpenNewTab?: Prisma.BoolFilter<"SiteSetting"> | boolean
   draft?: Prisma.JsonNullableFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeFilter<"SiteSetting"> | Date | string
@@ -271,7 +272,7 @@ export type SiteSettingScalarWhereWithAggregatesInput = {
   catalogLabelEn?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
   catalogLabelId?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
   catalogLabelPt?: Prisma.StringWithAggregatesFilter<"SiteSetting"> | string
-  catalogPlacements?: Prisma.StringNullableListFilter<"SiteSetting">
+  catalogPlacements?: Prisma.JsonWithAggregatesFilter<"SiteSetting">
   catalogOpenNewTab?: Prisma.BoolWithAggregatesFilter<"SiteSetting"> | boolean
   draft?: Prisma.JsonNullableWithAggregatesFilter<"SiteSetting">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteSetting"> | Date | string
@@ -284,7 +285,7 @@ export type SiteSettingCreateInput = {
   catalogLabelEn?: string
   catalogLabelId?: string
   catalogLabelPt?: string
-  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -297,7 +298,7 @@ export type SiteSettingUncheckedCreateInput = {
   catalogLabelEn?: string
   catalogLabelId?: string
   catalogLabelPt?: string
-  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -310,7 +311,7 @@ export type SiteSettingUpdateInput = {
   catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
-  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -323,7 +324,7 @@ export type SiteSettingUncheckedUpdateInput = {
   catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
-  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -336,7 +337,7 @@ export type SiteSettingCreateManyInput = {
   catalogLabelEn?: string
   catalogLabelId?: string
   catalogLabelPt?: string
-  catalogPlacements?: Prisma.SiteSettingCreatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
@@ -349,7 +350,7 @@ export type SiteSettingUpdateManyMutationInput = {
   catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
-  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -362,18 +363,16 @@ export type SiteSettingUncheckedUpdateManyInput = {
   catalogLabelEn?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelId?: Prisma.StringFieldUpdateOperationsInput | string
   catalogLabelPt?: Prisma.StringFieldUpdateOperationsInput | string
-  catalogPlacements?: Prisma.SiteSettingUpdatecatalogPlacementsInput | string[]
+  catalogPlacements?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   catalogOpenNewTab?: Prisma.BoolFieldUpdateOperationsInput | boolean
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type StringNullableListFilter<$PrismaModel = never> = {
-  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
-  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
-  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
-  isEmpty?: boolean
+export type SiteSettingOrderByRelevanceInput = {
+  fields: Prisma.SiteSettingOrderByRelevanceFieldEnum | Prisma.SiteSettingOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type SiteSettingCountOrderByAggregateInput = {
@@ -411,15 +410,6 @@ export type SiteSettingMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
-export type SiteSettingCreatecatalogPlacementsInput = {
-  set: string[]
-}
-
-export type SiteSettingUpdatecatalogPlacementsInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 
 
 export type SiteSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -435,31 +425,7 @@ export type SiteSettingSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
 }, ExtArgs["result"]["siteSetting"]>
 
-export type SiteSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  catalogUrl?: boolean
-  catalogOn?: boolean
-  catalogLabelEn?: boolean
-  catalogLabelId?: boolean
-  catalogLabelPt?: boolean
-  catalogPlacements?: boolean
-  catalogOpenNewTab?: boolean
-  draft?: boolean
-  updatedAt?: boolean
-}, ExtArgs["result"]["siteSetting"]>
 
-export type SiteSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  catalogUrl?: boolean
-  catalogOn?: boolean
-  catalogLabelEn?: boolean
-  catalogLabelId?: boolean
-  catalogLabelPt?: boolean
-  catalogPlacements?: boolean
-  catalogOpenNewTab?: boolean
-  draft?: boolean
-  updatedAt?: boolean
-}, ExtArgs["result"]["siteSetting"]>
 
 export type SiteSettingSelectScalar = {
   id?: boolean
@@ -486,7 +452,7 @@ export type $SiteSettingPayload<ExtArgs extends runtime.Types.Extensions.Interna
     catalogLabelEn: string
     catalogLabelId: string
     catalogLabelPt: string
-    catalogPlacements: string[]
+    catalogPlacements: runtime.JsonValue
     catalogOpenNewTab: boolean
     draft: runtime.JsonValue | null
     updatedAt: Date
@@ -608,30 +574,6 @@ export interface SiteSettingDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends SiteSettingCreateManyArgs>(args?: Prisma.SelectSubset<T, SiteSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many SiteSettings and returns the data saved in the database.
-   * @param {SiteSettingCreateManyAndReturnArgs} args - Arguments to create many SiteSettings.
-   * @example
-   * // Create many SiteSettings
-   * const siteSetting = await prisma.siteSetting.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many SiteSettings and only return the `id`
-   * const siteSettingWithIdOnly = await prisma.siteSetting.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends SiteSettingCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SiteSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SiteSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a SiteSetting.
    * @param {SiteSettingDeleteArgs} args - Arguments to delete one SiteSetting.
    * @example
@@ -694,36 +636,6 @@ export interface SiteSettingDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends SiteSettingUpdateManyArgs>(args: Prisma.SelectSubset<T, SiteSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more SiteSettings and returns the data updated in the database.
-   * @param {SiteSettingUpdateManyAndReturnArgs} args - Arguments to update many SiteSettings.
-   * @example
-   * // Update many SiteSettings
-   * const siteSetting = await prisma.siteSetting.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more SiteSettings and only return the `id`
-   * const siteSettingWithIdOnly = await prisma.siteSetting.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends SiteSettingUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SiteSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SiteSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one SiteSetting.
@@ -919,7 +831,7 @@ export interface SiteSettingFieldRefs {
   readonly catalogLabelEn: Prisma.FieldRef<"SiteSetting", 'String'>
   readonly catalogLabelId: Prisma.FieldRef<"SiteSetting", 'String'>
   readonly catalogLabelPt: Prisma.FieldRef<"SiteSetting", 'String'>
-  readonly catalogPlacements: Prisma.FieldRef<"SiteSetting", 'String[]'>
+  readonly catalogPlacements: Prisma.FieldRef<"SiteSetting", 'Json'>
   readonly catalogOpenNewTab: Prisma.FieldRef<"SiteSetting", 'Boolean'>
   readonly draft: Prisma.FieldRef<"SiteSetting", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"SiteSetting", 'DateTime'>
@@ -1137,25 +1049,6 @@ export type SiteSettingCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * SiteSetting createManyAndReturn
- */
-export type SiteSettingCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SiteSetting
-   */
-  select?: Prisma.SiteSettingSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the SiteSetting
-   */
-  omit?: Prisma.SiteSettingOmit<ExtArgs> | null
-  /**
-   * The data used to create many SiteSettings.
-   */
-  data: Prisma.SiteSettingCreateManyInput | Prisma.SiteSettingCreateManyInput[]
-  skipDuplicates?: boolean
-}
-
-/**
  * SiteSetting update
  */
 export type SiteSettingUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1181,32 +1074,6 @@ export type SiteSettingUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
  * SiteSetting updateMany
  */
 export type SiteSettingUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * The data used to update SiteSettings.
-   */
-  data: Prisma.XOR<Prisma.SiteSettingUpdateManyMutationInput, Prisma.SiteSettingUncheckedUpdateManyInput>
-  /**
-   * Filter which SiteSettings to update
-   */
-  where?: Prisma.SiteSettingWhereInput
-  /**
-   * Limit how many SiteSettings to update.
-   */
-  limit?: number
-}
-
-/**
- * SiteSetting updateManyAndReturn
- */
-export type SiteSettingUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the SiteSetting
-   */
-  select?: Prisma.SiteSettingSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the SiteSetting
-   */
-  omit?: Prisma.SiteSettingOmit<ExtArgs> | null
   /**
    * The data used to update SiteSettings.
    */

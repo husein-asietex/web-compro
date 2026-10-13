@@ -239,6 +239,7 @@ export type MediaAssetOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   page?: Prisma.PageOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
+  _relevance?: Prisma.MediaAssetOrderByRelevanceInput
 }
 
 export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
@@ -388,6 +389,12 @@ export type MediaAssetListRelationFilter = {
 
 export type MediaAssetOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type MediaAssetOrderByRelevanceInput = {
+  fields: Prisma.MediaAssetOrderByRelevanceFieldEnum | Prisma.MediaAssetOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type MediaAssetCountOrderByAggregateInput = {
@@ -742,35 +749,7 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }, ExtArgs["result"]["mediaAsset"]>
 
-export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  url?: boolean
-  altEn?: boolean
-  altId?: boolean
-  altPt?: boolean
-  credit?: boolean
-  approved?: boolean
-  pageId?: boolean
-  productId?: boolean
-  createdAt?: boolean
-  page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
-}, ExtArgs["result"]["mediaAsset"]>
 
-export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  url?: boolean
-  altEn?: boolean
-  altId?: boolean
-  altPt?: boolean
-  credit?: boolean
-  approved?: boolean
-  pageId?: boolean
-  productId?: boolean
-  createdAt?: boolean
-  page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
-}, ExtArgs["result"]["mediaAsset"]>
 
 export type MediaAssetSelectScalar = {
   id?: boolean
@@ -787,14 +766,6 @@ export type MediaAssetSelectScalar = {
 
 export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "altEn" | "altId" | "altPt" | "credit" | "approved" | "pageId" | "productId" | "createdAt", ExtArgs["result"]["mediaAsset"]>
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
-}
-export type MediaAssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
-}
-export type MediaAssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
   product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }
@@ -934,30 +905,6 @@ export interface MediaAssetDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends MediaAssetCreateManyArgs>(args?: Prisma.SelectSubset<T, MediaAssetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many MediaAssets and returns the data saved in the database.
-   * @param {MediaAssetCreateManyAndReturnArgs} args - Arguments to create many MediaAssets.
-   * @example
-   * // Create many MediaAssets
-   * const mediaAsset = await prisma.mediaAsset.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many MediaAssets and only return the `id`
-   * const mediaAssetWithIdOnly = await prisma.mediaAsset.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends MediaAssetCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MediaAssetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a MediaAsset.
    * @param {MediaAssetDeleteArgs} args - Arguments to delete one MediaAsset.
    * @example
@@ -1020,36 +967,6 @@ export interface MediaAssetDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends MediaAssetUpdateManyArgs>(args: Prisma.SelectSubset<T, MediaAssetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more MediaAssets and returns the data updated in the database.
-   * @param {MediaAssetUpdateManyAndReturnArgs} args - Arguments to update many MediaAssets.
-   * @example
-   * // Update many MediaAssets
-   * const mediaAsset = await prisma.mediaAsset.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more MediaAssets and only return the `id`
-   * const mediaAssetWithIdOnly = await prisma.mediaAsset.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends MediaAssetUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MediaAssetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one MediaAsset.
@@ -1489,29 +1406,6 @@ export type MediaAssetCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
- * MediaAsset createManyAndReturn
- */
-export type MediaAssetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MediaAsset
-   */
-  select?: Prisma.MediaAssetSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the MediaAsset
-   */
-  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
-  /**
-   * The data used to create many MediaAssets.
-   */
-  data: Prisma.MediaAssetCreateManyInput | Prisma.MediaAssetCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MediaAssetIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * MediaAsset update
  */
 export type MediaAssetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1553,36 +1447,6 @@ export type MediaAssetUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many MediaAssets to update.
    */
   limit?: number
-}
-
-/**
- * MediaAsset updateManyAndReturn
- */
-export type MediaAssetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MediaAsset
-   */
-  select?: Prisma.MediaAssetSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the MediaAsset
-   */
-  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
-  /**
-   * The data used to update MediaAssets.
-   */
-  data: Prisma.XOR<Prisma.MediaAssetUpdateManyMutationInput, Prisma.MediaAssetUncheckedUpdateManyInput>
-  /**
-   * Filter which MediaAssets to update
-   */
-  where?: Prisma.MediaAssetWhereInput
-  /**
-   * Limit how many MediaAssets to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MediaAssetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

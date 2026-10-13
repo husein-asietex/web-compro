@@ -190,6 +190,7 @@ export type PageOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   translations?: Prisma.TranslationOrderByRelationAggregateInput
   media?: Prisma.MediaAssetOrderByRelationAggregateInput
+  _relevance?: Prisma.PageOrderByRelevanceInput
 }
 
 export type PageWhereUniqueInput = Prisma.AtLeast<{
@@ -289,6 +290,12 @@ export type PageUncheckedUpdateManyInput = {
   status?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
   draft?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type PageOrderByRelevanceInput = {
+  fields: Prisma.PageOrderByRelevanceFieldEnum | Prisma.PageOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type PageCountOrderByAggregateInput = {
@@ -505,21 +512,7 @@ export type PageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["page"]>
 
-export type PageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  slug?: boolean
-  status?: boolean
-  draft?: boolean
-  updatedAt?: boolean
-}, ExtArgs["result"]["page"]>
 
-export type PageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  slug?: boolean
-  status?: boolean
-  draft?: boolean
-  updatedAt?: boolean
-}, ExtArgs["result"]["page"]>
 
 export type PageSelectScalar = {
   id?: boolean
@@ -535,8 +528,6 @@ export type PageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   media?: boolean | Prisma.Page$mediaArgs<ExtArgs>
   _count?: boolean | Prisma.PageCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type PageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type PageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $PagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Page"
@@ -668,30 +659,6 @@ export interface PageDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends PageCreateManyArgs>(args?: Prisma.SelectSubset<T, PageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Pages and returns the data saved in the database.
-   * @param {PageCreateManyAndReturnArgs} args - Arguments to create many Pages.
-   * @example
-   * // Create many Pages
-   * const page = await prisma.page.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Pages and only return the `id`
-   * const pageWithIdOnly = await prisma.page.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends PageCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Page.
    * @param {PageDeleteArgs} args - Arguments to delete one Page.
    * @example
@@ -754,36 +721,6 @@ export interface PageDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends PageUpdateManyArgs>(args: Prisma.SelectSubset<T, PageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Pages and returns the data updated in the database.
-   * @param {PageUpdateManyAndReturnArgs} args - Arguments to update many Pages.
-   * @example
-   * // Update many Pages
-   * const page = await prisma.page.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Pages and only return the `id`
-   * const pageWithIdOnly = await prisma.page.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends PageUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Page.
@@ -1218,25 +1155,6 @@ export type PageCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * Page createManyAndReturn
- */
-export type PageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Page
-   */
-  select?: Prisma.PageSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Page
-   */
-  omit?: Prisma.PageOmit<ExtArgs> | null
-  /**
-   * The data used to create many Pages.
-   */
-  data: Prisma.PageCreateManyInput | Prisma.PageCreateManyInput[]
-  skipDuplicates?: boolean
-}
-
-/**
  * Page update
  */
 export type PageUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1266,32 +1184,6 @@ export type PageUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
  * Page updateMany
  */
 export type PageUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * The data used to update Pages.
-   */
-  data: Prisma.XOR<Prisma.PageUpdateManyMutationInput, Prisma.PageUncheckedUpdateManyInput>
-  /**
-   * Filter which Pages to update
-   */
-  where?: Prisma.PageWhereInput
-  /**
-   * Limit how many Pages to update.
-   */
-  limit?: number
-}
-
-/**
- * Page updateManyAndReturn
- */
-export type PageUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Page
-   */
-  select?: Prisma.PageSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Page
-   */
-  omit?: Prisma.PageOmit<ExtArgs> | null
   /**
    * The data used to update Pages.
    */

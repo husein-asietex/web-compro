@@ -201,6 +201,7 @@ export type RevisionOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.RevisionOrderByRelevanceInput
 }
 
 export type RevisionWhereUniqueInput = Prisma.AtLeast<{
@@ -310,6 +311,12 @@ export type RevisionListRelationFilter = {
 
 export type RevisionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type RevisionOrderByRelevanceInput = {
+  fields: Prisma.RevisionOrderByRelevanceFieldEnum | Prisma.RevisionOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type RevisionCountOrderByAggregateInput = {
@@ -479,25 +486,7 @@ export type RevisionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["revision"]>
 
-export type RevisionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  entity?: boolean
-  entityId?: boolean
-  action?: boolean
-  userId?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["revision"]>
 
-export type RevisionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  entity?: boolean
-  entityId?: boolean
-  action?: boolean
-  userId?: boolean
-  createdAt?: boolean
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}, ExtArgs["result"]["revision"]>
 
 export type RevisionSelectScalar = {
   id?: boolean
@@ -510,12 +499,6 @@ export type RevisionSelectScalar = {
 
 export type RevisionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entity" | "entityId" | "action" | "userId" | "createdAt", ExtArgs["result"]["revision"]>
 export type RevisionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type RevisionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-}
-export type RevisionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
@@ -649,30 +632,6 @@ export interface RevisionDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends RevisionCreateManyArgs>(args?: Prisma.SelectSubset<T, RevisionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Revisions and returns the data saved in the database.
-   * @param {RevisionCreateManyAndReturnArgs} args - Arguments to create many Revisions.
-   * @example
-   * // Create many Revisions
-   * const revision = await prisma.revision.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Revisions and only return the `id`
-   * const revisionWithIdOnly = await prisma.revision.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends RevisionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, RevisionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Revision.
    * @param {RevisionDeleteArgs} args - Arguments to delete one Revision.
    * @example
@@ -735,36 +694,6 @@ export interface RevisionDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends RevisionUpdateManyArgs>(args: Prisma.SelectSubset<T, RevisionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Revisions and returns the data updated in the database.
-   * @param {RevisionUpdateManyAndReturnArgs} args - Arguments to update many Revisions.
-   * @example
-   * // Update many Revisions
-   * const revision = await prisma.revision.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Revisions and only return the `id`
-   * const revisionWithIdOnly = await prisma.revision.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends RevisionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, RevisionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Revision.
@@ -1199,29 +1128,6 @@ export type RevisionCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
- * Revision createManyAndReturn
- */
-export type RevisionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Revision
-   */
-  select?: Prisma.RevisionSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Revision
-   */
-  omit?: Prisma.RevisionOmit<ExtArgs> | null
-  /**
-   * The data used to create many Revisions.
-   */
-  data: Prisma.RevisionCreateManyInput | Prisma.RevisionCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RevisionIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Revision update
  */
 export type RevisionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1263,36 +1169,6 @@ export type RevisionUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Revisions to update.
    */
   limit?: number
-}
-
-/**
- * Revision updateManyAndReturn
- */
-export type RevisionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Revision
-   */
-  select?: Prisma.RevisionSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Revision
-   */
-  omit?: Prisma.RevisionOmit<ExtArgs> | null
-  /**
-   * The data used to update Revisions.
-   */
-  data: Prisma.XOR<Prisma.RevisionUpdateManyMutationInput, Prisma.RevisionUncheckedUpdateManyInput>
-  /**
-   * Filter which Revisions to update
-   */
-  where?: Prisma.RevisionWhereInput
-  /**
-   * Limit how many Revisions to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RevisionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

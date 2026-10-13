@@ -204,7 +204,7 @@ export async function createProductsAction() {
     for (const [index, slug] of PRODUCT_SLUGS.entries()) {
       await tx.product.upsert({
         where: { slug },
-        create: { slug, order: index + 1 },
+        create: { slug, order: index + 1, products: [], gallery: [] },
         update: { order: index + 1 },
       });
     }
@@ -338,7 +338,11 @@ export async function saveCatalogAction(formData: FormData) {
   await prisma.$transaction(async (tx) => {
     await tx.siteSetting.upsert({
       where: { id: "site" },
-      create: { id: "site", draft: parsed.data },
+      create: {
+        id: "site",
+        catalogPlacements: ["home", "product", "footer"],
+        draft: parsed.data,
+      },
       update: { draft: parsed.data },
     });
     await audit(tx, user.id, "setting", "site", "saved-draft");

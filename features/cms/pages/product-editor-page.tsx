@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { requireUser } from "@/backend/auth";
 import { prisma } from "@/backend/prisma";
 import { locales } from "@/lib/i18n";
+import { asStringArray } from "@/lib/json";
 import {
   publishProductAction,
   saveProductAction,
@@ -95,9 +96,9 @@ export default async function ProductEditor({
                   <Textarea
                     id="products"
                     name="products"
-                    defaultValue={(draft?.products ?? product.products).join(
-                      "\n",
-                    )}
+                    defaultValue={(
+                      draft?.products ?? asStringArray(product.products)
+                    ).join("\n")}
                     rows={4}
                   />
                 </Field>
@@ -117,9 +118,9 @@ export default async function ProductEditor({
                   <Textarea
                     id="gallery"
                     name="gallery"
-                    defaultValue={(draft?.gallery ?? product.gallery).join(
-                      "\n",
-                    )}
+                    defaultValue={(
+                      draft?.gallery ?? asStringArray(product.gallery)
+                    ).join("\n")}
                     rows={3}
                   />
                 </Field>

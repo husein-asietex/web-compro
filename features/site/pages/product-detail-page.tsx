@@ -5,6 +5,7 @@ import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
 import { prisma } from "@/backend/prisma";
+import { asStringArray } from "@/lib/json";
 import { YouTubeEmbed } from "@/features/site/components/youtube-embed";
 import { DUMMY_IMAGE, mediaAlt } from "@/features/site/lib/site-page-helpers";
 import { copy, type Locale } from "@/lib/i18n";
@@ -67,7 +68,10 @@ export default async function ProductDetailPage({
 
   const translation = product.translations[0];
   const linkedImages = product.media.map((item) => item.url);
-  const gallery = Array.from(new Set([...linkedImages, ...product.gallery]));
+  const gallery = Array.from(
+    new Set([...linkedImages, ...asStringArray(product.gallery)]),
+  );
+  const productItems = asStringArray(product.products);
   const videoUrl =
     locale === "id"
       ? product.videoId
@@ -134,13 +138,13 @@ export default async function ProductDetailPage({
       </dl>
 
       {/* Product list */}
-      {product.products.length > 0 && (
+      {productItems.length > 0 && (
         <section className="mt-16">
           <h2 className="font-serif text-4xl tracking-[-0.03em]">
             {text.products}
           </h2>
           <ul className="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-            {product.products.map((product) => (
+            {productItems.map((product) => (
               <li
                 key={product}
                 className="border-b border-border-subtle py-4 text-lg"

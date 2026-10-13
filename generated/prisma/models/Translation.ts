@@ -203,6 +203,7 @@ export type TranslationOrderByWithRelationInput = {
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   page?: Prisma.PageOrderByWithRelationInput
   product?: Prisma.ProductOrderByWithRelationInput
+  _relevance?: Prisma.TranslationOrderByRelevanceInput
 }
 
 export type TranslationWhereUniqueInput = Prisma.AtLeast<{
@@ -314,6 +315,12 @@ export type TranslationListRelationFilter = {
 
 export type TranslationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type TranslationOrderByRelevanceInput = {
+  fields: Prisma.TranslationOrderByRelevanceFieldEnum | Prisma.TranslationOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type TranslationPageIdLocaleCompoundUniqueInput = {
@@ -610,27 +617,7 @@ export type TranslationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }, ExtArgs["result"]["translation"]>
 
-export type TranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  locale?: boolean
-  title?: boolean
-  body?: boolean
-  pageId?: boolean
-  productId?: boolean
-  page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
-}, ExtArgs["result"]["translation"]>
 
-export type TranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
-  id?: boolean
-  locale?: boolean
-  title?: boolean
-  body?: boolean
-  pageId?: boolean
-  productId?: boolean
-  page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
-}, ExtArgs["result"]["translation"]>
 
 export type TranslationSelectScalar = {
   id?: boolean
@@ -643,14 +630,6 @@ export type TranslationSelectScalar = {
 
 export type TranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "locale" | "title" | "body" | "pageId" | "productId", ExtArgs["result"]["translation"]>
 export type TranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
-}
-export type TranslationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
-}
-export type TranslationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
   product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }
@@ -786,30 +765,6 @@ export interface TranslationDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends TranslationCreateManyArgs>(args?: Prisma.SelectSubset<T, TranslationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
-   * Create many Translations and returns the data saved in the database.
-   * @param {TranslationCreateManyAndReturnArgs} args - Arguments to create many Translations.
-   * @example
-   * // Create many Translations
-   * const translation = await prisma.translation.createManyAndReturn({
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Create many Translations and only return the `id`
-   * const translationWithIdOnly = await prisma.translation.createManyAndReturn({
-   *   select: { id: true },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  createManyAndReturn<T extends TranslationCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TranslationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranslationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-  /**
    * Delete a Translation.
    * @param {TranslationDeleteArgs} args - Arguments to delete one Translation.
    * @example
@@ -872,36 +827,6 @@ export interface TranslationDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends TranslationUpdateManyArgs>(args: Prisma.SelectSubset<T, TranslationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
-
-  /**
-   * Update zero or more Translations and returns the data updated in the database.
-   * @param {TranslationUpdateManyAndReturnArgs} args - Arguments to update many Translations.
-   * @example
-   * // Update many Translations
-   * const translation = await prisma.translation.updateManyAndReturn({
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * 
-   * // Update zero or more Translations and only return the `id`
-   * const translationWithIdOnly = await prisma.translation.updateManyAndReturn({
-   *   select: { id: true },
-   *   where: {
-   *     // ... provide filter here
-   *   },
-   *   data: [
-   *     // ... provide data here
-   *   ]
-   * })
-   * Note, that providing `undefined` is treated as the value not being there.
-   * Read more here: https://pris.ly/d/null-undefined
-   * 
-   */
-  updateManyAndReturn<T extends TranslationUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TranslationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TranslationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Translation.
@@ -1337,29 +1262,6 @@ export type TranslationCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
- * Translation createManyAndReturn
- */
-export type TranslationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Translation
-   */
-  select?: Prisma.TranslationSelectCreateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Translation
-   */
-  omit?: Prisma.TranslationOmit<ExtArgs> | null
-  /**
-   * The data used to create many Translations.
-   */
-  data: Prisma.TranslationCreateManyInput | Prisma.TranslationCreateManyInput[]
-  skipDuplicates?: boolean
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TranslationIncludeCreateManyAndReturn<ExtArgs> | null
-}
-
-/**
  * Translation update
  */
 export type TranslationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1401,36 +1303,6 @@ export type TranslationUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many Translations to update.
    */
   limit?: number
-}
-
-/**
- * Translation updateManyAndReturn
- */
-export type TranslationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Translation
-   */
-  select?: Prisma.TranslationSelectUpdateManyAndReturn<ExtArgs> | null
-  /**
-   * Omit specific fields from the Translation
-   */
-  omit?: Prisma.TranslationOmit<ExtArgs> | null
-  /**
-   * The data used to update Translations.
-   */
-  data: Prisma.XOR<Prisma.TranslationUpdateManyMutationInput, Prisma.TranslationUncheckedUpdateManyInput>
-  /**
-   * Filter which Translations to update
-   */
-  where?: Prisma.TranslationWhereInput
-  /**
-   * Limit how many Translations to update.
-   */
-  limit?: number
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TranslationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

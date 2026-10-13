@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
 enum Role {
@@ -46,7 +46,7 @@ model SiteSetting {
   catalogLabelEn     String   @default("Explore e-catalog")
   catalogLabelId     String   @default("Buka e-catalog")
   catalogLabelPt     String   @default("Ver e-catalog")
-  catalogPlacements  String[] @default(["home", "product", "footer"])
+  catalogPlacements  Json     @default("[\"home\", \"product\", \"footer\"]")
   catalogOpenNewTab  Boolean  @default(true)
   draft              Json?
   updatedAt          DateTime @updatedAt
@@ -74,13 +74,13 @@ model Product {
   id           String        @id @default(cuid())
   slug         String        @unique
   order        Int           @unique
-  capacity     String?
-  products     String[]      @default([])
-  machinery    String?
-  videoEn      String?
-  videoId      String?
-  videoPt      String?
-  gallery      String[]      @default([])
+  capacity     String?       @db.VarChar(500)
+  products     Json          @default("[]")
+  machinery    String?       @db.Text
+  videoEn      String?       @db.Text
+  videoId      String?       @db.Text
+  videoPt      String?       @db.Text
+  gallery      Json          @default("[]")
   status       ContentStatus @default(DRAFT)
   draft        Json?
   translations Translation[]
@@ -91,8 +91,8 @@ model Product {
 model Translation {
   id         String    @id @default(cuid())
   locale     String
-  title      String
-  body       String
+  title      String    @db.Text
+  body       String    @db.Text
   pageId     String?
   productId String?
   page       Page?     @relation(fields: [pageId], references: [id], onDelete: Cascade)
@@ -104,11 +104,11 @@ model Translation {
 
 model MediaAsset {
   id         String    @id @default(cuid())
-  url        String
-  altEn      String
-  altId      String
-  altPt      String
-  credit     String?
+  url        String    @db.Text
+  altEn      String    @db.Text
+  altId      String    @db.Text
+  altPt      String    @db.Text
+  credit     String?   @db.Text
   approved   Boolean   @default(false)
   pageId     String?
   productId String?

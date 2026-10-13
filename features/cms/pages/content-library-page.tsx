@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireUser } from "@/backend/auth";
 import { prisma } from "@/backend/prisma";
+import { asStringArray } from "@/lib/json";
 import {
   createProductsAction,
   publishCatalogAction,
@@ -121,13 +122,19 @@ function CatalogSettingsForm({
     catalogLabelEn: string;
     catalogLabelId: string;
     catalogLabelPt: string;
-    catalogPlacements: string[];
+    catalogPlacements: unknown;
     catalogOpenNewTab: boolean;
     draft: unknown;
   } | null;
   canPublish: boolean;
 }) {
   const draft = settings?.draft as Partial<NonNullable<typeof settings>> | null;
+  const catalogPlacements =
+    draft?.catalogPlacements !== undefined
+      ? asStringArray(draft.catalogPlacements)
+      : settings
+        ? asStringArray(settings.catalogPlacements)
+        : ["home", "product", "footer"];
   return (
     <div className="rounded-2xl border border-border-subtle bg-card p-6 h-fit">
       <h2 className="font-serif text-3xl">E-catalog CTA</h2>
@@ -190,11 +197,7 @@ function CatalogSettingsForm({
                     type="checkbox"
                     name="catalogPlacements"
                     value={placement}
-                    defaultChecked={
-                      (
-                        draft?.catalogPlacements ?? settings?.catalogPlacements
-                      )?.includes(placement) ?? true
-                    }
+                    defaultChecked={catalogPlacements.includes(placement)}
                   />
                   {placement}
                 </label>

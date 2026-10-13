@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
@@ -9,6 +10,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { YouTubeEmbed } from "@/features/site/components/youtube-embed";
 import { copy, isLocale, locales } from "@/lib/i18n";
 import { prisma } from "@/backend/prisma";
+import { asStringArray } from "@/lib/json";
 
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 const COMPANY_FILM_URL = "https://youtu.be/bwxw2O6NMs0?si=T2BPqraQGgzgCl3N";
@@ -194,6 +196,7 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]">): Promise<Metadata> {
+  await connection();
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const page = await prisma.page.findFirst({
@@ -211,6 +214,7 @@ export async function generateMetadata({
 export const instant = false;
 
 async function getHomeContent(locale: LocaleCode) {
+  await connection();
   const [page, settings, products, socialProof] = await Promise.all([
     prisma.page.findFirst({
       where: { slug: "home", status: "PUBLISHED" },
@@ -246,7 +250,9 @@ export default async function LocalizedHome({
   const body = translation?.body || t.body;
   const showCatalog =
     settings?.catalogOn !== false &&
-    (settings?.catalogPlacements.includes("home") ?? true);
+    (settings
+      ? asStringArray(settings.catalogPlacements).includes("home")
+      : true);
   const catalogUrl = settings?.catalogUrl || DEFAULT_CATALOG_URL;
   const catalogLabel =
     locale === "id"

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/backend/prisma";
+import { asStringArray } from "@/lib/json";
 import { DUMMY_IMAGE, mediaAlt } from "@/features/site/lib/site-page-helpers";
 import type { Locale } from "@/lib/i18n";
 
@@ -88,7 +89,7 @@ export default async function ProductsPage({ locale }: { locale: Locale }) {
                   src={
                     productImage ||
                     media?.url ||
-                    product.gallery[0] ||
+                    asStringArray(product.gallery)[0] ||
                     DUMMY_IMAGE
                   }
                   alt={
