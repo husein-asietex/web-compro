@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { DashboardBreadcrumb } from "@/features/admin/components/dashboard-breadcrumb";
 
 export const instant = false;
 
@@ -72,64 +73,63 @@ export default async function PageEditor({
   const canPublish = user.role === "ADMIN";
 
   return (
-    <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
+    <section className="">
+      <DashboardBreadcrumb
+        items={[
+          { label: "Content", href: "/dashboard/content" },
+          { label: `Edit ${slug}` },
+        ]}
+      />
       <header className="mx-auto flex max-w-4xl items-center justify-between">
-        <Link href="/dashboard/content" className="text-sm underline">
-          ← Content library
-        </Link>
-
         <Badge variant={isPublished ? "default" : "outline"}>
           {page?.status ?? "NEW"}
         </Badge>
       </header>
-
-      <section className="mx-auto mt-14 max-w-4xl">
-        <h1 className="font-serif text-5xl capitalize">Edit {slug}</h1>
-        <p className="mt-3 text-muted-foreground">
-          Draft tersimpan terpisah. Konten publik tidak berubah sampai ADMIN
-          menekan publish.
+      <h1 className="font-serif text-5xl capitalize">Edit {slug}</h1>
+      <p className="mt-3 text-muted-foreground">
+        Draft tersimpan terpisah. Konten publik tidak berubah sampai ADMIN
+        menekan publish.
+      </p>
+      {query.error === "incomplete" && (
+        <p
+          role="alert"
+          className="mt-4 rounded-xl bg-red-50 p-4 text-sm text-red-800"
+        >
+          Isi judul dan body untuk ketiga bahasa sebelum publish.
         </p>
-        {query.error === "incomplete" && (
-          <p
-            role="alert"
-            className="mt-4 rounded-xl bg-red-50 p-4 text-sm text-red-800"
-          >
-            Isi judul dan body untuk ketiga bahasa sebelum publish.
-          </p>
-        )}
+      )}
 
-        <form action={savePageAction} className="mt-10">
+      <form action={savePageAction} className="mt-10">
+        <input type="hidden" name="slug" value={slug} />
+
+        <FieldGroup>
+          {locales.map((locale) => {
+            const translation = findTranslation(locale);
+
+            return (
+              <LocaleFieldset
+                key={locale}
+                locale={locale}
+                title={translation?.title ?? ""}
+                body={translation?.body ?? ""}
+              />
+            );
+          })}
+
+          <div className="flex flex-wrap gap-3">
+            <Button type="submit">Save draft</Button>
+          </div>
+        </FieldGroup>
+      </form>
+
+      {canPublish && (
+        <form action={publishPageAction} className="mt-3">
           <input type="hidden" name="slug" value={slug} />
-
-          <FieldGroup>
-            {locales.map((locale) => {
-              const translation = findTranslation(locale);
-
-              return (
-                <LocaleFieldset
-                  key={locale}
-                  locale={locale}
-                  title={translation?.title ?? ""}
-                  body={translation?.body ?? ""}
-                />
-              );
-            })}
-
-            <div className="flex flex-wrap gap-3">
-              <Button type="submit">Save draft</Button>
-            </div>
-          </FieldGroup>
+          <Button variant="outline" type="submit">
+            Publish this page
+          </Button>
         </form>
-
-        {canPublish && (
-          <form action={publishPageAction} className="mt-3">
-            <input type="hidden" name="slug" value={slug} />
-            <Button variant="outline" type="submit">
-              Publish this page
-            </Button>
-          </form>
-        )}
-      </section>
-    </main>
+      )}
+    </section>
   );
 }

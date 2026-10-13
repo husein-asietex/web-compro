@@ -25,15 +25,15 @@ const productsHeroCopy = {
 } as const;
 
 const productImages: Record<string, string> = {
-  spinning: "/divisions/1-spinning.png",
-  twisting: "/divisions/2-twisting.png",
-  knitting: "/divisions/3-knitting.png",
-  weaving: "/divisions/4-weaving.png",
-  dyeing: "/divisions/5-dyeing.png",
-  "yarn-dyeing": "/divisions/6-yarn-dyeing.png",
-  garment: "/divisions/7-garment.png",
-  printing: "/divisions/8-printing.png",
-  finishing: "/divisions/9-finishing.png",
+  spinning: "/products/1-spinning.JPG",
+  twisting: "/products/IMG_3588.JPG",
+  knitting: "/products/3-knitting.JPG",
+  weaving: "/products/4-weaving-1.JPG",
+  dyeing: "/products/IMG_4017.JPG",
+  "yarn-dyeing": "/products/IMG_3726.JPG",
+  garment: "/products/IMG_3025.JPG",
+  printing: "/products/IMG_3063.JPG",
+  finishing: "/products/IMG_3548.JPG",
 };
 
 export default async function ProductsPage({ locale }: { locale: Locale }) {
@@ -64,9 +64,14 @@ export default async function ProductsPage({ locale }: { locale: Locale }) {
       <h1 className="mt-7 max-w-4xl font-serif text-6xl leading-none md:text-7xl">
         {translation?.title || hero.title}
       </h1>
+      {translation?.body && (
+        <p className="mt-6 max-w-3xl whitespace-pre-line text-lg leading-8 text-muted-foreground">
+          {translation.body}
+        </p>
+      )}
 
       {/* Product capability grid */}
-      <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-14 grid grid-cols-2 gap-5 lg:grid-cols-3">
         {products.map((product) => {
           const translationText = product.translations[0];
           const media = product.media[0];
@@ -76,7 +81,7 @@ export default async function ProductsPage({ locale }: { locale: Locale }) {
             <Link
               key={product.id}
               href={`/${locale}/products/${product.slug}`}
-              className="group overflow-hidden rounded-3xl border border-border-subtle bg-card"
+              className="group overflow-hidden rounded-2xl border border-border-subtle bg-card"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-surface-subtle">
                 <Image
@@ -90,7 +95,7 @@ export default async function ProductsPage({ locale }: { locale: Locale }) {
                     media ? mediaAlt(locale, media) : `${product.slug} product`
                   }
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
               </div>

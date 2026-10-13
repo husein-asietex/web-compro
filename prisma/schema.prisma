@@ -52,6 +52,14 @@ model SiteSetting {
   updatedAt          DateTime @updatedAt
 }
 
+model ContentCollection {
+  key       String        @id
+  data      Json
+  draft     Json?
+  status    ContentStatus @default(DRAFT)
+  updatedAt DateTime      @updatedAt
+}
+
 model Page {
   id           String        @id @default(cuid())
   slug         String        @unique
@@ -107,21 +115,6 @@ model MediaAsset {
   page       Page?     @relation(fields: [pageId], references: [id], onDelete: SetNull)
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   createdAt  DateTime  @default(now())
-}
-
-model NetworkLocation {
-  id        String        @id @default(cuid())
-  slug      String        @unique
-  name      String
-  country   String
-  city      String
-  address   String?
-  kind      String
-  order     Int           @default(0)
-  status    ContentStatus @default(DRAFT)
-  draft     Json?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
 }
 
 model Revision {

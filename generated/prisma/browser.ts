@@ -33,6 +33,11 @@ export type Session = Prisma.SessionModel
  */
 export type SiteSetting = Prisma.SiteSettingModel
 /**
+ * Model ContentCollection
+ * 
+ */
+export type ContentCollection = Prisma.ContentCollectionModel
+/**
  * Model Page
  * 
  */
@@ -52,11 +57,6 @@ export type Translation = Prisma.TranslationModel
  * 
  */
 export type MediaAsset = Prisma.MediaAssetModel
-/**
- * Model NetworkLocation
- * 
- */
-export type NetworkLocation = Prisma.NetworkLocationModel
 /**
  * Model Revision
  * 

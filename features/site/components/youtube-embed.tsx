@@ -35,7 +35,7 @@ export function YouTubeEmbed({
 
   return (
     /* Video embed */
-    <div className="aspect-video overflow-hidden rounded-3xl bg-primary text-primary-foreground">
+    <div className="aspect-video overflow-hidden rounded-2xl bg-primary text-primary-foreground">
       {playing ? (
         <iframe
           className="size-full"

@@ -1,6 +1,9 @@
-import { PrismaClient } from "../generated/prisma/client";
+import "dotenv/config";
+import { Prisma, PrismaClient } from "../generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { scryptSync } from "node:crypto";
+
+import { ABOUT_CONTENT } from "./seed-data/about";
 
 const prisma = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
@@ -52,8 +55,8 @@ const PAGE_COPY: Record<
 > = {
   en: {
     about: {
-      title: "A connected textile partner, built for continuity.",
-      body: "Asietex brings people, facilities, and expertise together to support a dependable journey from yarn to finished fabric.",
+      title: "Company profile",
+      body: "We has been a constant & reassuring presence during the entire history of our business. Asietex origins can be traced back to 1985, since then we evolved to become a recognized and important presence on all domestic and international markets. Asietex is an integrated textile company engaged in the manufacture of textile products from yarn to fabrics. 85% of the fabrics topline comes from cotton/ rayon fabrics, the balance comes from polyester. The factory equiped with a sophisticated machineries, a combination of Asian & European technology which has given us a competitive advantage and our workforce is well trained. With these, we ensures the most effective and efficient use of resources. We are strongly competitive and proud to delivery a variety of high quality products to meet the demand of the global market.",
     },
     products: {
       title: "Nine products. One connected production chain.",
@@ -70,8 +73,8 @@ const PAGE_COPY: Record<
   },
   id: {
     about: {
-      title: "Mitra tekstil terhubung yang dibangun untuk kesinambungan.",
-      body: "Asietex menyatukan manusia, fasilitas, dan keahlian untuk mendukung perjalanan yang andal dari benang hingga kain jadi.",
+      title: "Profil perusahaan",
+      body: "Kami telah menjadi sosok yang konsisten dan dapat diandalkan sepanjang perjalanan bisnis kami. Asietex bermula pada tahun 1985, dan sejak saat itu kami terus berkembang hingga menjadi pemain penting yang diakui di pasar domestik maupun internasional. Asietex adalah perusahaan tekstil terintegrasi yang bergerak di bidang manufaktur produk tekstil, mulai dari tahap pemintalan benang hingga produksi kain. Sebanyak 85% dari pendapatan penjualan kain kami berasal dari bahan katun/rayon, sementara sisanya berasal dari bahan poliester. Pabrik kami dilengkapi dengan mesin-mesin canggih perpaduan teknologi Asia dan Eropa yang memberikan kami keunggulan kompetitif, serta didukung oleh tenaga kerja yang terlatih dengan baik. Berkat hal-hal tersebut, kami dapat memastikan penggunaan sumber daya yang paling efektif dan efisien. Kami memiliki daya saing yang kuat dan bangga dapat menghadirkan beragam produk berkualitas tinggi untuk memenuhi permintaan pasar global.",
     },
     products: {
       title: "Sembilan produk. Satu rantai produksi yang terhubung.",
@@ -88,8 +91,8 @@ const PAGE_COPY: Record<
   },
   pt: {
     about: {
-      title: "Um parceiro têxtil ligado, construído para dar continuidade.",
-      body: "A Asietex reúne pessoas, instalações e conhecimento para apoiar uma jornada fiável, do fio ao tecido acabado.",
+      title: "Perfil da empresa",
+      body: "A Asietex tem sido uma presença constante e tranquilizadora ao longo de toda a história da nossa empresa. As origens da Asietex remontam a 1985 e, desde então, evoluímos para nos tornarmos uma presença reconhecida e importante em todos os mercados nacionais e internacionais. A Asietex é uma empresa têxtil integrada que opera no fabrico de produtos têxteis, desde o fio ao tecido. 85% da nossa produção de tecidos é composta por algodão/rayon, e o restante por poliéster. A fábrica está equipada com maquinaria sofisticada, uma combinação de tecnologias asiáticas e europeias que nos confere uma vantagem competitiva, e a nossa equipa é altamente qualificada. Com isto, garantimos a utilização mais eficaz e eficiente dos recursos. Somos altamente competitivos e orgulhamo-nos de oferecer uma variedade de produtos de alta qualidade para satisfazer a procura do mercado global.",
     },
     products: {
       title: "Nove produtos. Uma cadeia de produção ligada.",
@@ -105,6 +108,373 @@ const PAGE_COPY: Record<
     },
   },
 };
+
+const PARTNERS = [
+  { name: "Adidas", src: "/partners/adidas.png" },
+  { name: "New Balance", src: "/partners/new-balance.png" },
+  { name: "Nike", src: "/partners/nike.png" },
+  { name: "Puma", src: "/partners/puma.png" },
+  { name: "Reebok", src: "/partners/reebok.png" },
+  { name: "Umbro", src: "/partners/umbro.png" },
+];
+
+const CONTENT_COLLECTIONS = [
+  {
+    key: "about-company",
+    data: ABOUT_CONTENT,
+  },
+  {
+    key: "home-social-proof",
+    data: {
+      en: {
+        partners: PARTNERS,
+        testimonials: [
+          {
+            quote:
+              "Clear communication at every stage gives our team more confidence when planning production.",
+            attribution: "Sample buyer · Europe",
+          },
+          {
+            quote:
+              "Having one partner from material selection to finished fabric makes each decision easier to follow.",
+            attribution: "Sample buyer · Asia",
+          },
+        ],
+      },
+      id: {
+        partners: PARTNERS,
+        testimonials: [
+          {
+            quote:
+              "Komunikasi yang jelas di setiap tahap membuat tim kami lebih percaya diri saat merencanakan produksi.",
+            attribution: "Contoh buyer · Eropa",
+          },
+          {
+            quote:
+              "Memiliki satu mitra sejak pemilihan material hingga kain jadi membuat setiap keputusan lebih mudah diikuti.",
+            attribution: "Contoh buyer · Asia",
+          },
+        ],
+      },
+      pt: {
+        partners: PARTNERS,
+        testimonials: [
+          {
+            quote:
+              "A comunicação consistente em cada etapa da produção facilita o planeamento da nossa equipa.",
+            attribution: "Comprador de exemplo · Europa",
+          },
+          {
+            quote:
+              "Um único parceiro responsável dá-nos mais clareza desde a seleção do material até ao tecido acabado.",
+            attribution: "Comprador de exemplo · Ásia",
+          },
+        ],
+      },
+    },
+  },
+  {
+    key: "career-openings",
+    data: {
+      en: [
+        {
+          role: "Production Planner",
+          location: "Jakarta",
+          type: "Full time",
+          postedAt: "Posted 2 days ago",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Quality Assurance Specialist",
+          location: "Cikande Factory",
+          type: "Full time",
+          postedAt: "Posted 5 days ago",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Textile Process Engineer",
+          location: "Cikampek Factory",
+          type: "Full time",
+          postedAt: "Posted 1 week ago",
+          applicationUrl: "https://www.google.com",
+        },
+      ],
+      id: [
+        {
+          role: "Perencana Produksi",
+          location: "Jakarta",
+          type: "Penuh waktu",
+          postedAt: "Diposting 2 hari lalu",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Spesialis Quality Assurance",
+          location: "Pabrik Cikande",
+          type: "Penuh waktu",
+          postedAt: "Diposting 5 hari lalu",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Engineer Proses Tekstil",
+          location: "Pabrik Cikampek",
+          type: "Penuh waktu",
+          postedAt: "Diposting 1 minggu lalu",
+          applicationUrl: "https://www.google.com",
+        },
+      ],
+      pt: [
+        {
+          role: "Planeador de Produção",
+          location: "Jacarta",
+          type: "Tempo inteiro",
+          postedAt: "Publicado há 2 dias",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Especialista de Qualidade",
+          location: "Operações Fabris de Cikande",
+          type: "Tempo inteiro",
+          postedAt: "Publicado há 5 dias",
+          applicationUrl: "https://www.google.com",
+        },
+        {
+          role: "Engenheiro de Processos Têxteis",
+          location: "Operações Fabris de Cikampek",
+          type: "Tempo inteiro",
+          postedAt: "Publicado há 1 semana",
+          applicationUrl: "https://www.google.com",
+        },
+      ],
+    },
+  },
+  {
+    key: "marketing-contacts",
+    data: {
+      en: [
+        {
+          name: "Maya Putri",
+          role: "Apparel & Uniform Marketing",
+          language: "Indonesian, English",
+          phone: "+62 812 0000 0101",
+          phoneHref: "+6281200000101",
+          email: "maya.putri@example.com",
+        },
+        {
+          name: "Rafi Pradana",
+          role: "Knits & Cotton Marketing",
+          language: "Indonesian, English, Malay",
+          phone: "+62 812 0000 0102",
+          phoneHref: "+6281200000102",
+          email: "rafi.pradana@example.com",
+        },
+        {
+          name: "Clara Wijaya",
+          role: "European Accounts",
+          language: "English, German, Indonesian",
+          phone: "+62 812 0000 0103",
+          phoneHref: "+6281200000103",
+          email: "clara.wijaya@example.com",
+        },
+        {
+          name: "Andi Kurniawan",
+          role: "Yarn & Spinning Marketing",
+          language: "Indonesian, English, Japanese",
+          phone: "+62 812 0000 0104",
+          phoneHref: "+6281200000104",
+          email: "andi.kurniawan@example.com",
+        },
+        {
+          name: "Sofia Martins",
+          role: "Portugal & Brazil Accounts",
+          language: "Portuguese, English, Spanish",
+          phone: "+62 812 0000 0105",
+          phoneHref: "+6281200000105",
+          email: "sofia.martins@example.com",
+        },
+        {
+          name: "Dimas Saputra",
+          role: "Dyeing & Finishing Marketing",
+          language: "Indonesian, English",
+          phone: "+62 812 0000 0106",
+          phoneHref: "+6281200000106",
+          email: "dimas.saputra@example.com",
+        },
+        {
+          name: "Kevin Lim",
+          role: "Regional Partnerships",
+          language: "English, Mandarin, Indonesian",
+          phone: "+62 812 0000 0107",
+          phoneHref: "+6281200000107",
+          email: "kevin.lim@example.com",
+        },
+        {
+          name: "Bima Santoso",
+          role: "Sustainable Textiles Marketing",
+          language: "Indonesian, English, French",
+          phone: "+62 812 0000 0108",
+          phoneHref: "+6281200000108",
+          email: "bima.santoso@example.com",
+        },
+        {
+          name: "Elena Rossi",
+          role: "Fashion Brand Partnerships",
+          language: "Italian, English, Indonesian",
+          phone: "+62 812 0000 0109",
+          phoneHref: "+6281200000109",
+          email: "elena.rossi@example.com",
+        },
+      ],
+      id: [
+        {
+          name: "Maya Putri",
+          role: "Pemasaran Apparel & Seragam",
+          language: "Indonesia, Inggris",
+          phone: "+62 812 0000 0101",
+          phoneHref: "+6281200000101",
+          email: "maya.putri@example.com",
+        },
+        {
+          name: "Rafi Pradana",
+          role: "Pemasaran Rajut & Katun",
+          language: "Indonesia, Inggris, Melayu",
+          phone: "+62 812 0000 0102",
+          phoneHref: "+6281200000102",
+          email: "rafi.pradana@example.com",
+        },
+        {
+          name: "Clara Wijaya",
+          role: "Akun Eropa",
+          language: "Inggris, Jerman, Indonesia",
+          phone: "+62 812 0000 0103",
+          phoneHref: "+6281200000103",
+          email: "clara.wijaya@example.com",
+        },
+        {
+          name: "Andi Kurniawan",
+          role: "Pemasaran Benang & Pemintalan",
+          language: "Indonesia, Inggris, Jepang",
+          phone: "+62 812 0000 0104",
+          phoneHref: "+6281200000104",
+          email: "andi.kurniawan@example.com",
+        },
+        {
+          name: "Sofia Martins",
+          role: "Akun Portugal & Brasil",
+          language: "Portugis, Inggris, Spanyol",
+          phone: "+62 812 0000 0105",
+          phoneHref: "+6281200000105",
+          email: "sofia.martins@example.com",
+        },
+        {
+          name: "Dimas Saputra",
+          role: "Pemasaran Pencelupan & Finishing",
+          language: "Indonesia, Inggris",
+          phone: "+62 812 0000 0106",
+          phoneHref: "+6281200000106",
+          email: "dimas.saputra@example.com",
+        },
+        {
+          name: "Kevin Lim",
+          role: "Kemitraan Regional",
+          language: "Inggris, Mandarin, Indonesia",
+          phone: "+62 812 0000 0107",
+          phoneHref: "+6281200000107",
+          email: "kevin.lim@example.com",
+        },
+        {
+          name: "Bima Santoso",
+          role: "Pemasaran Tekstil Berkelanjutan",
+          language: "Indonesia, Inggris, Prancis",
+          phone: "+62 812 0000 0108",
+          phoneHref: "+6281200000108",
+          email: "bima.santoso@example.com",
+        },
+        {
+          name: "Elena Rossi",
+          role: "Kemitraan Merek Fashion",
+          language: "Italia, Inggris, Indonesia",
+          phone: "+62 812 0000 0109",
+          phoneHref: "+6281200000109",
+          email: "elena.rossi@example.com",
+        },
+      ],
+      pt: [
+        {
+          name: "Maya Putri",
+          role: "Marketing de Vestuário e Uniformes",
+          language: "Indonésio, Inglês",
+          phone: "+62 812 0000 0101",
+          phoneHref: "+6281200000101",
+          email: "maya.putri@example.com",
+        },
+        {
+          name: "Rafi Pradana",
+          role: "Marketing de Malhas e Algodão",
+          language: "Indonésio, Inglês, Malaio",
+          phone: "+62 812 0000 0102",
+          phoneHref: "+6281200000102",
+          email: "rafi.pradana@example.com",
+        },
+        {
+          name: "Clara Wijaya",
+          role: "Contas Europeias",
+          language: "Inglês, Alemão, Indonésio",
+          phone: "+62 812 0000 0103",
+          phoneHref: "+6281200000103",
+          email: "clara.wijaya@example.com",
+        },
+        {
+          name: "Andi Kurniawan",
+          role: "Marketing de Fios e Fiação",
+          language: "Indonésio, Inglês, Japonês",
+          phone: "+62 812 0000 0104",
+          phoneHref: "+6281200000104",
+          email: "andi.kurniawan@example.com",
+        },
+        {
+          name: "Sofia Martins",
+          role: "Contas de Portugal e Brasil",
+          language: "Português, Inglês, Espanhol",
+          phone: "+62 812 0000 0105",
+          phoneHref: "+6281200000105",
+          email: "sofia.martins@example.com",
+        },
+        {
+          name: "Dimas Saputra",
+          role: "Marketing de Tingimento e Acabamento",
+          language: "Indonésio, Inglês",
+          phone: "+62 812 0000 0106",
+          phoneHref: "+6281200000106",
+          email: "dimas.saputra@example.com",
+        },
+        {
+          name: "Kevin Lim",
+          role: "Parcerias Regionais",
+          language: "Inglês, Mandarim, Indonésio",
+          phone: "+62 812 0000 0107",
+          phoneHref: "+6281200000107",
+          email: "kevin.lim@example.com",
+        },
+        {
+          name: "Bima Santoso",
+          role: "Marketing de Têxteis Sustentáveis",
+          language: "Indonésio, Inglês, Francês",
+          phone: "+62 812 0000 0108",
+          phoneHref: "+6281200000108",
+          email: "bima.santoso@example.com",
+        },
+        {
+          name: "Elena Rossi",
+          role: "Parcerias com Marcas de Moda",
+          language: "Italiano, Inglês, Indonésio",
+          phone: "+62 812 0000 0109",
+          phoneHref: "+6281200000109",
+          email: "elena.rossi@example.com",
+        },
+      ],
+    },
+  },
+] as const;
 
 // ---------------------------------------------------------------------------
 // Helper
@@ -199,6 +569,24 @@ async function seedPages() {
   }
 }
 
+async function seedContentCollections() {
+  for (const collection of CONTENT_COLLECTIONS) {
+    await prisma.contentCollection.upsert({
+      where: { key: collection.key },
+      create: {
+        key: collection.key,
+        data: collection.data,
+        status: "PUBLISHED",
+      },
+      update: {
+        data: collection.data,
+        status: "PUBLISHED",
+        draft: Prisma.DbNull,
+      },
+    });
+  }
+}
+
 async function seedProducts() {
   for (const [index, slug] of PRODUCT_SLUGS.entries()) {
     const productData = {
@@ -271,6 +659,7 @@ async function main() {
   await seedUser("Asietex Staff", staffEmail, staffPassword, "STAFF");
   await seedPages();
   await seedProducts();
+  await seedContentCollections();
 }
 
 main()

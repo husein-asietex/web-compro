@@ -318,10 +318,6 @@ export type PageNullableScalarRelationFilter = {
   isNot?: Prisma.PageWhereInput | null
 }
 
-export type EnumContentStatusFieldUpdateOperationsInput = {
-  set?: $Enums.ContentStatus
-}
-
 export type PageCreateNestedOneWithoutTranslationsInput = {
   create?: Prisma.XOR<Prisma.PageCreateWithoutTranslationsInput, Prisma.PageUncheckedCreateWithoutTranslationsInput>
   connectOrCreate?: Prisma.PageCreateOrConnectWithoutTranslationsInput

@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { DashboardBreadcrumb } from "@/features/admin/components/dashboard-breadcrumb";
 export const instant = false;
 type ProductDraft = {
   capacity?: string;
@@ -42,14 +43,18 @@ export default async function ProductEditor({
   return (
     <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
       <header className="mx-auto flex max-w-4xl items-center justify-between">
-        <Link href="/dashboard/content" className="text-sm underline">
-          ← Content library
-        </Link>
         <Badge variant={product.status === "PUBLISHED" ? "default" : "outline"}>
           {product.status}
         </Badge>
       </header>
       <section className="mx-auto mt-14 max-w-4xl">
+        <DashboardBreadcrumb
+          items={[
+            { label: "Content", href: "/dashboard/content" },
+            { label: "Products", href: "/dashboard/content" },
+            { label: slug.replaceAll("-", " ") },
+          ]}
+        />
         <h1 className="font-serif text-5xl capitalize">
           {slug.replace("-", " ")}
         </h1>

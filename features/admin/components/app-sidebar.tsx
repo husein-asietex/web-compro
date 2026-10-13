@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogOutIcon } from "lucide-react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Home01Icon,
@@ -22,69 +24,115 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { logoutAction } from "@/features/auth/actions/auth";
 
-// Urutan array = urutan tampil di sidebar.
 // `adminOnly: true` -> hanya muncul untuk ADMIN.
-const NAV_LINKS = [
-  { href: "/dashboard", label: "Overview", icon: Home01Icon },
-  { href: "/dashboard/content", label: "Content", icon: Settings02Icon },
+const NAV_GROUPS = [
   {
-    href: "/dashboard/media",
-    label: "Media",
-    icon: Image01Icon,
-    adminOnly: true,
+    label: "Admin",
+    links: [
+      { href: "/dashboard", label: "Overview", icon: Home01Icon },
+      {
+        href: "/dashboard/users",
+        label: "People",
+        icon: UserAccountIcon,
+        adminOnly: true,
+      },
+      {
+        href: "/dashboard/account",
+        label: "My account",
+        icon: UserAccountIcon,
+      },
+    ],
   },
   {
-    href: "/dashboard/users",
-    label: "People",
-    icon: UserAccountIcon,
-    adminOnly: true,
+    label: "CMS",
+    links: [
+      { href: "/dashboard/content", label: "Content", icon: Settings02Icon },
+      {
+        href: "/dashboard/media",
+        label: "Media",
+        icon: Image01Icon,
+        adminOnly: true,
+      },
+    ],
   },
-  { href: "/dashboard/account", label: "My account", icon: UserAccountIcon },
-];
+] as const;
 
 export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
-  const items = NAV_LINKS.filter((link) => isAdmin || !link.adminOnly);
 
   return (
     <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>
         <Link
           href="/dashboard"
-          className="flex items-center gap-2 px-2 py-2 font-serif text-xl"
+          className="flex items-center gap-2 overflow-hidden px-2 py-2 font-serif text-xl group-data-[collapsible=icon]:justify-center"
         >
-          Asietex<span className="text-accent">.</span>
+          <Image
+            src="/LOGOASIETEX.png"
+            alt="Asietex"
+            width={28}
+            height={28}
+            className="size-7 shrink-0 object-contain"
+          />
+          <span className="group-data-[collapsible=icon]:hidden">Asietex</span>
         </Link>
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>CMS workspace</SidebarGroupLabel>
+        {NAV_GROUPS.map((group) => {
+          const items = group.links.filter(
+            (link) => isAdmin || !("adminOnly" in link && link.adminOnly),
+          );
 
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton
-                    isActive={pathname === item.href}
-                    render={<Link href={item.href} />}
-                  >
-                    <HugeiconsIcon icon={item.icon} />
-                    <span>{item.label}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          if (items.length === 0) return null;
+
+          return (
+            <SidebarGroup key={group.label}>
+              <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {items.map((item) => (
+                    <SidebarMenuItem key={item.href}>
+                      <SidebarMenuButton
+                        isActive={pathname === item.href}
+                        render={<Link href={item.href} />}
+                      >
+                        <HugeiconsIcon icon={item.icon} />
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
       </SidebarContent>
 
       <SidebarFooter>
-        <p className="px-2 text-xs text-muted-foreground">
+        <p className="px-2 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
           {isAdmin ? "Admin workspace" : "Staff workspace"}
         </p>
+        <form action={logoutAction} className="w-full">
+          <Button
+            type="submit"
+            variant="outline"
+            aria-label="Sign out"
+            className="w-full justify-start gap-2 group-data-[collapsible=icon]:justify-center"
+          >
+            <LogOutIcon aria-hidden="true" />
+            <span className="group-data-[collapsible=icon]:hidden">
+              Sign out
+            </span>
+          </Button>
+        </form>
       </SidebarFooter>
+
+      {/* tombol sign out disini */}
 
       <SidebarRail />
     </Sidebar>

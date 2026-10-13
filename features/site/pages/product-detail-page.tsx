@@ -37,15 +37,15 @@ const productCopy = {
 } as const;
 
 const productImages: Record<string, string> = {
-  spinning: "/divisions/1-spinning.png",
-  twisting: "/divisions/2-twisting.png",
-  knitting: "/divisions/3-knitting.png",
-  weaving: "/divisions/4-weaving.png",
-  dyeing: "/divisions/5-dyeing.png",
-  "yarn-dyeing": "/divisions/6-yarn-dyeing.png",
-  garment: "/divisions/7-garment.png",
-  printing: "/divisions/8-printing.png",
-  finishing: "/divisions/9-finishing.png",
+  spinning: "/products/1-spinning.JPG",
+  twisting: "/products/IMG_3588.JPG",
+  knitting: "/products/3-knitting.JPG",
+  weaving: "/products/4-weaving-1.JPG",
+  dyeing: "/products/IMG_4017.JPG",
+  "yarn-dyeing": "/products/IMG_3726.JPG",
+  garment: "/products/IMG_3025.JPG",
+  printing: "/products/IMG_3063.JPG",
+  finishing: "/products/IMG_3548.JPG",
 };
 
 export default async function ProductDetailPage({
@@ -102,7 +102,7 @@ export default async function ProductDetailPage({
             {translation?.body}
           </p>
         </div>
-        <div className="relative aspect-[1.45] overflow-hidden rounded-[2rem] bg-surface-subtle shadow-[0_24px_70px_-35px_var(--shadow-soft)]">
+        <div className="relative aspect-[1.45] overflow-hidden rounded-2xl bg-surface-subtle shadow-[0_24px_70px_-35px_var(--shadow-soft)]">
           <Image
             src={heroImage}
             alt={`${product.slug} textile production`}
@@ -163,7 +163,7 @@ export default async function ProductDetailPage({
             return (
               <figure
                 key={`${url}-${index}`}
-                className="overflow-hidden rounded-[1.5rem] bg-card"
+                className="overflow-hidden rounded-2xl bg-card"
               >
                 <div className="relative aspect-[3/2]">
                   <Image

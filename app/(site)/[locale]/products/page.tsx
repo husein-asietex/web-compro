@@ -6,6 +6,8 @@ import { isLocale } from "@/lib/i18n";
 
 type Props = { params: Promise<{ locale: string }> };
 
+export const instant = false;
+
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   return getPageMetadata(locale, ["products"]);

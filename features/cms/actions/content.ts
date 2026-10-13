@@ -21,9 +21,16 @@ const PRODUCT_SLUGS = [
   "printing",
   "finishing",
 ] as const;
+const CONTENT_COLLECTIONS = [
+  "about-company",
+  "home-social-proof",
+  "career-openings",
+  "marketing-contacts",
+] as const;
 
 const pageSlugSchema = z.enum(PAGE_SLUGS);
 const productSlugSchema = z.enum(PRODUCT_SLUGS);
+const contentCollectionSchema = z.enum(CONTENT_COLLECTIONS);
 const requiredText = z.string().trim().min(1).max(10_000);
 const optionalUrl = z.union([z.literal(""), z.url().startsWith("https://")]);
 const translationValueSchema = z.object({
@@ -44,18 +51,6 @@ const productDraftSchema = z.object({
   videoId: optionalUrl,
   videoPt: optionalUrl,
   translations: translationDraftSchema,
-});
-const networkDraftSchema = z.object({
-  slug: z
-    .string()
-    .trim()
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  name: requiredText.max(120),
-  country: requiredText.max(80),
-  city: requiredText.max(80),
-  address: z.string().trim().max(300),
-  kind: requiredText.max(80),
-  order: z.coerce.number().int().min(0).max(999),
 });
 const catalogDraftSchema = z.object({
   catalogUrl: z.url().startsWith("https://"),
@@ -78,6 +73,17 @@ function getLines(formData: FormData, key: string) {
     .filter(Boolean);
 }
 
+function getJson(formData: FormData, key: string) {
+  try {
+    const value: unknown = JSON.parse(getText(formData, key));
+    return value && typeof value === "object"
+      ? (value as Prisma.InputJsonValue)
+      : null;
+  } catch {
+    return null;
+  }
+}
+
 function getTranslationFields(formData: FormData, locale: string) {
   return {
     title: getText(formData, `${locale}_title`),
@@ -98,6 +104,20 @@ function audit(
 function revalidatePublicPage(slug: (typeof PAGE_SLUGS)[number]) {
   for (const locale of locales) {
     revalidatePath(slug === "home" ? `/${locale}` : `/${locale}/${slug}`);
+  }
+}
+
+function revalidateContentCollection(
+  key: (typeof CONTENT_COLLECTIONS)[number],
+) {
+  for (const locale of locales) {
+    const path =
+      key === "home-social-proof"
+        ? `/${locale}`
+        : key === "about-company"
+          ? `/${locale}/about`
+          : `/${locale}/${key === "career-openings" ? "career" : "marketing-contact"}`;
+    revalidatePath(path);
   }
 }
 
@@ -348,68 +368,57 @@ export async function publishCatalogAction() {
   redirect("/dashboard/content?settings-published=1");
 }
 
-export async function saveNetworkLocationAction(formData: FormData) {
+export async function saveContentCollectionAction(formData: FormData) {
   const user = await requireUser();
-  const parsed = networkDraftSchema
-    .extend({ id: z.string().trim().optional() })
-    .safeParse({
-      id: getText(formData, "id") || undefined,
-      slug: getText(formData, "slug"),
-      name: getText(formData, "name"),
-      country: getText(formData, "country"),
-      city: getText(formData, "city"),
-      address: getText(formData, "address"),
-      kind: getText(formData, "kind"),
-      order: getText(formData, "order"),
-    });
+  const key = contentCollectionSchema.safeParse(getText(formData, "key"));
+  const draft = getJson(formData, "data");
 
-  if (!parsed.success) redirect("/dashboard/content/network?error=invalid");
-  const { id, address, ...data } = parsed.data;
+  if (!key.success || !draft) {
+    redirect("/dashboard/content?error=invalid-collection");
+  }
 
   await prisma.$transaction(async (tx) => {
-    const location = id
-      ? await tx.networkLocation.update({
-          where: { id },
-          data: { draft: { ...data, address } },
-        })
-      : await tx.networkLocation.create({
-          data: {
-            ...data,
-            address: address || null,
-            draft: { ...data, address },
-          },
-        });
-    await audit(tx, user.id, "network-location", location.id, "saved-draft");
+    const collection = await tx.contentCollection.upsert({
+      where: { key: key.data },
+      create: { key: key.data, data: draft, draft, status: "DRAFT" },
+      update: { draft },
+    });
+    await audit(
+      tx,
+      user.id,
+      "content-collection",
+      collection.key,
+      "saved-draft",
+    );
   });
 
-  redirect("/dashboard/content/network?saved=1");
+  redirect(`/dashboard/content/collections/${key.data}?saved=1`);
 }
 
-export async function publishNetworkLocationAction(formData: FormData) {
+export async function publishContentCollectionAction(formData: FormData) {
   const user = await requireUser(true);
-  const id = z.string().min(1).safeParse(getText(formData, "id"));
-  if (!id.success) redirect("/dashboard/content/network?error=invalid");
+  const key = contentCollectionSchema.safeParse(getText(formData, "key"));
+  if (!key.success) redirect("/dashboard/content?error=invalid-collection");
 
-  const location = await prisma.networkLocation.findUnique({
-    where: { id: id.data },
+  const collection = await prisma.contentCollection.findUnique({
+    where: { key: key.data },
   });
-  if (!location) redirect("/dashboard/content/network?error=invalid");
-  const draft = networkDraftSchema.safeParse(location.draft);
+  if (!collection?.draft) {
+    redirect(`/dashboard/content/collections/${key.data}?error=incomplete`);
+  }
 
   await prisma.$transaction(async (tx) => {
-    await tx.networkLocation.update({
-      where: { id: id.data },
-      data: draft.success
-        ? {
-            ...draft.data,
-            address: draft.data.address || null,
-            status: "PUBLISHED",
-            draft: Prisma.DbNull,
-          }
-        : { status: "PUBLISHED", draft: Prisma.DbNull },
+    await tx.contentCollection.update({
+      where: { key: key.data },
+      data: {
+        data: collection.draft!,
+        draft: Prisma.DbNull,
+        status: "PUBLISHED",
+      },
     });
-    await audit(tx, user.id, "network-location", id.data, "published");
+    await audit(tx, user.id, "content-collection", key.data, "published");
   });
 
-  redirect("/dashboard/content/network?published=1");
+  revalidateContentCollection(key.data);
+  redirect(`/dashboard/content/collections/${key.data}?published=1`);
 }

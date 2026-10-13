@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "map:prepare": "node scripts/prepare-world-map.mjs",
     "prepare": "husky",
     "types:check": "tsc --noEmit"
   },
@@ -23,6 +24,7 @@
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",
     "lucide-react": "^1.52.0",
+    "maplibre-gl": "^6.14.0",
     "next": "16.4.0",
     "pg": "^8.23.1",
     "react": "19.3.0",
@@ -34,6 +36,7 @@
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
+    "@types/geojson": "^7946.0.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

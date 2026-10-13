@@ -400,11 +400,11 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   SiteSetting: 'SiteSetting',
+  ContentCollection: 'ContentCollection',
   Page: 'Page',
   Product: 'Product',
   Translation: 'Translation',
   MediaAsset: 'MediaAsset',
-  NetworkLocation: 'NetworkLocation',
   Revision: 'Revision'
 } as const
 
@@ -421,7 +421,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "siteSetting" | "page" | "product" | "translation" | "mediaAsset" | "networkLocation" | "revision"
+    modelProps: "user" | "session" | "siteSetting" | "contentCollection" | "page" | "product" | "translation" | "mediaAsset" | "revision"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -644,6 +644,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SiteSettingCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SiteSettingCountAggregateOutputType> | number
+        }
+      }
+    }
+    ContentCollection: {
+      payload: Prisma.$ContentCollectionPayload<ExtArgs>
+      fields: Prisma.ContentCollectionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContentCollectionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContentCollectionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        findFirst: {
+          args: Prisma.ContentCollectionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContentCollectionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        findMany: {
+          args: Prisma.ContentCollectionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>[]
+        }
+        create: {
+          args: Prisma.ContentCollectionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        createMany: {
+          args: Prisma.ContentCollectionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContentCollectionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>[]
+        }
+        delete: {
+          args: Prisma.ContentCollectionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        update: {
+          args: Prisma.ContentCollectionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ContentCollectionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContentCollectionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContentCollectionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ContentCollectionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentCollectionPayload>
+        }
+        aggregate: {
+          args: Prisma.ContentCollectionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContentCollection>
+        }
+        groupBy: {
+          args: Prisma.ContentCollectionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentCollectionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContentCollectionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentCollectionCountAggregateOutputType> | number
         }
       }
     }
@@ -943,80 +1017,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    NetworkLocation: {
-      payload: Prisma.$NetworkLocationPayload<ExtArgs>
-      fields: Prisma.NetworkLocationFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.NetworkLocationFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.NetworkLocationFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        findFirst: {
-          args: Prisma.NetworkLocationFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.NetworkLocationFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        findMany: {
-          args: Prisma.NetworkLocationFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
-        }
-        create: {
-          args: Prisma.NetworkLocationCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        createMany: {
-          args: Prisma.NetworkLocationCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.NetworkLocationCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
-        }
-        delete: {
-          args: Prisma.NetworkLocationDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        update: {
-          args: Prisma.NetworkLocationUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        deleteMany: {
-          args: Prisma.NetworkLocationDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.NetworkLocationUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.NetworkLocationUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>[]
-        }
-        upsert: {
-          args: Prisma.NetworkLocationUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$NetworkLocationPayload>
-        }
-        aggregate: {
-          args: Prisma.NetworkLocationAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateNetworkLocation>
-        }
-        groupBy: {
-          args: Prisma.NetworkLocationGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NetworkLocationGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.NetworkLocationCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.NetworkLocationCountAggregateOutputType> | number
-        }
-      }
-    }
     Revision: {
       payload: Prisma.$RevisionPayload<ExtArgs>
       fields: Prisma.RevisionFieldRefs
@@ -1171,6 +1171,17 @@ export const SiteSettingScalarFieldEnum = {
 export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
 
 
+export const ContentCollectionScalarFieldEnum = {
+  key: 'key',
+  data: 'data',
+  draft: 'draft',
+  status: 'status',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContentCollectionScalarFieldEnum = (typeof ContentCollectionScalarFieldEnum)[keyof typeof ContentCollectionScalarFieldEnum]
+
+
 export const PageScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -1229,24 +1240,6 @@ export const MediaAssetScalarFieldEnum = {
 export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
 
 
-export const NetworkLocationScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  name: 'name',
-  country: 'country',
-  city: 'city',
-  address: 'address',
-  kind: 'kind',
-  order: 'order',
-  status: 'status',
-  draft: 'draft',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NetworkLocationScalarFieldEnum = (typeof NetworkLocationScalarFieldEnum)[keyof typeof NetworkLocationScalarFieldEnum]
-
-
 export const RevisionScalarFieldEnum = {
   id: 'id',
   entity: 'entity',
@@ -1273,6 +1266,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1564,11 +1564,11 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   siteSetting?: Prisma.SiteSettingOmit
+  contentCollection?: Prisma.ContentCollectionOmit
   page?: Prisma.PageOmit
   product?: Prisma.ProductOmit
   translation?: Prisma.TranslationOmit
   mediaAsset?: Prisma.MediaAssetOmit
-  networkLocation?: Prisma.NetworkLocationOmit
   revision?: Prisma.RevisionOmit
 }
 

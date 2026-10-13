@@ -6,6 +6,8 @@ import { isLocale } from "@/lib/i18n";
 
 type Props = { params: Promise<{ locale: string }> };
 
+export const instant = false;
+
 const metadata = {
   en: {
     title: "Marketing Contacts",

@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n";
 import { Message01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { prisma } from "@/backend/prisma";
 
 const pageCopy = {
   en: {
@@ -20,59 +21,39 @@ const pageCopy = {
   },
 } as const;
 
-const contacts = [
-  {
-    name: "Maya Hartono",
-    role: "Apparel & Uniform Marketing",
-    language: "Indonesian, English",
-    phone: "+62 812 0000 0101",
-    phoneHref: "+6281200000101",
-    email: "maya.hartono@example.com",
-  },
-  {
-    name: "Rafi Pradana",
-    role: "Knits & Cotton Marketing",
-    language: "Indonesia",
-    phone: "+62 812 0000 0102",
-    phoneHref: "+6281200000102",
-    email: "rafi.pradana@example.com",
-  },
-  {
-    name: "Elena Moretti",
-    role: "European Market Development",
-    language: "Italian, English",
-    phone: "+39 320 000 0103",
-    phoneHref: "+393200000103",
-    email: "elena.moretti@example.com",
-  },
-  {
-    name: "Tiago Duarte",
-    role: "Yarn & Fabric Marketing",
-    language: "Portuguese, English",
-    phone: "+351 910 000 104",
-    phoneHref: "+351910000104",
-    email: "tiago.duarte@example.com",
-  },
-  {
-    name: "Claire Martin",
-    role: "Woven & Finishing Marketing",
-    language: "French, English",
-    phone: "+33 6 00 00 01 05",
-    phoneHref: "+33600000105",
-    email: "claire.martin@example.com",
-  },
-  {
-    name: "Kusuma Wijaya",
-    role: "Strategic Accounts",
-    language: "Indonesian, English",
-    phone: "+62 812 0000 0106",
-    phoneHref: "+6281200000106",
-    email: "kusuma.wijaya@example.com",
-  },
-] as const;
+type MarketingContact = {
+  name: string;
+  role: string;
+  language: string;
+  phone: string;
+  phoneHref: string;
+  email: string;
+};
 
-export default function MarketingContactPage({ locale }: { locale: Locale }) {
+function getContacts(data: unknown, locale: Locale): MarketingContact[] {
+  if (!data || typeof data !== "object" || !(locale in data)) return [];
+  const contacts = (data as Record<string, unknown>)[locale];
+  if (!Array.isArray(contacts)) return [];
+  return contacts.filter(
+    (contact): contact is MarketingContact =>
+      Boolean(contact) &&
+      typeof contact === "object" &&
+      ["name", "role", "language", "phone", "phoneHref", "email"].every(
+        (key) => typeof (contact as Record<string, unknown>)[key] === "string",
+      ),
+  );
+}
+
+export default async function MarketingContactPage({
+  locale,
+}: {
+  locale: Locale;
+}) {
   const t = pageCopy[locale];
+  const collection = await prisma.contentCollection.findFirst({
+    where: { key: "marketing-contacts", status: "PUBLISHED" },
+  });
+  const contacts = getContacts(collection?.data, locale);
 
   return (
     /* Marketing contact page */

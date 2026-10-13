@@ -35,7 +35,7 @@ export default async function LocaleLayout({
         labels={copy[locale].nav}
         isAuthenticated={Boolean(user)}
       />
-      <div className="pt-[4.75rem] mb-20">{children}</div>
+      <div className="mb-20">{children}</div>
       <SiteFooter locale={locale} />
     </main>
   );

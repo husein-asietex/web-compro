@@ -54,11 +54,11 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   SiteSetting: 'SiteSetting',
+  ContentCollection: 'ContentCollection',
   Page: 'Page',
   Product: 'Product',
   Translation: 'Translation',
   MediaAsset: 'MediaAsset',
-  NetworkLocation: 'NetworkLocation',
   Revision: 'Revision'
 } as const
 
@@ -119,6 +119,17 @@ export const SiteSettingScalarFieldEnum = {
 export type SiteSettingScalarFieldEnum = (typeof SiteSettingScalarFieldEnum)[keyof typeof SiteSettingScalarFieldEnum]
 
 
+export const ContentCollectionScalarFieldEnum = {
+  key: 'key',
+  data: 'data',
+  draft: 'draft',
+  status: 'status',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContentCollectionScalarFieldEnum = (typeof ContentCollectionScalarFieldEnum)[keyof typeof ContentCollectionScalarFieldEnum]
+
+
 export const PageScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -177,24 +188,6 @@ export const MediaAssetScalarFieldEnum = {
 export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
 
 
-export const NetworkLocationScalarFieldEnum = {
-  id: 'id',
-  slug: 'slug',
-  name: 'name',
-  country: 'country',
-  city: 'city',
-  address: 'address',
-  kind: 'kind',
-  order: 'order',
-  status: 'status',
-  draft: 'draft',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type NetworkLocationScalarFieldEnum = (typeof NetworkLocationScalarFieldEnum)[keyof typeof NetworkLocationScalarFieldEnum]
-
-
 export const RevisionScalarFieldEnum = {
   id: 'id',
   entity: 'entity',
@@ -221,6 +214,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

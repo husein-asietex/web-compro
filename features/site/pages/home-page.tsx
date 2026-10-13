@@ -12,25 +12,10 @@ import { prisma } from "@/backend/prisma";
 
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 const COMPANY_FILM_URL = "https://youtu.be/bwxw2O6NMs0?si=T2BPqraQGgzgCl3N";
-const PARTNER_LOGOS = [
-  { name: "Adidas", src: "/partners/adidas.png" },
-  { name: "New Balance", src: "/partners/new-balance.png" },
-  { name: "Nike", src: "/partners/nike.png" },
-  { name: "Puma", src: "/partners/puma.png" },
-  { name: "Reebok", src: "/partners/reebok.png" },
-  { name: "Umbro", src: "/partners/umbro.png" },
-] as const;
+type Partner = { name: string; src: string };
+type Testimonial = { quote: string; attribution: string };
 
-const PARTNER_LOGOS_REVERSED_FLOW = [
-  PARTNER_LOGOS[3],
-  PARTNER_LOGOS[0],
-  PARTNER_LOGOS[5],
-  PARTNER_LOGOS[1],
-  PARTNER_LOGOS[4],
-  PARTNER_LOGOS[2],
-] as const;
-
-function PartnerLogo({ partner }: { partner: (typeof PARTNER_LOGOS)[number] }) {
+function PartnerLogo({ partner }: { partner: Partner }) {
   return (
     <div className="relative min-h-28 min-w-52 overflow-hidden border border-border-subtle bg-background px-8">
       <Image
@@ -45,6 +30,36 @@ function PartnerLogo({ partner }: { partner: (typeof PARTNER_LOGOS)[number] }) {
 }
 
 type LocaleCode = (typeof locales)[number];
+
+function getSocialProof(data: unknown, locale: LocaleCode) {
+  if (!data || typeof data !== "object" || !(locale in data)) {
+    return { partners: [] as Partner[], testimonials: [] as Testimonial[] };
+  }
+  const content = (data as Record<string, unknown>)[locale];
+  if (!content || typeof content !== "object") {
+    return { partners: [] as Partner[], testimonials: [] as Testimonial[] };
+  }
+  const value = content as Record<string, unknown>;
+  const partners = Array.isArray(value.partners)
+    ? value.partners.filter(
+        (item): item is Partner =>
+          Boolean(item) &&
+          typeof item === "object" &&
+          typeof (item as Record<string, unknown>).name === "string" &&
+          typeof (item as Record<string, unknown>).src === "string",
+      )
+    : [];
+  const testimonials = Array.isArray(value.testimonials)
+    ? value.testimonials.filter(
+        (item): item is Testimonial =>
+          Boolean(item) &&
+          typeof item === "object" &&
+          typeof (item as Record<string, unknown>).quote === "string" &&
+          typeof (item as Record<string, unknown>).attribution === "string",
+      )
+    : [];
+  return { partners, testimonials };
+}
 
 const homeCopy = {
   en: {
@@ -74,16 +89,6 @@ const homeCopy = {
     partnersBody:
       "Partner logos are shown here as placeholders until approved brand assets are available.",
     testimonialsTitle: "Clear communication makes production easier.",
-    testimonials: [
-      [
-        "Clear communication at every stage gives our team more confidence when planning production.",
-        "Sample buyer · Europe",
-      ],
-      [
-        "Having one partner from material selection to finished fabric makes each decision easier to follow.",
-        "Sample buyer · Asia",
-      ],
-    ],
     requestTitle: "Let’s talk about your next fabric order.",
     requestBody:
       "Share the fabric, composition and volume you have in mind. Our team will come back with samples and a quotation.",
@@ -123,16 +128,6 @@ const homeCopy = {
     partnersBody:
       "Logo mitra berikut merupakan placeholder sampai aset merek yang disetujui tersedia.",
     testimonialsTitle: "Komunikasi yang jelas membuat produksi lebih mudah.",
-    testimonials: [
-      [
-        "Komunikasi yang jelas di setiap tahap membuat tim kami lebih percaya diri saat merencanakan produksi.",
-        "Contoh buyer · Eropa",
-      ],
-      [
-        "Memiliki satu mitra sejak pemilihan material hingga kain jadi membuat setiap keputusan lebih mudah diikuti.",
-        "Contoh buyer · Asia",
-      ],
-    ],
     requestTitle: "Mari bicarakan kebutuhan kain Anda.",
     requestBody:
       "Ceritakan jenis kain, komposisi, dan volume yang Anda perlukan. Tim kami akan menyiapkan sampel dan penawaran harga.",
@@ -173,16 +168,6 @@ const homeCopy = {
     partnersBody:
       "As marcas abaixo são placeholders até serem fornecidos recursos de marca aprovados.",
     testimonialsTitle: "Como deve ser uma produção fiável.",
-    testimonials: [
-      [
-        "A comunicação consistente em cada etapa da produção facilita o planeamento da nossa equipa.",
-        "Comprador de exemplo · Europa",
-      ],
-      [
-        "Um único parceiro responsável dá-nos mais clareza desde a seleção do material até ao tecido acabado.",
-        "Comprador de exemplo · Ásia",
-      ],
-    ],
     requestTitle: "Solicite amostras ou um orçamento.",
     requestBody:
       "Indique o tecido, a composição e o volume de que precisa, e a nossa equipa prepara amostras e preços.",
@@ -226,7 +211,7 @@ export async function generateMetadata({
 export const instant = false;
 
 async function getHomeContent(locale: LocaleCode) {
-  const [page, settings, products] = await Promise.all([
+  const [page, settings, products, socialProof] = await Promise.all([
     prisma.page.findFirst({
       where: { slug: "home", status: "PUBLISHED" },
       include: { translations: { where: { locale } } },
@@ -237,8 +222,16 @@ async function getHomeContent(locale: LocaleCode) {
       orderBy: { order: "asc" },
       include: { translations: { where: { locale } } },
     }),
+    prisma.contentCollection.findFirst({
+      where: { key: "home-social-proof", status: "PUBLISHED" },
+    }),
   ]);
-  return { translation: page?.translations[0], settings, products };
+  return {
+    translation: page?.translations[0],
+    settings,
+    products,
+    socialProof,
+  };
 }
 
 export default async function LocalizedHome({
@@ -247,7 +240,8 @@ export default async function LocalizedHome({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = copy[locale];
-  const { translation, settings, products } = await getHomeContent(locale);
+  const { translation, settings, products, socialProof } =
+    await getHomeContent(locale);
   const title = translation?.title || t.hero;
   const body = translation?.body || t.body;
   const showCatalog =
@@ -261,15 +255,16 @@ export default async function LocalizedHome({
         ? settings?.catalogLabelPt || t.catalog
         : settings?.catalogLabelEn || t.catalog;
   const content = homeCopy[locale];
+  const { partners, testimonials } = getSocialProof(socialProof?.data, locale);
 
   return (
     <>
       {/* Hero: latar produksi terintegrasi, pesan utama, CTA, dan ringkasan skala. */}
-      <section className="-mt-[4.75rem]">
+      <section className="">
         {/* Home hero */}
         <div className="relative isolate min-h-[42rem] overflow-hidden bg-primary text-primary-foreground md:min-h-[46rem]">
           <Image
-            src="/home/integrated-textile-hero.png"
+            src="/home/IMG_3406.JPG"
             alt="Integrated textile production with yarn preparation, machinery, and fabric quality inspection"
             fill
             priority
@@ -362,31 +357,31 @@ export default async function LocalizedHome({
         </div>
       </section>
 
-      {/* Product catalog */}
-      <section className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-        <h2 className="mt-6 max-w-3xl font-serif text-5xl leading-none md:text-7xl">
+      {/* Products */}
+      <section className="mx-auto max-w-7xl px-5 py-12 md:px-10 md:py-24">
+        <h2 className="mt-4 max-w-3xl font-serif text-4xl leading-none md:mt-6 md:text-7xl">
           {content.productsTitle}
         </h2>
-        <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
+        <p className="mt-4 max-w-2xl leading-7 text-muted-foreground md:mt-6 md:text-lg md:leading-8">
           {content.productsBody}
         </p>
-        <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border-subtle bg-border-subtle md:mt-12 lg:grid-cols-3">
           {products.map((product, index) => {
             const text = product.translations[0];
             return (
               <Link
                 key={product.id}
                 href={`/${locale}/products/${product.slug}`}
-                className="flex min-h-40 flex-col justify-between bg-background p-5 transition-colors hover:bg-surface-warm focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-text-accent"
+                className="flex min-h-28 flex-col justify-between bg-background p-4 transition-colors hover:bg-surface-warm focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-text-accent md:min-h-40 md:p-5"
               >
                 <span className="text-sm text-text-soft">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span>
-                  <span className="text-xs text-text-accent">
+                  <span className="hidden text-xs text-text-accent sm:inline">
                     {content.product}
                   </span>
-                  <span className="mt-2 block font-serif text-3xl capitalize">
+                  <span className="block font-serif text-2xl capitalize sm:mt-2 sm:text-3xl">
                     {text?.title || product.slug.replaceAll("-", " ")}
                   </span>
                 </span>
@@ -416,9 +411,9 @@ export default async function LocalizedHome({
               {content.aboutLink}
             </Link>
           </div>
-          <div className="relative aspect-[2/1] overflow-hidden rounded-[2rem] md:col-span-2">
+          <div className="relative aspect-[2/1] overflow-hidden rounded-2xl md:col-span-2">
             <Image
-              src="/why-asietex/integrated-production.png"
+              src="/why-asietex/IMG_2875.JPG"
               alt={content.aboutTitle}
               fill
               sizes="(max-width: 768px) 100vw, 1200px"
@@ -428,7 +423,6 @@ export default async function LocalizedHome({
         </div>
       </section>
 
-      {/* Video profil perusahaan */}
       {/* Company film */}
       <section className="bg-background">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 md:grid-cols-[.9fr_1.1fr] md:px-10 md:py-20">
@@ -443,69 +437,73 @@ export default async function LocalizedHome({
           <YouTubeEmbed
             url={COMPANY_FILM_URL}
             title={content.filmTitle}
-            posterSrc="/company-film/company-film-poster.png"
+            posterSrc="/company-film/IMG_3424.JPG"
           />
         </div>
       </section>
 
-      {/* Partner dan logo klien */}
       {/* Partner network */}
-      <section
-        className="bg-card py-16 md:py-24"
-        aria-labelledby="partner-title"
-      >
-        <div className="mx-auto max-w-7xl px-5 md:px-10">
-          <div className="flex flex-col items-center justify-center text-center w-full">
-            <h2
-              id="partner-title"
-              className="font-serif text-5xl leading-none md:text-6xl w-1/2"
+      {false && partners.length > 0 && (
+        <section
+          className="overflow-x-clip bg-card py-16 md:py-24"
+          aria-labelledby="partner-title"
+        >
+          <div className="mx-auto w-full max-w-7xl overflow-x-clip px-5 md:px-10">
+            <div className="flex w-full min-w-0 flex-col items-center justify-center text-center">
+              <h2
+                id="partner-title"
+                className="w-full max-w-2xl font-serif text-5xl leading-none md:w-1/2 md:text-6xl"
+              >
+                {content.partnersTitle}
+              </h2>
+              <p className="mt-5 max-w-2xl text-muted-foreground">
+                {content.partnersBody}
+              </p>
+            </div>
+            <div
+              className="mt-12 w-full min-w-0 space-y-3 overflow-hidden"
+              aria-hidden="true"
             >
-              {content.partnersTitle}
-            </h2>
-            <p className="mt-5 max-w-2xl text-muted-foreground">
-              {content.partnersBody}
-            </p>
-          </div>
-          <div className="mt-12 space-y-3 overflow-hidden" aria-hidden="true">
-            <div className="overflow-hidden">
-              <div className="flex w-max animate-[partner-marquee-left_30s_linear_infinite]">
-                {[0, 1].map((group) => (
-                  <div key={group} className="flex gap-3 pr-3">
-                    {PARTNER_LOGOS.map((partner) => (
-                      <PartnerLogo
-                        key={`${group}-${partner.name}`}
-                        partner={partner}
-                      />
-                    ))}
-                  </div>
-                ))}
+              <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-[partner-marquee-left_30s_linear_infinite]">
+                  {[0, 1].map((group) => (
+                    <div key={group} className="flex gap-3 pr-3">
+                      {partners.map((partner) => (
+                        <PartnerLogo
+                          key={`${group}-${partner.name}`}
+                          partner={partner}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="w-full overflow-hidden">
+                <div className="flex w-max animate-[partner-marquee-right_40s_linear_infinite]">
+                  {[0, 1].map((group) => (
+                    <div key={group} className="flex gap-3 pr-3">
+                      {[...partners].reverse().map((partner) => (
+                        <PartnerLogo
+                          key={`${group}-${partner.name}`}
+                          partner={partner}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="overflow-hidden">
-              <div className="flex w-max animate-[partner-marquee-right_40s_linear_infinite]">
-                {[0, 1].map((group) => (
-                  <div key={group} className="flex gap-3 pr-3">
-                    {PARTNER_LOGOS_REVERSED_FLOW.map((partner) => (
-                      <PartnerLogo
-                        key={`${group}-${partner.name}`}
-                        partner={partner}
-                      />
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
+            <ul className="sr-only" aria-label={content.partnersLabel}>
+              {partners.map((partner) => (
+                <li key={partner.name}>{partner.name}</li>
+              ))}
+            </ul>
           </div>
-          <ul className="sr-only" aria-label={content.partnersLabel}>
-            {PARTNER_LOGOS.map((partner) => (
-              <li key={partner.name}>{partner.name}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Testimonial disembunyikan sampai testimoni buyer yang disetujui tersedia. */}
-      {true && (
+      {false && testimonials.length > 0 && (
         /* Buyer stories */
         <section
           className="bg-background mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24"
@@ -518,7 +516,7 @@ export default async function LocalizedHome({
             {content.testimonialsTitle}
           </h2>
           <div className="mt-12 grid gap-px overflow-hidden border border-border-subtle bg-border-subtle md:grid-cols-2">
-            {content.testimonials.map(([quote, attribution]) => (
+            {testimonials.map(({ quote, attribution }) => (
               <figure
                 key={attribution}
                 className="flex min-h-72 flex-col bg-card p-7 md:p-10"
@@ -535,7 +533,6 @@ export default async function LocalizedHome({
         </section>
       )}
 
-      {/* Formulir permintaan sample */}
       {/* Request samples */}
       <section id="request-samples" className="bg-background py-16 md:py-24">
         <div className="mx-auto grid max-w-7xl gap-10 rounded-[2rem] border border-border-subtle bg-card px-5 py-7 md:grid-cols-[.8fr_.8fr_1.2fr] md:px-10 md:py-12">
@@ -550,7 +547,7 @@ export default async function LocalizedHome({
 
           <div className="relative min-h-80 overflow-hidden rounded-2xl">
             <Image
-              src="/request-samples/fabric-swatches.jpg"
+              src="/request-samples/IMG_3723.JPG"
               alt={content.requestTitle}
               fill
               sizes="(max-width: 768px) 100vw, 30vw"

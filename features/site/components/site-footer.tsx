@@ -4,6 +4,7 @@ import { copy, type Locale } from "@/lib/i18n";
 
 const footerCopy = {
   en: {
+    home: "Home",
     description:
       "Integrated textile manufacturing from raw cotton to finished fabric.",
     explore: "Explore Asietex",
@@ -12,6 +13,7 @@ const footerCopy = {
     copyright: "All rights reserved.",
   },
   id: {
+    home: "Beranda",
     description:
       "Manufaktur tekstil terintegrasi dari kapas mentah hingga kain jadi.",
     explore: "Jelajahi Asietex",
@@ -20,6 +22,7 @@ const footerCopy = {
     copyright: "Hak cipta dilindungi.",
   },
   pt: {
+    home: "Página inicial",
     description:
       "Fabrico têxtil integrado, do algodão bruto ao tecido acabado.",
     explore: "Explorar a Asietex",
@@ -32,6 +35,7 @@ const footerCopy = {
 export function SiteFooter({ locale }: { locale: Locale }) {
   const t = footerCopy[locale];
   const navItems = [
+    ["home", t.home],
     ["about", copy[locale].nav[0]],
     ["products", copy[locale].nav[1]],
     ["career", copy[locale].nav[3]],
@@ -68,7 +72,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
               {navItems.map(([slug, label]) => (
                 <li key={slug}>
                   <Link
-                    href={`/${locale}/${slug}`}
+                    href={slug === "home" ? `/${locale}` : `/${locale}/${slug}`}
                     className="text-ink-inverse-muted underline-offset-4 transition-colors hover:text-primary-foreground hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                   >
                     {label}
@@ -100,7 +104,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
         {/* Footer legal and attribution */}
         <div className="mt-12 flex flex-col gap-3 border-t border-border-subtle pt-5 text-xs text-ink-inverse-muted sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} PT Asietex Sinar Indopratama</span>
+          <span>© 2026 PT Asietex Sinar Indopratama</span>
           <span>{t.copyright}</span>
         </div>
       </div>

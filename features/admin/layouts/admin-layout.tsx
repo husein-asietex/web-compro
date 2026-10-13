@@ -16,7 +16,7 @@ export default async function AdminLayout({
         <header className="flex h-14 shrink-0 items-center border-b bg-background px-3">
           <SidebarTrigger aria-label="Toggle CMS navigation" />
         </header>
-        {children}
+        <main className="min-h-dvh bg-background p-6 md:p-12">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

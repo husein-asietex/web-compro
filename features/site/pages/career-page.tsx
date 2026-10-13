@@ -1,11 +1,15 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import engineeringCollaboration from "@/public/career/engineering-collaboration.png";
-import productionTeam from "@/public/career/production-team.png";
-import qualitySpecialist from "@/public/career/quality-specialist.png";
 import { prisma } from "@/backend/prisma";
 import { copy, type Locale } from "@/lib/i18n";
+
+import { SendIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const engineeringCollaboration = "/career/IMG_3869.JPG";
+const productionTeam = "/career/IMG_4033.JPG";
+const qualitySpecialist = "/career/IMG_3001.JPG";
 
 const careerCopy = {
   en: {
@@ -88,68 +92,27 @@ const careerCopy = {
   },
 } as const;
 
-const dummyOpenings = {
-  en: [
-    {
-      role: "Production Planner",
-      location: "Jakarta",
-      type: "Full time",
-      postedAt: "Posted 2 days ago",
-    },
-    {
-      role: "Quality Assurance Specialist",
-      location: "Factory operations",
-      type: "Full time",
-      postedAt: "Posted 5 days ago",
-    },
-    {
-      role: "Textile Process Engineer",
-      location: "Jakarta",
-      type: "Full time",
-      postedAt: "Posted 1 week ago",
-    },
-  ],
-  id: [
-    {
-      role: "Perencana Produksi",
-      location: "Jakarta",
-      type: "Penuh waktu",
-      postedAt: "Diposting 2 hari lalu",
-    },
-    {
-      role: "Spesialis Quality Assurance",
-      location: "Operasional pabrik",
-      type: "Penuh waktu",
-      postedAt: "Diposting 5 hari lalu",
-    },
-    {
-      role: "Engineer Proses Tekstil",
-      location: "Jakarta",
-      type: "Penuh waktu",
-      postedAt: "Diposting 1 minggu lalu",
-    },
-  ],
-  pt: [
-    {
-      role: "Planeador de Produção",
-      location: "Jacarta",
-      type: "Tempo inteiro",
-      postedAt: "Publicado há 2 dias",
-    },
-    {
-      role: "Especialista de Qualidade",
-      location: "Operações fabris",
-      type: "Tempo inteiro",
-      postedAt: "Publicado há 5 dias",
-    },
-    {
-      role: "Engenheiro de Processos Têxteis",
-      location: "Jacarta",
-      type: "Tempo inteiro",
-      postedAt: "Publicado há 1 semana",
-    },
-  ],
-} as const;
+type CareerOpening = {
+  role: string;
+  location: string;
+  type: string;
+  postedAt: string;
+  applicationUrl: string;
+};
+
+function getOpenings(data: unknown, locale: Locale): CareerOpening[] {
+  if (!data || typeof data !== "object" || !(locale in data)) return [];
+  const openings = (data as Record<string, unknown>)[locale];
+  if (!Array.isArray(openings)) return [];
+  return openings.filter(
+    (opening): opening is CareerOpening =>
+      Boolean(opening) &&
+      typeof opening === "object" &&
+      ["role", "location", "type", "postedAt", "applicationUrl"].every(
+        (key) => typeof (opening as Record<string, unknown>)[key] === "string",
+      ),
+  );
+}
 
 const careerImageAlts = {
   en: [
@@ -170,15 +133,20 @@ const careerImageAlts = {
 } as const;
 
 export default async function CareerPage({ locale }: { locale: Locale }) {
-  const page = await prisma.page.findFirst({
-    where: { slug: "career", status: "PUBLISHED" },
-    include: { translations: { where: { locale } } },
-  });
+  const [page, openingsCollection] = await Promise.all([
+    prisma.page.findFirst({
+      where: { slug: "career", status: "PUBLISHED" },
+      include: { translations: { where: { locale } } },
+    }),
+    prisma.contentCollection.findFirst({
+      where: { key: "career-openings", status: "PUBLISHED" },
+    }),
+  ]);
   if (!page) redirect("/en");
 
   const translation = page.translations[0];
   const text = careerCopy[locale];
-  const openings = dummyOpenings[locale];
+  const openings = getOpenings(openingsCollection?.data, locale);
   const imageAlts = careerImageAlts[locale];
 
   return (
@@ -195,7 +163,7 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
       </div>
 
       {/* Career imagery */}
-      <div className="mt-16 grid gap-4 md:grid-cols-3">
+      <div className="mt-16 grid grid-cols-3 gap-2 md:gap-4">
         {[
           [productionTeam, imageAlts[0]],
           [engineeringCollaboration, imageAlts[1]],
@@ -203,15 +171,14 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
         ].map(([src, alt], index) => (
           <figure
             key={alt as string}
-            className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-card"
+            className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-card"
           >
             <Image
               src={src}
               alt={alt as string}
               fill
-              placeholder="blur"
               priority={index === 0}
-              sizes="(max-width: 768px) 100vw, 33vw"
+              sizes="33vw"
               className="object-cover"
             />
           </figure>
@@ -271,8 +238,8 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
               className="flex min-h-75 flex-col justify-between rounded-2xl border border-border-subtle bg-background p-6 transition-colors hover:border-text-accent hover:bg-card"
             >
               <div className="flex flex-col gap-2">
-                <p className="text-sm font-medium text-text-accent">
-                  {opening.type} • {opening.location}
+                <p className="text-sm text-muted-foreground">
+                  {opening.postedAt}
                 </p>
                 <h3 className="font-serif text-3xl leading-tight">
                   {opening.role}
@@ -280,20 +247,17 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
               </div>
 
               <div className="flex flex-col gap-1">
-                <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                  <span>{opening.location}</span>
-                </div>
-
-                <p className="text-sm text-muted-foreground">
-                  {opening.postedAt}
+                <p className="text-sm font-medium text-text-accent">
+                  {opening.type} • {opening.location}
                 </p>
 
                 <a
-                  href="https://www.google.com"
+                  href={opening.applicationUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border-strong px-4 text-sm font-medium transition-colors hover:border-text-accent hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-accent mt-5"
+                  className="inline-flex min-h-11 w-full gap-1 items-center justify-center rounded-full border border-border-strong px-4 text-sm font-medium transition-colors hover:border-text-accent hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-accent mt-5"
                 >
+                  <HugeiconsIcon icon={SendIcon} size={17} />{" "}
                   {text.viewOpenings}
                 </a>
               </div>

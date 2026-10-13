@@ -10,10 +10,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { DashboardBreadcrumb } from "@/features/admin/components/dashboard-breadcrumb";
 
 export const instant = false;
 
 const PAGE_SLUGS = ["home", "about", "products", "career", "contact"];
+const CONTENT_COLLECTIONS = [
+  ["about-company", "About company profile"],
+  ["home-social-proof", "Home social proof"],
+  ["career-openings", "Career openings"],
+  ["marketing-contacts", "Marketing contacts"],
+] as const;
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 
 const CARD_LINK_CLASS =
@@ -76,6 +83,30 @@ function ProductsList({
           {product.order}. {product.slug.replaceAll("-", " ")}
         </Link>
       ))}
+    </div>
+  );
+}
+
+function ContentCollectionsList({
+  collections,
+}: {
+  collections: { key: string; status: string }[];
+}) {
+  return (
+    <div className="mt-4 grid gap-2">
+      {CONTENT_COLLECTIONS.map(([key, label]) => {
+        const collection = collections.find((item) => item.key === key);
+        return (
+          <Link
+            key={key}
+            href={`/dashboard/content/collections/${key}`}
+            className={`flex items-center justify-between ${CARD_LINK_CLASS}`}
+          >
+            <span>{label}</span>
+            <StatusBadge status={collection?.status} />
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -212,50 +243,44 @@ function CatalogSettingsForm({
 export default async function ContentIndex() {
   const user = await requireUser();
 
-  const [pages, products, settings] = await Promise.all([
+  const [pages, products, settings, collections] = await Promise.all([
     prisma.page.findMany({ orderBy: { slug: "asc" } }),
     prisma.product.findMany({ orderBy: { order: "asc" } }),
     prisma.siteSetting.findUnique({ where: { id: "site" } }),
+    prisma.contentCollection.findMany({ orderBy: { key: "asc" } }),
   ]);
 
   return (
-    <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
-      <header className="mx-auto flex max-w-6xl items-center justify-between">
+    <section className="">
+      <DashboardBreadcrumb items={[{ label: "Content" }]} />
+      <header className="flex items-center justify-between">
         <Link href="/dashboard" className="font-serif text-2xl">
           Asietex CMS
         </Link>
-        <Badge variant="outline">{user.role}</Badge>
       </header>
 
-      <section className="mx-auto mt-14 max-w-6xl">
-        <h1 className="font-serif text-5xl">Content library</h1>
-        <p className="mt-3 text-muted-foreground">
-          Staff saves drafts; only an admin can publish them.
-        </p>
+      <h1 className="font-serif text-5xl">Content library</h1>
+      <p className="mt-3 text-muted-foreground">
+        Staff saves drafts; only an admin can publish them.
+      </p>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_.8fr]">
-          <div>
-            <h2 className="font-serif text-3xl">Pages</h2>
-            <PagesList pages={pages} />
+      <div className="mt-10 grid gap-8 lg:grid-cols-[1fr_.8fr]">
+        <div>
+          <h2 className="font-serif text-3xl">Pages</h2>
+          <PagesList pages={pages} />
 
-            <h2 className="mt-10 font-serif text-3xl">Products</h2>
-            <ProductsList products={products} />
+          <h2 className="mt-10 font-serif text-3xl">Products</h2>
+          <ProductsList products={products} />
 
-            <h2 className="mt-10 font-serif text-3xl">Network</h2>
-            <Link
-              href="/dashboard/content/network"
-              className={`mt-4 block ${CARD_LINK_CLASS}`}
-            >
-              Manage offices, factories, and warehouses
-            </Link>
-          </div>
-
-          <CatalogSettingsForm
-            settings={settings}
-            canPublish={user.role === "ADMIN"}
-          />
+          <h2 className="mt-10 font-serif text-3xl">Content collections</h2>
+          <ContentCollectionsList collections={collections} />
         </div>
-      </section>
-    </main>
+
+        <CatalogSettingsForm
+          settings={settings}
+          canPublish={user.role === "ADMIN"}
+        />
+      </div>
+    </section>
   );
 }

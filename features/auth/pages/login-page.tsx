@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { loginAction } from "@/features/auth/actions/auth";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -59,6 +59,15 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
               </Button>
             </FieldGroup>
           </form>
+          <Link
+            href="/en"
+            className={buttonVariants({
+              variant: "outline",
+              className: "mt-3 w-full",
+            })}
+          >
+            Back to home
+          </Link>
         </CardContent>
       </Card>
     </main>

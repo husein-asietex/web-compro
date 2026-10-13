@@ -1,19 +1,28 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import buyerMeetingSpace from "@/public/contact/buyer-meeting-space.png";
-import factoryExterior from "@/public/about/factory-exterior.png";
-import productionFloor from "@/public/about/integrated-production-floor.png";
-import qualityTeam from "@/public/about/quality-team.png";
 import { prisma } from "@/backend/prisma";
 import { Button } from "@/components/ui/button";
 import { copy, type Locale } from "@/lib/i18n";
+import { SendIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+
+const buyerMeetingSpace = "/contact/IMG_3983.JPG";
+const factoryExterior = "/about/IMG_3376.JPG";
+const productionFloor = "/why-asietex/IMG_2875.JPG";
+const qualityTeam = "/career/IMG_3545.JPG";
 
 const contactCopy = {
   en: {
     addressLabel: "Office address",
     address:
       "Jl. Cideng Timur No. 36, Petojo Utara - Gambir, Jakarta Pusat 10130, Indonesia",
+    retailerAddressLabel: "Retailer shop address",
+    retailerAddress: "Tanah Abang Bukit F/10, Jakarta Pusat\nINDONESIA",
+    retailerPhoneLabel: "Retailer phone",
+    retailerFaxLabel: "Retailer fax",
+    retailerPhone: "+62 21 3190 9731",
+    retailerFax: "+62 21 391 1529",
     phoneLabel: "Phone",
     faxLabel: "Fax",
     emailLabel: "Email",
@@ -32,6 +41,12 @@ const contactCopy = {
     addressLabel: "Alamat kantor",
     address:
       "Jl. Cideng Timur No. 36, Petojo Utara - Gambir, Jakarta Pusat 10130, Indonesia",
+    retailerAddressLabel: "Alamat toko retailer",
+    retailerAddress: "Tanah Abang Bukit F/10, Jakarta Pusat\nINDONESIA",
+    retailerPhoneLabel: "Telepon toko retailer",
+    retailerFaxLabel: "Faks toko retailer",
+    retailerPhone: "+62 21 3190 9731",
+    retailerFax: "+62 21 391 1529",
     phoneLabel: "Telepon",
     faxLabel: "Faks",
     emailLabel: "Email",
@@ -50,6 +65,12 @@ const contactCopy = {
     addressLabel: "Morada do escritório",
     address:
       "Jl. Cideng Timur No. 36, Petojo Utara - Gambir, Jakarta Pusat 10130, Indonésia",
+    retailerAddressLabel: "Morada da loja retalhista",
+    retailerAddress: "Tanah Abang Bukit F/10, Jakarta Pusat\nINDONÉSIA",
+    retailerPhoneLabel: "Telefone da loja retalhista",
+    retailerFaxLabel: "Fax da loja retalhista",
+    retailerPhone: "+62 21 3190 9731",
+    retailerFax: "+62 21 391 1529",
     phoneLabel: "Telefone",
     faxLabel: "Fax",
     emailLabel: "Email",
@@ -85,13 +106,16 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
         <h1 className="mt-8 max-w-4xl font-serif text-5xl leading-[0.98] md:text-7xl">
           {translation?.title || copy[locale].nav[4]}
         </h1>
+        {translation?.body && (
+          <p className="mt-6 max-w-2xl whitespace-pre-line text-lg leading-8 text-muted-foreground">
+            {translation.body}
+          </p>
+        )}
       </div>
 
       {/* Office details and inquiry form */}
-      {/* Office details and inquiry form */}
       <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:gap-20">
         <div>
-          {/* Office information */}
           {/* Office information */}
           <div className="max-w-md space-y-7">
             <div>
@@ -100,6 +124,7 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
               </h2>
               <p className="mt-3 text-lg leading-8">{content.address}</p>
             </div>
+
             <dl className="grid gap-4 text-sm sm:grid-cols-2">
               <div>
                 <dt className="text-muted-foreground">{content.phoneLabel}</dt>
@@ -118,24 +143,46 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
                 <dd className="mt-1 font-medium">{content.hours}</dd>
               </div>
             </dl>
+
+            {/* Office location map */}
+            <div className="relative mt-6 min-h-80 overflow-hidden rounded-3xl bg-surface-subtle">
+              <iframe
+                title="Asietex office location on Google Maps"
+                src="https://www.google.com/maps?q=Jl.+Cideng+Timur+No.+36,+Jakarta+Pusat,+Indonesia&output=embed"
+                className="absolute inset-0 h-full min-h-80 w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-text-accent">
+                {content.retailerAddressLabel}
+              </h2>
+              <address className="mt-3 whitespace-pre-line text-lg leading-8 not-italic">
+                {content.retailerAddress}
+              </address>
+            </div>
+
+            <dl className="grid gap-4 text-sm sm:grid-cols-2">
+              <div>
+                <dt className="text-muted-foreground">
+                  {content.retailerPhoneLabel}
+                </dt>
+                <dd className="mt-1 font-medium">{content.retailerPhone}</dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">
+                  {content.retailerFaxLabel}
+                </dt>
+                <dd className="mt-1 font-medium">{content.retailerFax}</dd>
+              </div>
+            </dl>
           </div>
 
-          {/* Office location map */}
-          {/* Office location map */}
-          <div className="relative mt-10 min-h-80 overflow-hidden rounded-3xl bg-surface-subtle">
-            <iframe
-              title="Asietex office location on Google Maps"
-              src="https://www.google.com/maps?q=Jl.+Cideng+Timur+No.+36,+Jakarta+Pusat,+Indonesia&output=embed"
-              className="absolute inset-0 h-full min-h-80 w-full border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            />
-          </div>
-
-          {/* Supporting contact imagery */}
           {/* Contact imagery */}
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
+          <div className="mt-12 grid grid-cols-2 gap-4">
             {(
               [
                 [
@@ -149,13 +196,13 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
             ).map(([src, alt]) => (
               <figure
                 key={alt}
-                className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-card"
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-card"
               >
                 <Image
                   src={src}
                   alt={alt}
                   fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
+                  sizes="50vw"
                   className="object-cover transition-transform duration-500 hover:scale-105"
                 />
               </figure>
@@ -163,7 +210,6 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        {/* Contact inquiry form */}
         {/* Contact inquiry form */}
         <div className="rounded-3xl bg-surface-warm p-6 md:p-8 h-fit">
           <h2 className="max-w-sm font-serif text-3xl leading-tight md:text-4xl">
@@ -224,7 +270,7 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
               type="submit"
               className="min-h-12 w-full rounded-xl sm:w-auto"
             >
-              {content.submit}
+              <HugeiconsIcon icon={SendIcon} /> {content.submit}
             </Button>
           </form>
         </div>
