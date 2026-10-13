@@ -1,8 +1,15 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
 
-const pages = ["", "about", "products", "network", "career", "contact"];
-const divisions = [
+const pages = [
+  "",
+  "about",
+  "products",
+  "marketing-contact",
+  "career",
+  "contact",
+];
+const products = [
   "spinning",
   "twisting",
   "knitting",
@@ -21,7 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       pages.map((page) => `/${locale}${page ? `/${page}` : ""}`),
     ),
     ...locales.flatMap((locale) =>
-      divisions.map((slug) => `/${locale}/products/${slug}`),
+      products.map((slug) => `/${locale}/products/${slug}`),
     ),
   ];
 

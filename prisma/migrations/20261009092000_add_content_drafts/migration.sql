@@ -1,2 +1,0 @@
-ALTER TABLE "Page" ADD COLUMN "draft" JSONB;
-ALTER TABLE "Division" ADD COLUMN "draft" JSONB;

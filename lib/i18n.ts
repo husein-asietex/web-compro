@@ -12,39 +12,36 @@ export const isLocale = (value: string): value is Locale =>
  * Teks default per bahasa. Dipakai sebagai fallback ketika konten dari CMS
  * (tabel translation) belum tersedia.
  *
- * `nav` berurutan: About, Products, Network, Career, Contact.
+ * `nav` berurutan: About, Products, Marketing Contact, Career, Contact.
  */
 export const copy = {
   en: {
-    nav: ["About", "Products", "Network", "Career", "Contact"],
-    eyebrow: "Integrated textile manufacturing from Indonesia",
+    nav: ["About", "Products", "Marketing Contacts", "Career", "Contact"],
     hero: "From yarn to finished fabric, everything stays connected.",
     body: "Asietex brings spinning, knitting, weaving, dyeing and finishing together, helping brands and converters move with greater clarity across Europe and Asia.",
     catalog: "Browse the e-catalog",
-    explore: "Meet our divisions",
-    chain: "Nine divisions, one accountable chain",
-    headline: "Built for continuity, not handoffs.",
+    explore: "Explore our products",
   },
 
   id: {
-    nav: ["Tentang", "Produk", "Jaringan", "Karier", "Kontak"],
-    eyebrow: "Manufaktur tekstil terintegrasi dari Indonesia",
+    nav: ["Tentang", "Produk", "Kontak Marketing", "Karier", "Kontak"],
     hero: "Dari benang hingga kain jadi, semua proses tetap terhubung.",
     body: "Asietex menyatukan pemintalan, rajut, tenun, pencelupan, dan finishing untuk membantu brand dan konverter bekerja lebih jelas di Eropa dan Asia.",
     catalog: "Lihat e-catalog",
-    explore: "Kenali divisi kami",
-    chain: "Sembilan divisi, satu rantai yang bertanggung jawab",
-    headline: "Dibangun untuk kesinambungan, bukan perpindahan proses.",
+    explore: "Kenali produk kami",
   },
 
   pt: {
-    nav: ["Sobre", "Produtos", "Rede", "Carreiras", "Contacto"],
-    eyebrow: "Fabrico têxtil integrado a partir da Indonésia",
+    nav: [
+      "Sobre",
+      "Produtos",
+      "Contactos de Marketing",
+      "Carreiras",
+      "Contacto",
+    ],
     hero: "Do fio ao tecido acabado, todos os processos ligados.",
     body: "A Asietex reúne fiação, malharia, tecelagem, tingimento e acabamento para ajudar marcas e transformadores a trabalhar com mais clareza na Europa e na Ásia.",
     catalog: "Ver o e-catalog",
-    explore: "Conhecer as divisões",
-    chain: "Nove divisões, uma cadeia responsável",
-    headline: "Feita para continuidade, não para transferências.",
+    explore: "Conhecer os produtos",
   },
 } satisfies Record<Locale, Record<string, string | string[]>>;

@@ -14,16 +14,9 @@ const PASSWORD_SALT = "asietex-demo-salt"; // hanya untuk demo
 const CATALOG_URL = "https://e-catalog.asietex.web.id";
 const DUMMY_IMAGE_BASE = "https://placehold.co/1200x800/png";
 
-const PAGE_SLUGS = [
-  "home",
-  "about",
-  "products",
-  "network",
-  "career",
-  "contact",
-] as const;
+const PAGE_SLUGS = ["home", "about", "products", "career", "contact"] as const;
 
-const DIVISION_SLUGS = [
+const PRODUCT_SLUGS = [
   "spinning",
   "twisting",
   "knitting",
@@ -58,21 +51,57 @@ const PAGE_COPY: Record<
   Partial<Record<(typeof PAGE_SLUGS)[number], { title: string; body: string }>>
 > = {
   en: {
+    about: {
+      title: "A connected textile partner, built for continuity.",
+      body: "Asietex brings people, facilities, and expertise together to support a dependable journey from yarn to finished fabric.",
+    },
+    products: {
+      title: "Nine products. One connected production chain.",
+      body: "Explore the products behind Asietex, from spinning and twisting to dyeing, printing, garment, and finishing.",
+    },
+    contact: {
+      title: "Let's talk about your next textile project.",
+      body: "Reach our team in Jakarta for product questions, sample discussions, and commercial enquiries.",
+    },
     career: {
       title: "Build the next thread of Asietex.",
-      body: "Careers at Asietex are shaped by curiosity, care, and the discipline to make good work repeatable. Join a team connecting people, process, and possibility across the textile chain.\n\nWe are building a growing team across production, quality, engineering, commercial, and operations. Send us your profile and tell us where your craft can move the work forward.",
+      body: "Join an Asietex team shaped by curiosity, care, and disciplined work across the textile chain. Send us your profile and tell us how your craft can move us forward.",
     },
   },
   id: {
+    about: {
+      title: "Mitra tekstil terhubung yang dibangun untuk kesinambungan.",
+      body: "Asietex menyatukan manusia, fasilitas, dan keahlian untuk mendukung perjalanan yang andal dari benang hingga kain jadi.",
+    },
+    products: {
+      title: "Sembilan produk. Satu rantai produksi yang terhubung.",
+      body: "Jelajahi produk Asietex, mulai dari spinning dan twisting hingga dyeing, printing, garment, dan finishing.",
+    },
+    contact: {
+      title: "Mari bicarakan proyek tekstil Anda berikutnya.",
+      body: "Hubungi tim kami di Jakarta untuk pertanyaan produk, diskusi sampel, dan kebutuhan komersial.",
+    },
     career: {
       title: "Bangun benang masa depan Asietex.",
-      body: "Karier di Asietex dibentuk oleh rasa ingin tahu, kepedulian, dan disiplin untuk membuat pekerjaan baik dapat diulang. Bergabunglah dengan tim yang menghubungkan manusia, proses, dan peluang di sepanjang rantai tekstil.\n\nKami membangun tim di bidang produksi, kualitas, engineering, komersial, dan operasional. Kirimkan profil Anda dan ceritakan bagaimana keahlian Anda dapat mendorong pekerjaan ini maju.",
+      body: "Bergabunglah dengan tim Asietex yang menghubungkan manusia, proses, dan peluang di sepanjang rantai tekstil. Kirimkan profil Anda dan ceritakan bagaimana keahlian Anda dapat mendorong kami maju.",
     },
   },
   pt: {
+    about: {
+      title: "Um parceiro têxtil ligado, construído para dar continuidade.",
+      body: "A Asietex reúne pessoas, instalações e conhecimento para apoiar uma jornada fiável, do fio ao tecido acabado.",
+    },
+    products: {
+      title: "Nove produtos. Uma cadeia de produção ligada.",
+      body: "Explore os produtos da Asietex, desde a fiação e torção até ao tingimento, impressão, confeção e acabamento.",
+    },
+    contact: {
+      title: "Vamos falar sobre o seu próximo projeto têxtil.",
+      body: "Contacte a nossa equipa em Jacarta para questões sobre produtos, amostras e conversas comerciais.",
+    },
     career: {
       title: "Construa o próximo fio da Asietex.",
-      body: "As carreiras na Asietex são feitas de curiosidade, cuidado e disciplina para tornar o bom trabalho repetível. Junte-se a uma equipa que liga pessoas, processos e possibilidades em toda a cadeia têxtil.\n\nEstamos a formar uma equipa nas áreas de produção, qualidade, engenharia, comercial e operações. Envie o seu perfil e diga-nos como a sua experiência pode fazer o trabalho avançar.",
+      body: "Junte-se à equipa da Asietex, que liga pessoas, processos e possibilidades em toda a cadeia têxtil. Envie o seu perfil e diga-nos como a sua experiência pode fazer-nos avançar.",
     },
   },
 };
@@ -114,16 +143,7 @@ async function seedSiteSetting() {
     catalogLabelEn: "Explore e-catalog",
     catalogLabelId: "Buka e-catalog",
     catalogLabelPt: "Ver e-catalog",
-    catalogPlacements: [
-      "home",
-      "about",
-      "products",
-      "division",
-      "network",
-      "career",
-      "contact",
-      "footer",
-    ],
+    catalogPlacements: ["home", "product", "footer"],
     catalogOpenNewTab: true,
   };
 
@@ -159,61 +179,70 @@ async function seedPages() {
 
     for (const locale of LOCALES) {
       const { title, body } = COPY[locale];
+      const translation = {
+        title:
+          PAGE_COPY[locale][slug]?.title ||
+          (slug === "home" ? title : `${title} - ${slug}`),
+        body: PAGE_COPY[locale][slug]?.body || body,
+      };
 
       await prisma.translation.upsert({
         where: { pageId_locale: { pageId: page.id, locale } },
         create: {
           pageId: page.id,
           locale,
-          title:
-            PAGE_COPY[locale][slug]?.title ||
-            (slug === "home" ? title : `${title} — ${slug}`),
-          body: PAGE_COPY[locale][slug]?.body || body,
+          ...translation,
         },
-        update: {},
+        update: translation,
       });
     }
   }
 }
 
-async function seedDivisions() {
-  for (const [index, slug] of DIVISION_SLUGS.entries()) {
-    const division = await prisma.division.upsert({
+async function seedProducts() {
+  for (const [index, slug] of PRODUCT_SLUGS.entries()) {
+    const productData = {
+      order: index + 1,
+      capacity: slug === "dyeing" ? "50,000 t / yr" : "To be provided",
+      products: [
+        `${slug.replaceAll("-", " ")} product range`,
+        "Custom textile production",
+      ],
+      machinery: "Asian and European machinery",
+      gallery: [
+        `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
+        `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
+      ],
+      status: "PUBLISHED" as const,
+    };
+
+    const product = await prisma.product.upsert({
       where: { slug },
       create: {
         slug,
-        order: index + 1,
-        capacity: slug === "dyeing" ? "50,000 t / yr" : "To be provided",
-        products: ["Example product A", "Example product B"],
-        machinery: "Asian and European machinery",
-        gallery: [
-          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
-          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
-        ],
-        status: "PUBLISHED",
+        ...productData,
       },
-      update: {
-        gallery: [
-          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
-          `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
-        ],
-      },
+      update: productData,
     });
 
     for (const locale of LOCALES) {
+      const translation = {
+        title: slug.replaceAll("-", " "),
+        body: `${slug.replaceAll("-", " ")} products for connected textile production.`,
+      };
+
       await prisma.translation.upsert({
-        where: { divisionId_locale: { divisionId: division.id, locale } },
+        where: { productId_locale: { productId: product.id, locale } },
         create: {
-          divisionId: division.id,
+          productId: product.id,
           locale,
-          title: slug.replaceAll("-", " "),
-          body: COPY[locale].body,
+          ...translation,
         },
-        update: {},
+        update: translation,
       });
     }
 
-    const mediaUrl = `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} division`)}`;
+    const mediaUrl = `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} product`)}`;
     const existingMedia = await prisma.mediaAsset.findFirst({
       where: { url: mediaUrl },
     });
@@ -227,41 +256,10 @@ async function seedDivisions() {
           altPt: `Produção têxtil ${slug}`,
           credit: "Dummy placeholder — replace before production",
           approved: true,
-          divisionId: division.id,
+          productId: product.id,
         },
       });
     }
-  }
-}
-
-async function seedNetworkLocations() {
-  const locations = [
-    {
-      slug: "indonesia-hq",
-      name: "Asietex Headquarters & Factory",
-      country: "Indonesia",
-      city: "Jakarta",
-      address: "Dummy address — replace with approved company address",
-      kind: "HQ & Factory",
-      order: 1,
-    },
-    {
-      slug: "europe-warehouse",
-      name: "Europe Warehouse",
-      country: "Portugal",
-      city: "Porto",
-      address: "Dummy address — replace before production",
-      kind: "Warehouse",
-      order: 2,
-    },
-  ];
-
-  for (const location of locations) {
-    await prisma.networkLocation.upsert({
-      where: { slug: location.slug },
-      create: { ...location, status: "PUBLISHED" },
-      update: location,
-    });
   }
 }
 
@@ -272,8 +270,7 @@ async function main() {
   await seedUser("Asietex Admin", adminEmail, adminPassword, "ADMIN");
   await seedUser("Asietex Staff", staffEmail, staffPassword, "STAFF");
   await seedPages();
-  await seedDivisions();
-  await seedNetworkLocations();
+  await seedProducts();
 }
 
 main()

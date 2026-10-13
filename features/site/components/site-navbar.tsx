@@ -38,7 +38,7 @@ const navUi = {
     language: "Language",
     primary: "Primary navigation",
     mobile: "Mobile navigation",
-    home: "Asietex home",
+    home: "Home",
   },
   id: {
     skip: "Lewati ke konten",
@@ -48,7 +48,7 @@ const navUi = {
     language: "Bahasa",
     primary: "Navigasi utama",
     mobile: "Navigasi seluler",
-    home: "Beranda Asietex",
+    home: "Beranda",
   },
   pt: {
     skip: "Ir para o conteúdo",
@@ -58,7 +58,7 @@ const navUi = {
     language: "Idioma",
     primary: "Navegação principal",
     mobile: "Navegação móvel",
-    home: "Página inicial da Asietex",
+    home: "Página inicial",
   },
 } as const;
 
@@ -75,11 +75,12 @@ export function SiteNavbar({
 
   // Daftar halaman utama yang tampil di navigasi.
   const navItems = [
-    "about",
-    "products",
-    "network",
-    "career",
-    "contact",
+    ["home", ui.home],
+    ["about", labels[0]],
+    ["products", labels[1]],
+    ["contact", labels[4]],
+    ["career", labels[3]],
+    ["marketing-contact", labels[2]],
   ] as const;
 
   /** Replace only the locale segment, preserving the active localized page. */
@@ -96,6 +97,7 @@ export function SiteNavbar({
 
   return (
     <>
+      {/* Skip navigation */}
       {/* Link aksesibilitas untuk langsung menuju konten utama. */}
       <a
         href="#main-content"
@@ -104,7 +106,8 @@ export function SiteNavbar({
         {ui.skip}
       </a>
       {/* Header dan navigasi utama. */}
-      <header className="sticky top-0 z-30 border-b border-border-subtle bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/70">
+      {/* Public site header */}
+      <header className="fixed inset-x-0 top-0 z-30 border-b border-border-subtle bg-background/80 backdrop-blur-sm supports-[backdrop-filter]:bg-background/90">
         <nav
           aria-label={ui.primary}
           className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-4"
@@ -128,16 +131,18 @@ export function SiteNavbar({
             </span>
           </Link>
 
+          {/* Desktop and mobile navigation controls */}
           <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-sm">
             {/* Navigasi desktop dan link CMS untuk user yang login. */}
+            {/* Desktop navigation */}
             <div className="hidden items-center gap-4 lg:flex">
-              {navItems.map((slug, index) => (
+              {navItems.map(([slug, label]) => (
                 <Link
                   key={slug}
-                  href={`/${locale}/${slug}`}
+                  href={slug === "home" ? `/${locale}` : `/${locale}/${slug}`}
                   className="transition-colors hover:text-text-accent"
                 >
-                  {labels[index] ?? slug}
+                  {label ?? slug}
                 </Link>
               ))}
               {isAuthenticated && (
@@ -151,6 +156,7 @@ export function SiteNavbar({
             </div>
 
             {/* Pilihan bahasa pada tampilan desktop. */}
+            {/* Language switcher */}
             <div
               aria-label={ui.language}
               className="hidden items-center gap-1 border-l border-border-subtle pl-3 sm:flex"
@@ -178,6 +184,7 @@ export function SiteNavbar({
             </div>
 
             {/* Tombol dan panel navigasi mobile. */}
+            {/* Mobile navigation */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
               <SheetTrigger
                 render={
@@ -207,14 +214,16 @@ export function SiteNavbar({
                   aria-label={ui.mobile}
                   className="flex flex-1 flex-col px-6 py-5"
                 >
-                  {navItems.map((slug, index) => (
+                  {navItems.map(([slug, label]) => (
                     <Link
                       key={slug}
-                      href={`/${locale}/${slug}`}
+                      href={
+                        slug === "home" ? `/${locale}` : `/${locale}/${slug}`
+                      }
                       onClick={() => setMobileOpen(false)}
                       className="border-b border-border-subtle py-4 font-serif text-3xl focus-visible:outline-2 focus-visible:outline-offset-4"
                     >
-                      {labels[index] ?? slug}
+                      {label ?? slug}
                     </Link>
                   ))}
                   {/* Link CMS hanya untuk user yang sudah login. */}

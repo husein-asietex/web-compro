@@ -20,9 +20,9 @@ export async function addMediaAction(formData: FormData) {
       altPt: z.string().trim().min(1).max(200),
       credit: z.string().trim().max(200),
       pageId: z.string().trim(),
-      divisionId: z.string().trim(),
+      productId: z.string().trim(),
     })
-    .refine((data) => !(data.pageId && data.divisionId))
+    .refine((data) => !(data.pageId && data.productId))
     .safeParse({
       url: getText(formData, "url"),
       altEn: getText(formData, "altEn"),
@@ -30,7 +30,7 @@ export async function addMediaAction(formData: FormData) {
       altPt: getText(formData, "altPt"),
       credit: getText(formData, "credit"),
       pageId: getText(formData, "pageId"),
-      divisionId: getText(formData, "divisionId"),
+      productId: getText(formData, "productId"),
     });
 
   if (!parsed.success) redirect("/dashboard/media?error=invalid");
@@ -41,7 +41,7 @@ export async function addMediaAction(formData: FormData) {
         ...parsed.data,
         credit: parsed.data.credit || null,
         pageId: parsed.data.pageId || null,
-        divisionId: parsed.data.divisionId || null,
+        productId: parsed.data.productId || null,
         approved: user.role === "ADMIN",
       },
     });

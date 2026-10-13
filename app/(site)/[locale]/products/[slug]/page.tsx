@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import DivisionPage from "@/features/site/pages/division-page";
+import ProductDetailPage from "@/features/site/pages/product-detail-page";
 import { getPageMetadata } from "@/features/site/lib/site-page-helpers";
 import { isLocale } from "@/lib/i18n";
 
@@ -14,5 +14,5 @@ export async function generateMetadata({ params }: Props) {
 export default async function Page({ params }: Props) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
-  return <DivisionPage locale={locale} slug={slug} />;
+  return <ProductDetailPage locale={locale} slug={slug} />;
 }

@@ -46,7 +46,7 @@ model SiteSetting {
   catalogLabelEn     String   @default("Explore e-catalog")
   catalogLabelId     String   @default("Buka e-catalog")
   catalogLabelPt     String   @default("Ver e-catalog")
-  catalogPlacements  String[] @default(["home", "about", "products", "division", "network", "career", "contact", "footer"])
+  catalogPlacements  String[] @default(["home", "product", "footer"])
   catalogOpenNewTab  Boolean  @default(true)
   draft              Json?
   updatedAt          DateTime @updatedAt
@@ -62,7 +62,7 @@ model Page {
   updatedAt    DateTime      @updatedAt
 }
 
-model Division {
+model Product {
   id           String        @id @default(cuid())
   slug         String        @unique
   order        Int           @unique
@@ -86,12 +86,12 @@ model Translation {
   title      String
   body       String
   pageId     String?
-  divisionId String?
+  productId String?
   page       Page?     @relation(fields: [pageId], references: [id], onDelete: Cascade)
-  division   Division? @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([pageId, locale])
-  @@unique([divisionId, locale])
+  @@unique([productId, locale])
 }
 
 model MediaAsset {
@@ -103,9 +103,9 @@ model MediaAsset {
   credit     String?
   approved   Boolean   @default(false)
   pageId     String?
-  divisionId String?
+  productId String?
   page       Page?     @relation(fields: [pageId], references: [id], onDelete: SetNull)
-  division   Division? @relation(fields: [divisionId], references: [id], onDelete: SetNull)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   createdAt  DateTime  @default(now())
 }
 

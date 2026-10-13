@@ -33,7 +33,7 @@ export type MediaAssetMinAggregateOutputType = {
   credit: string | null
   approved: boolean | null
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
   createdAt: Date | null
 }
 
@@ -46,7 +46,7 @@ export type MediaAssetMaxAggregateOutputType = {
   credit: string | null
   approved: boolean | null
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
   createdAt: Date | null
 }
 
@@ -59,7 +59,7 @@ export type MediaAssetCountAggregateOutputType = {
   credit: number
   approved: number
   pageId: number
-  divisionId: number
+  productId: number
   createdAt: number
   _all: number
 }
@@ -74,7 +74,7 @@ export type MediaAssetMinAggregateInputType = {
   credit?: true
   approved?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
   createdAt?: true
 }
 
@@ -87,7 +87,7 @@ export type MediaAssetMaxAggregateInputType = {
   credit?: true
   approved?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
   createdAt?: true
 }
 
@@ -100,7 +100,7 @@ export type MediaAssetCountAggregateInputType = {
   credit?: true
   approved?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
   createdAt?: true
   _all?: true
 }
@@ -186,7 +186,7 @@ export type MediaAssetGroupByOutputType = {
   credit: string | null
   approved: boolean
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
   createdAt: Date
   _count: MediaAssetCountAggregateOutputType | null
   _min: MediaAssetMinAggregateOutputType | null
@@ -220,10 +220,10 @@ export type MediaAssetWhereInput = {
   credit?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   approved?: Prisma.BoolFilter<"MediaAsset"> | boolean
   pageId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  productId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
-  division?: Prisma.XOR<Prisma.DivisionNullableScalarRelationFilter, Prisma.DivisionWhereInput> | null
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }
 
 export type MediaAssetOrderByWithRelationInput = {
@@ -235,10 +235,10 @@ export type MediaAssetOrderByWithRelationInput = {
   credit?: Prisma.SortOrderInput | Prisma.SortOrder
   approved?: Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  divisionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   page?: Prisma.PageOrderByWithRelationInput
-  division?: Prisma.DivisionOrderByWithRelationInput
+  product?: Prisma.ProductOrderByWithRelationInput
 }
 
 export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
@@ -253,10 +253,10 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   credit?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   approved?: Prisma.BoolFilter<"MediaAsset"> | boolean
   pageId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  productId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
-  division?: Prisma.XOR<Prisma.DivisionNullableScalarRelationFilter, Prisma.DivisionWhereInput> | null
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }, "id">
 
 export type MediaAssetOrderByWithAggregationInput = {
@@ -268,7 +268,7 @@ export type MediaAssetOrderByWithAggregationInput = {
   credit?: Prisma.SortOrderInput | Prisma.SortOrder
   approved?: Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  divisionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MediaAssetCountOrderByAggregateInput
   _max?: Prisma.MediaAssetMaxOrderByAggregateInput
@@ -287,7 +287,7 @@ export type MediaAssetScalarWhereWithAggregatesInput = {
   credit?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
   approved?: Prisma.BoolWithAggregatesFilter<"MediaAsset"> | boolean
   pageId?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
-  divisionId?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
+  productId?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MediaAsset"> | Date | string
 }
 
@@ -301,7 +301,7 @@ export type MediaAssetCreateInput = {
   approved?: boolean
   createdAt?: Date | string
   page?: Prisma.PageCreateNestedOneWithoutMediaInput
-  division?: Prisma.DivisionCreateNestedOneWithoutMediaInput
+  product?: Prisma.ProductCreateNestedOneWithoutMediaInput
 }
 
 export type MediaAssetUncheckedCreateInput = {
@@ -313,7 +313,7 @@ export type MediaAssetUncheckedCreateInput = {
   credit?: string | null
   approved?: boolean
   pageId?: string | null
-  divisionId?: string | null
+  productId?: string | null
   createdAt?: Date | string
 }
 
@@ -327,7 +327,7 @@ export type MediaAssetUpdateInput = {
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   page?: Prisma.PageUpdateOneWithoutMediaNestedInput
-  division?: Prisma.DivisionUpdateOneWithoutMediaNestedInput
+  product?: Prisma.ProductUpdateOneWithoutMediaNestedInput
 }
 
 export type MediaAssetUncheckedUpdateInput = {
@@ -339,7 +339,7 @@ export type MediaAssetUncheckedUpdateInput = {
   credit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -352,7 +352,7 @@ export type MediaAssetCreateManyInput = {
   credit?: string | null
   approved?: boolean
   pageId?: string | null
-  divisionId?: string | null
+  productId?: string | null
   createdAt?: Date | string
 }
 
@@ -376,7 +376,7 @@ export type MediaAssetUncheckedUpdateManyInput = {
   credit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -399,7 +399,7 @@ export type MediaAssetCountOrderByAggregateInput = {
   credit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -412,7 +412,7 @@ export type MediaAssetMaxOrderByAggregateInput = {
   credit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -425,7 +425,7 @@ export type MediaAssetMinOrderByAggregateInput = {
   credit?: Prisma.SortOrder
   approved?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -471,45 +471,45 @@ export type MediaAssetUncheckedUpdateManyWithoutPageNestedInput = {
   deleteMany?: Prisma.MediaAssetScalarWhereInput | Prisma.MediaAssetScalarWhereInput[]
 }
 
-export type MediaAssetCreateNestedManyWithoutDivisionInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput> | Prisma.MediaAssetCreateWithoutDivisionInput[] | Prisma.MediaAssetUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutDivisionInput | Prisma.MediaAssetCreateOrConnectWithoutDivisionInput[]
-  createMany?: Prisma.MediaAssetCreateManyDivisionInputEnvelope
+export type MediaAssetCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput> | Prisma.MediaAssetCreateWithoutProductInput[] | Prisma.MediaAssetUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProductInput | Prisma.MediaAssetCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.MediaAssetCreateManyProductInputEnvelope
   connect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
 }
 
-export type MediaAssetUncheckedCreateNestedManyWithoutDivisionInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput> | Prisma.MediaAssetCreateWithoutDivisionInput[] | Prisma.MediaAssetUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutDivisionInput | Prisma.MediaAssetCreateOrConnectWithoutDivisionInput[]
-  createMany?: Prisma.MediaAssetCreateManyDivisionInputEnvelope
+export type MediaAssetUncheckedCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput> | Prisma.MediaAssetCreateWithoutProductInput[] | Prisma.MediaAssetUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProductInput | Prisma.MediaAssetCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.MediaAssetCreateManyProductInputEnvelope
   connect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
 }
 
-export type MediaAssetUpdateManyWithoutDivisionNestedInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput> | Prisma.MediaAssetCreateWithoutDivisionInput[] | Prisma.MediaAssetUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutDivisionInput | Prisma.MediaAssetCreateOrConnectWithoutDivisionInput[]
-  upsert?: Prisma.MediaAssetUpsertWithWhereUniqueWithoutDivisionInput | Prisma.MediaAssetUpsertWithWhereUniqueWithoutDivisionInput[]
-  createMany?: Prisma.MediaAssetCreateManyDivisionInputEnvelope
+export type MediaAssetUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput> | Prisma.MediaAssetCreateWithoutProductInput[] | Prisma.MediaAssetUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProductInput | Prisma.MediaAssetCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.MediaAssetUpsertWithWhereUniqueWithoutProductInput | Prisma.MediaAssetUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.MediaAssetCreateManyProductInputEnvelope
   set?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   disconnect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   delete?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   connect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
-  update?: Prisma.MediaAssetUpdateWithWhereUniqueWithoutDivisionInput | Prisma.MediaAssetUpdateWithWhereUniqueWithoutDivisionInput[]
-  updateMany?: Prisma.MediaAssetUpdateManyWithWhereWithoutDivisionInput | Prisma.MediaAssetUpdateManyWithWhereWithoutDivisionInput[]
+  update?: Prisma.MediaAssetUpdateWithWhereUniqueWithoutProductInput | Prisma.MediaAssetUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.MediaAssetUpdateManyWithWhereWithoutProductInput | Prisma.MediaAssetUpdateManyWithWhereWithoutProductInput[]
   deleteMany?: Prisma.MediaAssetScalarWhereInput | Prisma.MediaAssetScalarWhereInput[]
 }
 
-export type MediaAssetUncheckedUpdateManyWithoutDivisionNestedInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput> | Prisma.MediaAssetCreateWithoutDivisionInput[] | Prisma.MediaAssetUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutDivisionInput | Prisma.MediaAssetCreateOrConnectWithoutDivisionInput[]
-  upsert?: Prisma.MediaAssetUpsertWithWhereUniqueWithoutDivisionInput | Prisma.MediaAssetUpsertWithWhereUniqueWithoutDivisionInput[]
-  createMany?: Prisma.MediaAssetCreateManyDivisionInputEnvelope
+export type MediaAssetUncheckedUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput> | Prisma.MediaAssetCreateWithoutProductInput[] | Prisma.MediaAssetUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProductInput | Prisma.MediaAssetCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.MediaAssetUpsertWithWhereUniqueWithoutProductInput | Prisma.MediaAssetUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.MediaAssetCreateManyProductInputEnvelope
   set?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   disconnect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   delete?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
   connect?: Prisma.MediaAssetWhereUniqueInput | Prisma.MediaAssetWhereUniqueInput[]
-  update?: Prisma.MediaAssetUpdateWithWhereUniqueWithoutDivisionInput | Prisma.MediaAssetUpdateWithWhereUniqueWithoutDivisionInput[]
-  updateMany?: Prisma.MediaAssetUpdateManyWithWhereWithoutDivisionInput | Prisma.MediaAssetUpdateManyWithWhereWithoutDivisionInput[]
+  update?: Prisma.MediaAssetUpdateWithWhereUniqueWithoutProductInput | Prisma.MediaAssetUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.MediaAssetUpdateManyWithWhereWithoutProductInput | Prisma.MediaAssetUpdateManyWithWhereWithoutProductInput[]
   deleteMany?: Prisma.MediaAssetScalarWhereInput | Prisma.MediaAssetScalarWhereInput[]
 }
 
@@ -522,7 +522,7 @@ export type MediaAssetCreateWithoutPageInput = {
   credit?: string | null
   approved?: boolean
   createdAt?: Date | string
-  division?: Prisma.DivisionCreateNestedOneWithoutMediaInput
+  product?: Prisma.ProductCreateNestedOneWithoutMediaInput
 }
 
 export type MediaAssetUncheckedCreateWithoutPageInput = {
@@ -533,7 +533,7 @@ export type MediaAssetUncheckedCreateWithoutPageInput = {
   altPt: string
   credit?: string | null
   approved?: boolean
-  divisionId?: string | null
+  productId?: string | null
   createdAt?: Date | string
 }
 
@@ -575,11 +575,11 @@ export type MediaAssetScalarWhereInput = {
   credit?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   approved?: Prisma.BoolFilter<"MediaAsset"> | boolean
   pageId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  productId?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   createdAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
 }
 
-export type MediaAssetCreateWithoutDivisionInput = {
+export type MediaAssetCreateWithoutProductInput = {
   id?: string
   url: string
   altEn: string
@@ -591,7 +591,7 @@ export type MediaAssetCreateWithoutDivisionInput = {
   page?: Prisma.PageCreateNestedOneWithoutMediaInput
 }
 
-export type MediaAssetUncheckedCreateWithoutDivisionInput = {
+export type MediaAssetUncheckedCreateWithoutProductInput = {
   id?: string
   url: string
   altEn: string
@@ -603,30 +603,30 @@ export type MediaAssetUncheckedCreateWithoutDivisionInput = {
   createdAt?: Date | string
 }
 
-export type MediaAssetCreateOrConnectWithoutDivisionInput = {
+export type MediaAssetCreateOrConnectWithoutProductInput = {
   where: Prisma.MediaAssetWhereUniqueInput
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput>
 }
 
-export type MediaAssetCreateManyDivisionInputEnvelope = {
-  data: Prisma.MediaAssetCreateManyDivisionInput | Prisma.MediaAssetCreateManyDivisionInput[]
+export type MediaAssetCreateManyProductInputEnvelope = {
+  data: Prisma.MediaAssetCreateManyProductInput | Prisma.MediaAssetCreateManyProductInput[]
   skipDuplicates?: boolean
 }
 
-export type MediaAssetUpsertWithWhereUniqueWithoutDivisionInput = {
+export type MediaAssetUpsertWithWhereUniqueWithoutProductInput = {
   where: Prisma.MediaAssetWhereUniqueInput
-  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutDivisionInput, Prisma.MediaAssetUncheckedUpdateWithoutDivisionInput>
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutDivisionInput, Prisma.MediaAssetUncheckedCreateWithoutDivisionInput>
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutProductInput, Prisma.MediaAssetUncheckedUpdateWithoutProductInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutProductInput, Prisma.MediaAssetUncheckedCreateWithoutProductInput>
 }
 
-export type MediaAssetUpdateWithWhereUniqueWithoutDivisionInput = {
+export type MediaAssetUpdateWithWhereUniqueWithoutProductInput = {
   where: Prisma.MediaAssetWhereUniqueInput
-  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutDivisionInput, Prisma.MediaAssetUncheckedUpdateWithoutDivisionInput>
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutProductInput, Prisma.MediaAssetUncheckedUpdateWithoutProductInput>
 }
 
-export type MediaAssetUpdateManyWithWhereWithoutDivisionInput = {
+export type MediaAssetUpdateManyWithWhereWithoutProductInput = {
   where: Prisma.MediaAssetScalarWhereInput
-  data: Prisma.XOR<Prisma.MediaAssetUpdateManyMutationInput, Prisma.MediaAssetUncheckedUpdateManyWithoutDivisionInput>
+  data: Prisma.XOR<Prisma.MediaAssetUpdateManyMutationInput, Prisma.MediaAssetUncheckedUpdateManyWithoutProductInput>
 }
 
 export type MediaAssetCreateManyPageInput = {
@@ -637,7 +637,7 @@ export type MediaAssetCreateManyPageInput = {
   altPt: string
   credit?: string | null
   approved?: boolean
-  divisionId?: string | null
+  productId?: string | null
   createdAt?: Date | string
 }
 
@@ -650,7 +650,7 @@ export type MediaAssetUpdateWithoutPageInput = {
   credit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  division?: Prisma.DivisionUpdateOneWithoutMediaNestedInput
+  product?: Prisma.ProductUpdateOneWithoutMediaNestedInput
 }
 
 export type MediaAssetUncheckedUpdateWithoutPageInput = {
@@ -661,7 +661,7 @@ export type MediaAssetUncheckedUpdateWithoutPageInput = {
   altPt?: Prisma.StringFieldUpdateOperationsInput | string
   credit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -673,11 +673,11 @@ export type MediaAssetUncheckedUpdateManyWithoutPageInput = {
   altPt?: Prisma.StringFieldUpdateOperationsInput | string
   credit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approved?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type MediaAssetCreateManyDivisionInput = {
+export type MediaAssetCreateManyProductInput = {
   id?: string
   url: string
   altEn: string
@@ -689,7 +689,7 @@ export type MediaAssetCreateManyDivisionInput = {
   createdAt?: Date | string
 }
 
-export type MediaAssetUpdateWithoutDivisionInput = {
+export type MediaAssetUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   altEn?: Prisma.StringFieldUpdateOperationsInput | string
@@ -701,7 +701,7 @@ export type MediaAssetUpdateWithoutDivisionInput = {
   page?: Prisma.PageUpdateOneWithoutMediaNestedInput
 }
 
-export type MediaAssetUncheckedUpdateWithoutDivisionInput = {
+export type MediaAssetUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   altEn?: Prisma.StringFieldUpdateOperationsInput | string
@@ -713,7 +713,7 @@ export type MediaAssetUncheckedUpdateWithoutDivisionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type MediaAssetUncheckedUpdateManyWithoutDivisionInput = {
+export type MediaAssetUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   altEn?: Prisma.StringFieldUpdateOperationsInput | string
@@ -736,10 +736,10 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   credit?: boolean
   approved?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   createdAt?: boolean
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }, ExtArgs["result"]["mediaAsset"]>
 
 export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -751,10 +751,10 @@ export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   credit?: boolean
   approved?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   createdAt?: boolean
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }, ExtArgs["result"]["mediaAsset"]>
 
 export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -766,10 +766,10 @@ export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   credit?: boolean
   approved?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   createdAt?: boolean
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }, ExtArgs["result"]["mediaAsset"]>
 
 export type MediaAssetSelectScalar = {
@@ -781,29 +781,29 @@ export type MediaAssetSelectScalar = {
   credit?: boolean
   approved?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   createdAt?: boolean
 }
 
-export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "altEn" | "altId" | "altPt" | "credit" | "approved" | "pageId" | "divisionId" | "createdAt", ExtArgs["result"]["mediaAsset"]>
+export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "altEn" | "altId" | "altPt" | "credit" | "approved" | "pageId" | "productId" | "createdAt", ExtArgs["result"]["mediaAsset"]>
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }
 export type MediaAssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }
 export type MediaAssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.MediaAsset$pageArgs<ExtArgs>
-  division?: boolean | Prisma.MediaAsset$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.MediaAsset$productArgs<ExtArgs>
 }
 
 export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MediaAsset"
   objects: {
     page: Prisma.$PagePayload<ExtArgs> | null
-    division: Prisma.$DivisionPayload<ExtArgs> | null
+    product: Prisma.$ProductPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -814,7 +814,7 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
     credit: string | null
     approved: boolean
     pageId: string | null
-    divisionId: string | null
+    productId: string | null
     createdAt: Date
   }, ExtArgs["result"]["mediaAsset"]>
   composites: {}
@@ -1211,7 +1211,7 @@ readonly fields: MediaAssetFieldRefs;
 export interface Prisma__MediaAssetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   page<T extends Prisma.MediaAsset$pageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$pageArgs<ExtArgs>>): Prisma.Prisma__PageClient<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  division<T extends Prisma.MediaAsset$divisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$divisionArgs<ExtArgs>>): Prisma.Prisma__DivisionClient<runtime.Types.Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.MediaAsset$productArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$productArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1249,7 +1249,7 @@ export interface MediaAssetFieldRefs {
   readonly credit: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly approved: Prisma.FieldRef<"MediaAsset", 'Boolean'>
   readonly pageId: Prisma.FieldRef<"MediaAsset", 'String'>
-  readonly divisionId: Prisma.FieldRef<"MediaAsset", 'String'>
+  readonly productId: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly createdAt: Prisma.FieldRef<"MediaAsset", 'DateTime'>
 }
     
@@ -1671,22 +1671,22 @@ export type MediaAsset$pageArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * MediaAsset.division
+ * MediaAsset.product
  */
-export type MediaAsset$divisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type MediaAsset$productArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Division
+   * Select specific fields to fetch from the Product
    */
-  select?: Prisma.DivisionSelect<ExtArgs> | null
+  select?: Prisma.ProductSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Division
+   * Omit specific fields from the Product
    */
-  omit?: Prisma.DivisionOmit<ExtArgs> | null
+  omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DivisionInclude<ExtArgs> | null
-  where?: Prisma.DivisionWhereInput
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  where?: Prisma.ProductWhereInput
 }
 
 /**

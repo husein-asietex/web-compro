@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prisma:generate": "bunx --bun prisma generate",
-    "prebuild": "bun run prisma:generate",
+    "prisma:generate": "prisma generate --config ./prisma7.config.ts",
+    "prebuild": "npm run prisma:generate",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -44,17 +44,10 @@
     "prettier": "^3.9.9",
     "prisma": "^7.9.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   },
-  "packageManager": "bun@1.4.2",
-  "ignoreScripts": [
-    "sharp",
-    "unrs-resolver"
-  ],
-  "trustedDependencies": [
-    "sharp",
-    "unrs-resolver"
-  ],
+  "packageManager": "npm@10.8.2",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",

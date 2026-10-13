@@ -55,7 +55,7 @@ export const ModelName = {
   Session: 'Session',
   SiteSetting: 'SiteSetting',
   Page: 'Page',
-  Division: 'Division',
+  Product: 'Product',
   Translation: 'Translation',
   MediaAsset: 'MediaAsset',
   NetworkLocation: 'NetworkLocation',
@@ -130,7 +130,7 @@ export const PageScalarFieldEnum = {
 export type PageScalarFieldEnum = (typeof PageScalarFieldEnum)[keyof typeof PageScalarFieldEnum]
 
 
-export const DivisionScalarFieldEnum = {
+export const ProductScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
   order: 'order',
@@ -146,7 +146,7 @@ export const DivisionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type DivisionScalarFieldEnum = (typeof DivisionScalarFieldEnum)[keyof typeof DivisionScalarFieldEnum]
+export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
 export const TranslationScalarFieldEnum = {
@@ -155,7 +155,7 @@ export const TranslationScalarFieldEnum = {
   title: 'title',
   body: 'body',
   pageId: 'pageId',
-  divisionId: 'divisionId'
+  productId: 'productId'
 } as const
 
 export type TranslationScalarFieldEnum = (typeof TranslationScalarFieldEnum)[keyof typeof TranslationScalarFieldEnum]
@@ -170,7 +170,7 @@ export const MediaAssetScalarFieldEnum = {
   credit: 'credit',
   approved: 'approved',
   pageId: 'pageId',
-  divisionId: 'divisionId',
+  productId: 'productId',
   createdAt: 'createdAt'
 } as const
 

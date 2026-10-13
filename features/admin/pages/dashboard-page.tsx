@@ -35,7 +35,7 @@ export default async function AdminPage() {
           >
             <p className="font-serif text-2xl">Content</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              Pages, translations and divisions
+              Pages, translations and products
             </p>
           </Link>
           <Link

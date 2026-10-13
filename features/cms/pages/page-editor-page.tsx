@@ -15,14 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export const instant = false;
 
-const ALLOWED_SLUGS = [
-  "home",
-  "about",
-  "products",
-  "network",
-  "career",
-  "contact",
-];
+const ALLOWED_SLUGS = ["home", "about", "products", "career", "contact"];
 
 type LocaleFieldsetProps = {
   locale: string;

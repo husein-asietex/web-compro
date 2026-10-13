@@ -30,7 +30,7 @@ export type TranslationMinAggregateOutputType = {
   title: string | null
   body: string | null
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
 }
 
 export type TranslationMaxAggregateOutputType = {
@@ -39,7 +39,7 @@ export type TranslationMaxAggregateOutputType = {
   title: string | null
   body: string | null
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
 }
 
 export type TranslationCountAggregateOutputType = {
@@ -48,7 +48,7 @@ export type TranslationCountAggregateOutputType = {
   title: number
   body: number
   pageId: number
-  divisionId: number
+  productId: number
   _all: number
 }
 
@@ -59,7 +59,7 @@ export type TranslationMinAggregateInputType = {
   title?: true
   body?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
 }
 
 export type TranslationMaxAggregateInputType = {
@@ -68,7 +68,7 @@ export type TranslationMaxAggregateInputType = {
   title?: true
   body?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
 }
 
 export type TranslationCountAggregateInputType = {
@@ -77,7 +77,7 @@ export type TranslationCountAggregateInputType = {
   title?: true
   body?: true
   pageId?: true
-  divisionId?: true
+  productId?: true
   _all?: true
 }
 
@@ -159,7 +159,7 @@ export type TranslationGroupByOutputType = {
   title: string
   body: string
   pageId: string | null
-  divisionId: string | null
+  productId: string | null
   _count: TranslationCountAggregateOutputType | null
   _min: TranslationMinAggregateOutputType | null
   _max: TranslationMaxAggregateOutputType | null
@@ -189,9 +189,9 @@ export type TranslationWhereInput = {
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"Translation"> | string | null
+  productId?: Prisma.StringNullableFilter<"Translation"> | string | null
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
-  division?: Prisma.XOR<Prisma.DivisionNullableScalarRelationFilter, Prisma.DivisionWhereInput> | null
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
 }
 
 export type TranslationOrderByWithRelationInput = {
@@ -200,15 +200,15 @@ export type TranslationOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  divisionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   page?: Prisma.PageOrderByWithRelationInput
-  division?: Prisma.DivisionOrderByWithRelationInput
+  product?: Prisma.ProductOrderByWithRelationInput
 }
 
 export type TranslationWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   pageId_locale?: Prisma.TranslationPageIdLocaleCompoundUniqueInput
-  divisionId_locale?: Prisma.TranslationDivisionIdLocaleCompoundUniqueInput
+  productId_locale?: Prisma.TranslationProductIdLocaleCompoundUniqueInput
   AND?: Prisma.TranslationWhereInput | Prisma.TranslationWhereInput[]
   OR?: Prisma.TranslationWhereInput[]
   NOT?: Prisma.TranslationWhereInput | Prisma.TranslationWhereInput[]
@@ -216,10 +216,10 @@ export type TranslationWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"Translation"> | string | null
+  productId?: Prisma.StringNullableFilter<"Translation"> | string | null
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
-  division?: Prisma.XOR<Prisma.DivisionNullableScalarRelationFilter, Prisma.DivisionWhereInput> | null
-}, "id" | "pageId_locale" | "divisionId_locale">
+  product?: Prisma.XOR<Prisma.ProductNullableScalarRelationFilter, Prisma.ProductWhereInput> | null
+}, "id" | "pageId_locale" | "productId_locale">
 
 export type TranslationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -227,7 +227,7 @@ export type TranslationOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
-  divisionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  productId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TranslationCountOrderByAggregateInput
   _max?: Prisma.TranslationMaxOrderByAggregateInput
   _min?: Prisma.TranslationMinOrderByAggregateInput
@@ -242,7 +242,7 @@ export type TranslationScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Translation"> | string
   body?: Prisma.StringWithAggregatesFilter<"Translation"> | string
   pageId?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
-  divisionId?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
+  productId?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
 }
 
 export type TranslationCreateInput = {
@@ -251,7 +251,7 @@ export type TranslationCreateInput = {
   title: string
   body: string
   page?: Prisma.PageCreateNestedOneWithoutTranslationsInput
-  division?: Prisma.DivisionCreateNestedOneWithoutTranslationsInput
+  product?: Prisma.ProductCreateNestedOneWithoutTranslationsInput
 }
 
 export type TranslationUncheckedCreateInput = {
@@ -260,7 +260,7 @@ export type TranslationUncheckedCreateInput = {
   title: string
   body: string
   pageId?: string | null
-  divisionId?: string | null
+  productId?: string | null
 }
 
 export type TranslationUpdateInput = {
@@ -269,7 +269,7 @@ export type TranslationUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
   page?: Prisma.PageUpdateOneWithoutTranslationsNestedInput
-  division?: Prisma.DivisionUpdateOneWithoutTranslationsNestedInput
+  product?: Prisma.ProductUpdateOneWithoutTranslationsNestedInput
 }
 
 export type TranslationUncheckedUpdateInput = {
@@ -278,7 +278,7 @@ export type TranslationUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TranslationCreateManyInput = {
@@ -287,7 +287,7 @@ export type TranslationCreateManyInput = {
   title: string
   body: string
   pageId?: string | null
-  divisionId?: string | null
+  productId?: string | null
 }
 
 export type TranslationUpdateManyMutationInput = {
@@ -303,7 +303,7 @@ export type TranslationUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TranslationListRelationFilter = {
@@ -321,8 +321,8 @@ export type TranslationPageIdLocaleCompoundUniqueInput = {
   locale: string
 }
 
-export type TranslationDivisionIdLocaleCompoundUniqueInput = {
-  divisionId: string
+export type TranslationProductIdLocaleCompoundUniqueInput = {
+  productId: string
   locale: string
 }
 
@@ -332,7 +332,7 @@ export type TranslationCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
 }
 
 export type TranslationMaxOrderByAggregateInput = {
@@ -341,7 +341,7 @@ export type TranslationMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
 }
 
 export type TranslationMinOrderByAggregateInput = {
@@ -350,7 +350,7 @@ export type TranslationMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
-  divisionId?: Prisma.SortOrder
+  productId?: Prisma.SortOrder
 }
 
 export type TranslationCreateNestedManyWithoutPageInput = {
@@ -395,45 +395,45 @@ export type TranslationUncheckedUpdateManyWithoutPageNestedInput = {
   deleteMany?: Prisma.TranslationScalarWhereInput | Prisma.TranslationScalarWhereInput[]
 }
 
-export type TranslationCreateNestedManyWithoutDivisionInput = {
-  create?: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput> | Prisma.TranslationCreateWithoutDivisionInput[] | Prisma.TranslationUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutDivisionInput | Prisma.TranslationCreateOrConnectWithoutDivisionInput[]
-  createMany?: Prisma.TranslationCreateManyDivisionInputEnvelope
+export type TranslationCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput> | Prisma.TranslationCreateWithoutProductInput[] | Prisma.TranslationUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutProductInput | Prisma.TranslationCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.TranslationCreateManyProductInputEnvelope
   connect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
 }
 
-export type TranslationUncheckedCreateNestedManyWithoutDivisionInput = {
-  create?: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput> | Prisma.TranslationCreateWithoutDivisionInput[] | Prisma.TranslationUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutDivisionInput | Prisma.TranslationCreateOrConnectWithoutDivisionInput[]
-  createMany?: Prisma.TranslationCreateManyDivisionInputEnvelope
+export type TranslationUncheckedCreateNestedManyWithoutProductInput = {
+  create?: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput> | Prisma.TranslationCreateWithoutProductInput[] | Prisma.TranslationUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutProductInput | Prisma.TranslationCreateOrConnectWithoutProductInput[]
+  createMany?: Prisma.TranslationCreateManyProductInputEnvelope
   connect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
 }
 
-export type TranslationUpdateManyWithoutDivisionNestedInput = {
-  create?: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput> | Prisma.TranslationCreateWithoutDivisionInput[] | Prisma.TranslationUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutDivisionInput | Prisma.TranslationCreateOrConnectWithoutDivisionInput[]
-  upsert?: Prisma.TranslationUpsertWithWhereUniqueWithoutDivisionInput | Prisma.TranslationUpsertWithWhereUniqueWithoutDivisionInput[]
-  createMany?: Prisma.TranslationCreateManyDivisionInputEnvelope
+export type TranslationUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput> | Prisma.TranslationCreateWithoutProductInput[] | Prisma.TranslationUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutProductInput | Prisma.TranslationCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.TranslationUpsertWithWhereUniqueWithoutProductInput | Prisma.TranslationUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.TranslationCreateManyProductInputEnvelope
   set?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   disconnect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   delete?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   connect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
-  update?: Prisma.TranslationUpdateWithWhereUniqueWithoutDivisionInput | Prisma.TranslationUpdateWithWhereUniqueWithoutDivisionInput[]
-  updateMany?: Prisma.TranslationUpdateManyWithWhereWithoutDivisionInput | Prisma.TranslationUpdateManyWithWhereWithoutDivisionInput[]
+  update?: Prisma.TranslationUpdateWithWhereUniqueWithoutProductInput | Prisma.TranslationUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.TranslationUpdateManyWithWhereWithoutProductInput | Prisma.TranslationUpdateManyWithWhereWithoutProductInput[]
   deleteMany?: Prisma.TranslationScalarWhereInput | Prisma.TranslationScalarWhereInput[]
 }
 
-export type TranslationUncheckedUpdateManyWithoutDivisionNestedInput = {
-  create?: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput> | Prisma.TranslationCreateWithoutDivisionInput[] | Prisma.TranslationUncheckedCreateWithoutDivisionInput[]
-  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutDivisionInput | Prisma.TranslationCreateOrConnectWithoutDivisionInput[]
-  upsert?: Prisma.TranslationUpsertWithWhereUniqueWithoutDivisionInput | Prisma.TranslationUpsertWithWhereUniqueWithoutDivisionInput[]
-  createMany?: Prisma.TranslationCreateManyDivisionInputEnvelope
+export type TranslationUncheckedUpdateManyWithoutProductNestedInput = {
+  create?: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput> | Prisma.TranslationCreateWithoutProductInput[] | Prisma.TranslationUncheckedCreateWithoutProductInput[]
+  connectOrCreate?: Prisma.TranslationCreateOrConnectWithoutProductInput | Prisma.TranslationCreateOrConnectWithoutProductInput[]
+  upsert?: Prisma.TranslationUpsertWithWhereUniqueWithoutProductInput | Prisma.TranslationUpsertWithWhereUniqueWithoutProductInput[]
+  createMany?: Prisma.TranslationCreateManyProductInputEnvelope
   set?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   disconnect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   delete?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
   connect?: Prisma.TranslationWhereUniqueInput | Prisma.TranslationWhereUniqueInput[]
-  update?: Prisma.TranslationUpdateWithWhereUniqueWithoutDivisionInput | Prisma.TranslationUpdateWithWhereUniqueWithoutDivisionInput[]
-  updateMany?: Prisma.TranslationUpdateManyWithWhereWithoutDivisionInput | Prisma.TranslationUpdateManyWithWhereWithoutDivisionInput[]
+  update?: Prisma.TranslationUpdateWithWhereUniqueWithoutProductInput | Prisma.TranslationUpdateWithWhereUniqueWithoutProductInput[]
+  updateMany?: Prisma.TranslationUpdateManyWithWhereWithoutProductInput | Prisma.TranslationUpdateManyWithWhereWithoutProductInput[]
   deleteMany?: Prisma.TranslationScalarWhereInput | Prisma.TranslationScalarWhereInput[]
 }
 
@@ -442,7 +442,7 @@ export type TranslationCreateWithoutPageInput = {
   locale: string
   title: string
   body: string
-  division?: Prisma.DivisionCreateNestedOneWithoutTranslationsInput
+  product?: Prisma.ProductCreateNestedOneWithoutTranslationsInput
 }
 
 export type TranslationUncheckedCreateWithoutPageInput = {
@@ -450,7 +450,7 @@ export type TranslationUncheckedCreateWithoutPageInput = {
   locale: string
   title: string
   body: string
-  divisionId?: string | null
+  productId?: string | null
 }
 
 export type TranslationCreateOrConnectWithoutPageInput = {
@@ -488,10 +488,10 @@ export type TranslationScalarWhereInput = {
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
-  divisionId?: Prisma.StringNullableFilter<"Translation"> | string | null
+  productId?: Prisma.StringNullableFilter<"Translation"> | string | null
 }
 
-export type TranslationCreateWithoutDivisionInput = {
+export type TranslationCreateWithoutProductInput = {
   id?: string
   locale: string
   title: string
@@ -499,7 +499,7 @@ export type TranslationCreateWithoutDivisionInput = {
   page?: Prisma.PageCreateNestedOneWithoutTranslationsInput
 }
 
-export type TranslationUncheckedCreateWithoutDivisionInput = {
+export type TranslationUncheckedCreateWithoutProductInput = {
   id?: string
   locale: string
   title: string
@@ -507,30 +507,30 @@ export type TranslationUncheckedCreateWithoutDivisionInput = {
   pageId?: string | null
 }
 
-export type TranslationCreateOrConnectWithoutDivisionInput = {
+export type TranslationCreateOrConnectWithoutProductInput = {
   where: Prisma.TranslationWhereUniqueInput
-  create: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput>
+  create: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput>
 }
 
-export type TranslationCreateManyDivisionInputEnvelope = {
-  data: Prisma.TranslationCreateManyDivisionInput | Prisma.TranslationCreateManyDivisionInput[]
+export type TranslationCreateManyProductInputEnvelope = {
+  data: Prisma.TranslationCreateManyProductInput | Prisma.TranslationCreateManyProductInput[]
   skipDuplicates?: boolean
 }
 
-export type TranslationUpsertWithWhereUniqueWithoutDivisionInput = {
+export type TranslationUpsertWithWhereUniqueWithoutProductInput = {
   where: Prisma.TranslationWhereUniqueInput
-  update: Prisma.XOR<Prisma.TranslationUpdateWithoutDivisionInput, Prisma.TranslationUncheckedUpdateWithoutDivisionInput>
-  create: Prisma.XOR<Prisma.TranslationCreateWithoutDivisionInput, Prisma.TranslationUncheckedCreateWithoutDivisionInput>
+  update: Prisma.XOR<Prisma.TranslationUpdateWithoutProductInput, Prisma.TranslationUncheckedUpdateWithoutProductInput>
+  create: Prisma.XOR<Prisma.TranslationCreateWithoutProductInput, Prisma.TranslationUncheckedCreateWithoutProductInput>
 }
 
-export type TranslationUpdateWithWhereUniqueWithoutDivisionInput = {
+export type TranslationUpdateWithWhereUniqueWithoutProductInput = {
   where: Prisma.TranslationWhereUniqueInput
-  data: Prisma.XOR<Prisma.TranslationUpdateWithoutDivisionInput, Prisma.TranslationUncheckedUpdateWithoutDivisionInput>
+  data: Prisma.XOR<Prisma.TranslationUpdateWithoutProductInput, Prisma.TranslationUncheckedUpdateWithoutProductInput>
 }
 
-export type TranslationUpdateManyWithWhereWithoutDivisionInput = {
+export type TranslationUpdateManyWithWhereWithoutProductInput = {
   where: Prisma.TranslationScalarWhereInput
-  data: Prisma.XOR<Prisma.TranslationUpdateManyMutationInput, Prisma.TranslationUncheckedUpdateManyWithoutDivisionInput>
+  data: Prisma.XOR<Prisma.TranslationUpdateManyMutationInput, Prisma.TranslationUncheckedUpdateManyWithoutProductInput>
 }
 
 export type TranslationCreateManyPageInput = {
@@ -538,7 +538,7 @@ export type TranslationCreateManyPageInput = {
   locale: string
   title: string
   body: string
-  divisionId?: string | null
+  productId?: string | null
 }
 
 export type TranslationUpdateWithoutPageInput = {
@@ -546,7 +546,7 @@ export type TranslationUpdateWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
-  division?: Prisma.DivisionUpdateOneWithoutTranslationsNestedInput
+  product?: Prisma.ProductUpdateOneWithoutTranslationsNestedInput
 }
 
 export type TranslationUncheckedUpdateWithoutPageInput = {
@@ -554,7 +554,7 @@ export type TranslationUncheckedUpdateWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TranslationUncheckedUpdateManyWithoutPageInput = {
@@ -562,10 +562,10 @@ export type TranslationUncheckedUpdateManyWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
-  divisionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type TranslationCreateManyDivisionInput = {
+export type TranslationCreateManyProductInput = {
   id?: string
   locale: string
   title: string
@@ -573,7 +573,7 @@ export type TranslationCreateManyDivisionInput = {
   pageId?: string | null
 }
 
-export type TranslationUpdateWithoutDivisionInput = {
+export type TranslationUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -581,7 +581,7 @@ export type TranslationUpdateWithoutDivisionInput = {
   page?: Prisma.PageUpdateOneWithoutTranslationsNestedInput
 }
 
-export type TranslationUncheckedUpdateWithoutDivisionInput = {
+export type TranslationUncheckedUpdateWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -589,7 +589,7 @@ export type TranslationUncheckedUpdateWithoutDivisionInput = {
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
-export type TranslationUncheckedUpdateManyWithoutDivisionInput = {
+export type TranslationUncheckedUpdateManyWithoutProductInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -605,9 +605,9 @@ export type TranslationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   title?: boolean
   body?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }, ExtArgs["result"]["translation"]>
 
 export type TranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -616,9 +616,9 @@ export type TranslationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   title?: boolean
   body?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }, ExtArgs["result"]["translation"]>
 
 export type TranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -627,9 +627,9 @@ export type TranslationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   title?: boolean
   body?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }, ExtArgs["result"]["translation"]>
 
 export type TranslationSelectScalar = {
@@ -638,28 +638,28 @@ export type TranslationSelectScalar = {
   title?: boolean
   body?: boolean
   pageId?: boolean
-  divisionId?: boolean
+  productId?: boolean
 }
 
-export type TranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "locale" | "title" | "body" | "pageId" | "divisionId", ExtArgs["result"]["translation"]>
+export type TranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "locale" | "title" | "body" | "pageId" | "productId", ExtArgs["result"]["translation"]>
 export type TranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }
 export type TranslationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }
 export type TranslationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
-  division?: boolean | Prisma.Translation$divisionArgs<ExtArgs>
+  product?: boolean | Prisma.Translation$productArgs<ExtArgs>
 }
 
 export type $TranslationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Translation"
   objects: {
     page: Prisma.$PagePayload<ExtArgs> | null
-    division: Prisma.$DivisionPayload<ExtArgs> | null
+    product: Prisma.$ProductPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -667,7 +667,7 @@ export type $TranslationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     title: string
     body: string
     pageId: string | null
-    divisionId: string | null
+    productId: string | null
   }, ExtArgs["result"]["translation"]>
   composites: {}
 }
@@ -1063,7 +1063,7 @@ readonly fields: TranslationFieldRefs;
 export interface Prisma__TranslationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   page<T extends Prisma.Translation$pageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Translation$pageArgs<ExtArgs>>): Prisma.Prisma__PageClient<runtime.Types.Result.GetResult<Prisma.$PagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  division<T extends Prisma.Translation$divisionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Translation$divisionArgs<ExtArgs>>): Prisma.Prisma__DivisionClient<runtime.Types.Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.Translation$productArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Translation$productArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1098,7 +1098,7 @@ export interface TranslationFieldRefs {
   readonly title: Prisma.FieldRef<"Translation", 'String'>
   readonly body: Prisma.FieldRef<"Translation", 'String'>
   readonly pageId: Prisma.FieldRef<"Translation", 'String'>
-  readonly divisionId: Prisma.FieldRef<"Translation", 'String'>
+  readonly productId: Prisma.FieldRef<"Translation", 'String'>
 }
     
 
@@ -1519,22 +1519,22 @@ export type Translation$pageArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Translation.division
+ * Translation.product
  */
-export type Translation$divisionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Translation$productArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Division
+   * Select specific fields to fetch from the Product
    */
-  select?: Prisma.DivisionSelect<ExtArgs> | null
+  select?: Prisma.ProductSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Division
+   * Omit specific fields from the Product
    */
-  omit?: Prisma.DivisionOmit<ExtArgs> | null
+  omit?: Prisma.ProductOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.DivisionInclude<ExtArgs> | null
-  where?: Prisma.DivisionWhereInput
+  include?: Prisma.ProductInclude<ExtArgs> | null
+  where?: Prisma.ProductWhereInput
 }
 
 /**

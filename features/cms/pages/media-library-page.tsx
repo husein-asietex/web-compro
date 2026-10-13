@@ -18,10 +18,10 @@ export const instant = false;
 
 export default async function MediaPage() {
   const user = await requireUser();
-  const [assets, pages, divisions] = await Promise.all([
+  const [assets, pages, products] = await Promise.all([
     prisma.mediaAsset.findMany({ orderBy: { createdAt: "desc" } }),
     prisma.page.findMany({ orderBy: { slug: "asc" } }),
-    prisma.division.findMany({ orderBy: { order: "asc" } }),
+    prisma.product.findMany({ orderBy: { order: "asc" } }),
   ]);
 
   return (
@@ -91,18 +91,18 @@ export default async function MediaPage() {
               </select>
             </Field>
             <Field>
-              <FieldLabel htmlFor="divisionId">
-                Attach to division (optional)
+              <FieldLabel htmlFor="productId">
+                Attach to product (optional)
               </FieldLabel>
               <select
-                id="divisionId"
-                name="divisionId"
+                id="productId"
+                name="productId"
                 className="h-9 rounded-md border bg-transparent px-3 text-sm"
               >
                 <option value="">None</option>
-                {divisions.map((division) => (
-                  <option key={division.id} value={division.id}>
-                    {division.slug}
+                {products.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.slug}
                   </option>
                 ))}
               </select>

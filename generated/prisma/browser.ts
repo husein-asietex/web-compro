@@ -38,10 +38,10 @@ export type SiteSetting = Prisma.SiteSettingModel
  */
 export type Page = Prisma.PageModel
 /**
- * Model Division
+ * Model Product
  * 
  */
-export type Division = Prisma.DivisionModel
+export type Product = Prisma.ProductModel
 /**
  * Model Translation
  * 

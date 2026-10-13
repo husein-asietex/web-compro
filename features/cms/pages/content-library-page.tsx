@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requireUser } from "@/backend/auth";
 import { prisma } from "@/backend/prisma";
 import {
-  createDivisionsAction,
+  createProductsAction,
   publishCatalogAction,
   saveCatalogAction,
 } from "@/features/cms/actions/content";
@@ -13,14 +13,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export const instant = false;
 
-const PAGE_SLUGS = [
-  "home",
-  "about",
-  "products",
-  "network",
-  "career",
-  "contact",
-];
+const PAGE_SLUGS = ["home", "about", "products", "career", "contact"];
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 
 const CARD_LINK_CLASS =
@@ -59,28 +52,28 @@ function PagesList({ pages }: { pages: { slug: string; status: string }[] }) {
   );
 }
 
-function DivisionsList({
-  divisions,
+function ProductsList({
+  products,
 }: {
-  divisions: { id: string; slug: string; order: number }[];
+  products: { id: string; slug: string; order: number }[];
 }) {
-  if (divisions.length === 0) {
+  if (products.length === 0) {
     return (
-      <form action={createDivisionsAction}>
-        <Button className="mt-4">Create nine divisions</Button>
+      <form action={createProductsAction}>
+        <Button className="mt-4">Create nine products</Button>
       </form>
     );
   }
 
   return (
     <div className="mt-4 grid gap-2 sm:grid-cols-2">
-      {divisions.map((division) => (
+      {products.map((product) => (
         <Link
-          key={division.id}
-          href={`/dashboard/content/divisions/${division.slug}`}
+          key={product.id}
+          href={`/dashboard/content/products/${product.slug}`}
           className={`capitalize ${CARD_LINK_CLASS}`}
         >
-          {division.order}. {division.slug.replaceAll("-", " ")}
+          {product.order}. {product.slug.replaceAll("-", " ")}
         </Link>
       ))}
     </div>
@@ -157,16 +150,7 @@ function CatalogSettingsForm({
           <fieldset>
             <legend className="mb-2 text-sm font-medium">Show CTA on</legend>
             <div className="grid gap-2 text-sm">
-              {[
-                "home",
-                "about",
-                "products",
-                "division",
-                "network",
-                "career",
-                "contact",
-                "footer",
-              ].map((placement) => (
+              {["home", "product", "footer"].map((placement) => (
                 <label
                   key={placement}
                   className="flex items-center gap-2 capitalize"
@@ -228,9 +212,9 @@ function CatalogSettingsForm({
 export default async function ContentIndex() {
   const user = await requireUser();
 
-  const [pages, divisions, settings] = await Promise.all([
+  const [pages, products, settings] = await Promise.all([
     prisma.page.findMany({ orderBy: { slug: "asc" } }),
-    prisma.division.findMany({ orderBy: { order: "asc" } }),
+    prisma.product.findMany({ orderBy: { order: "asc" } }),
     prisma.siteSetting.findUnique({ where: { id: "site" } }),
   ]);
 
@@ -254,8 +238,8 @@ export default async function ContentIndex() {
             <h2 className="font-serif text-3xl">Pages</h2>
             <PagesList pages={pages} />
 
-            <h2 className="mt-10 font-serif text-3xl">Divisions</h2>
-            <DivisionsList divisions={divisions} />
+            <h2 className="mt-10 font-serif text-3xl">Products</h2>
+            <ProductsList products={products} />
 
             <h2 className="mt-10 font-serif text-3xl">Network</h2>
             <Link

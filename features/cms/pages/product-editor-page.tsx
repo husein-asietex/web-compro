@@ -4,8 +4,8 @@ import { requireUser } from "@/backend/auth";
 import { prisma } from "@/backend/prisma";
 import { locales } from "@/lib/i18n";
 import {
-  publishDivisionAction,
-  saveDivisionAction,
+  publishProductAction,
+  saveProductAction,
 } from "@/features/cms/actions/content";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,7 @@ import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 export const instant = false;
-type DivisionDraft = {
+type ProductDraft = {
   capacity?: string;
   machinery?: string;
   products?: string[];
@@ -23,32 +23,30 @@ type DivisionDraft = {
   videoPt?: string;
   translations?: Record<string, { title?: string; body?: string }>;
 };
-export default async function DivisionEditor({
+export default async function ProductEditor({
   params,
   searchParams,
-}: PageProps<"/dashboard/content/divisions/[slug]">) {
+}: PageProps<"/dashboard/content/products/[slug]">) {
   const user = await requireUser();
   const { slug } = await params;
   const query = await searchParams;
-  const division = await prisma.division.findUnique({
+  const product = await prisma.product.findUnique({
     where: { slug },
     include: { translations: true },
   });
-  if (!division) notFound();
-  const draft = division.draft as DivisionDraft | null;
+  if (!product) notFound();
+  const draft = product.draft as ProductDraft | null;
   const translation = (locale: string) =>
     draft?.translations?.[locale] ??
-    division.translations.find((item) => item.locale === locale);
+    product.translations.find((item) => item.locale === locale);
   return (
     <main className="min-h-dvh bg-background p-6 text-foreground md:p-12">
       <header className="mx-auto flex max-w-4xl items-center justify-between">
         <Link href="/dashboard/content" className="text-sm underline">
           ← Content library
         </Link>
-        <Badge
-          variant={division.status === "PUBLISHED" ? "default" : "outline"}
-        >
-          {division.status}
+        <Badge variant={product.status === "PUBLISHED" ? "default" : "outline"}>
+          {product.status}
         </Badge>
       </header>
       <section className="mx-auto mt-14 max-w-4xl">
@@ -71,7 +69,7 @@ export default async function DivisionEditor({
             Semua URL harus valid dan menggunakan HTTPS.
           </p>
         )}
-        <form action={saveDivisionAction} className="mt-10">
+        <form action={saveProductAction} className="mt-10">
           <input type="hidden" name="slug" value={slug} />
           <FieldGroup>
             <fieldset className="rounded-2xl border border-border-subtle bg-card p-6">
@@ -82,7 +80,7 @@ export default async function DivisionEditor({
                   <Input
                     id="capacity"
                     name="capacity"
-                    defaultValue={draft?.capacity ?? division.capacity ?? ""}
+                    defaultValue={draft?.capacity ?? product.capacity ?? ""}
                   />
                 </Field>
                 <Field>
@@ -92,7 +90,7 @@ export default async function DivisionEditor({
                   <Textarea
                     id="products"
                     name="products"
-                    defaultValue={(draft?.products ?? division.products).join(
+                    defaultValue={(draft?.products ?? product.products).join(
                       "\n",
                     )}
                     rows={4}
@@ -103,7 +101,7 @@ export default async function DivisionEditor({
                   <Textarea
                     id="machinery"
                     name="machinery"
-                    defaultValue={draft?.machinery ?? division.machinery ?? ""}
+                    defaultValue={draft?.machinery ?? product.machinery ?? ""}
                     rows={3}
                   />
                 </Field>
@@ -114,7 +112,7 @@ export default async function DivisionEditor({
                   <Textarea
                     id="gallery"
                     name="gallery"
-                    defaultValue={(draft?.gallery ?? division.gallery).join(
+                    defaultValue={(draft?.gallery ?? product.gallery).join(
                       "\n",
                     )}
                     rows={3}
@@ -131,7 +129,7 @@ export default async function DivisionEditor({
                     id="videoEn"
                     name="videoEn"
                     type="url"
-                    defaultValue={draft?.videoEn ?? division.videoEn ?? ""}
+                    defaultValue={draft?.videoEn ?? product.videoEn ?? ""}
                   />
                 </Field>
                 <Field>
@@ -140,7 +138,7 @@ export default async function DivisionEditor({
                     id="videoId"
                     name="videoId"
                     type="url"
-                    defaultValue={draft?.videoId ?? division.videoId ?? ""}
+                    defaultValue={draft?.videoId ?? product.videoId ?? ""}
                   />
                 </Field>
                 <Field>
@@ -149,7 +147,7 @@ export default async function DivisionEditor({
                     id="videoPt"
                     name="videoPt"
                     type="url"
-                    defaultValue={draft?.videoPt ?? division.videoPt ?? ""}
+                    defaultValue={draft?.videoPt ?? product.videoPt ?? ""}
                   />
                 </Field>
               </FieldGroup>
@@ -189,10 +187,10 @@ export default async function DivisionEditor({
           </FieldGroup>
         </form>
         {user.role === "ADMIN" && (
-          <form className="mt-3" action={publishDivisionAction}>
+          <form className="mt-3" action={publishProductAction}>
             <input type="hidden" name="slug" value={slug} />
             <Button type="submit" variant="outline">
-              Publish division
+              Publish product
             </Button>
           </form>
         )}

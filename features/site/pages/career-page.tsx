@@ -1,206 +1,255 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import engineeringCollaboration from "@/public/career/engineering-collaboration.png";
+import productionTeam from "@/public/career/production-team.png";
+import qualitySpecialist from "@/public/career/quality-specialist.png";
 import { prisma } from "@/backend/prisma";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import { CatalogCta } from "@/features/site/lib/site-page-helpers";
 import { copy, type Locale } from "@/lib/i18n";
 
 const careerCopy = {
   en: {
-    label: "Work with Asietex",
-    aside: "A place for careful work",
-    asideBody: "Make something that lasts beyond the next production cycle.",
-    valuesTitle: "How we work",
-    values: [
-      ["Care", "Protect quality, people, and the details that connect them."],
+    branchesTitle: "Where our people work",
+    mapsLabel: "View on Maps",
+    branches: [
       [
-        "Discipline",
-        "Turn good decisions into repeatable production standards.",
+        "Jakarta",
+        "Head Office",
+        "Jl. Cideng Timur No. 36, Petojo Utara, Gambir, Central Jakarta 10130, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Jl.+Cideng+Timur+No.+36,+Jakarta+Pusat",
       ],
       [
-        "Curiosity",
-        "Keep learning from materials, machinery, and one another.",
+        "Cikande",
+        "Factory",
+        "Modern Cikande Industrial Estate, Serang, Banten, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Modern+Cikande+Industrial+Estate,+Serang,+Banten",
       ],
-    ],
-    departmentsTitle: "Where your craft can grow",
-    departments: [
-      "Production",
-      "Quality",
-      "Engineering",
-      "Commercial",
-      "Operations",
+      [
+        "Cikampek",
+        "Factory",
+        "Cikampek, Karawang, West Java, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Cikampek,+Karawang,+Jawa+Barat",
+      ],
     ],
     openingsTitle: "Current openings",
-    openingsNote:
-      "Sample openings for layout review. Replace before publication.",
-    openings: [
-      ["Production Planner", "Jakarta · Full time"],
-      ["Quality Assurance Specialist", "Factory operations · Full time"],
-      ["Textile Process Engineer", "Engineering · Full time"],
-    ],
-    placeholder: "Placeholder",
-    applyTitle: "Interested in joining us?",
-    applyBody:
-      "Send your profile and the role you are interested in to our team.",
-    apply: "Email your profile",
+    viewOpenings: "Apply Now",
   },
   id: {
-    label: "Berkarier di Asietex",
-    aside: "Ruang untuk karya yang teliti",
-    asideBody: "Ciptakan sesuatu yang bertahan melampaui satu siklus produksi.",
-    valuesTitle: "Cara kami bekerja",
-    values: [
+    branchesTitle: "Tempat tim kami bekerja",
+    mapsLabel: "Lihat di Maps",
+    branches: [
       [
-        "Kepedulian",
-        "Menjaga kualitas, manusia, dan detail yang menghubungkan keduanya.",
+        "Jakarta",
+        "Kantor Pusat",
+        "Jl. Cideng Timur No. 36, Petojo Utara, Gambir, Jakarta Pusat 10130, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Jl.+Cideng+Timur+No.+36,+Jakarta+Pusat",
       ],
       [
-        "Disiplin",
-        "Mengubah keputusan baik menjadi standar produksi yang dapat diulang.",
+        "Cikande",
+        "Pabrik",
+        "Kawasan Industri Modern Cikande, Serang, Banten, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Modern+Cikande+Industrial+Estate,+Serang,+Banten",
       ],
       [
-        "Keingintahuan",
-        "Terus belajar dari material, mesin, dan satu sama lain.",
+        "Cikampek",
+        "Pabrik",
+        "Cikampek, Karawang, Jawa Barat, Indonesia",
+        "https://www.google.com/maps/search/?api=1&query=Cikampek,+Karawang,+Jawa+Barat",
       ],
-    ],
-    departmentsTitle: "Tempat keahlian Anda berkembang",
-    departments: [
-      "Produksi",
-      "Kualitas",
-      "Engineering",
-      "Komersial",
-      "Operasional",
     ],
     openingsTitle: "Lowongan tersedia",
-    openingsNote:
-      "Lowongan contoh untuk peninjauan layout. Ganti sebelum publikasi.",
-    openings: [
-      ["Perencana Produksi", "Jakarta · Penuh waktu"],
-      ["Spesialis Quality Assurance", "Operasional pabrik · Penuh waktu"],
-      ["Engineer Proses Tekstil", "Engineering · Penuh waktu"],
-    ],
-    placeholder: "Placeholder",
-    applyTitle: "Tertarik bergabung?",
-    applyBody: "Kirim profil dan posisi yang Anda minati kepada tim kami.",
-    apply: "Kirim profil melalui email",
+    viewOpenings: "Lamar Sekarang",
   },
   pt: {
-    label: "Trabalhe na Asietex",
-    aside: "Um lugar para trabalho cuidadoso",
-    asideBody: "Crie algo que dure para além do próximo ciclo de produção.",
-    valuesTitle: "Como trabalhamos",
-    values: [
+    branchesTitle: "Onde as nossas equipas trabalham",
+    mapsLabel: "Ver no Maps",
+    branches: [
       [
-        "Cuidado",
-        "Protegemos a qualidade, as pessoas e os detalhes que as ligam.",
+        "Jakarta",
+        "Sede",
+        "Jl. Cideng Timur No. 36, Petojo Utara, Gambir, Jacarta Central 10130, Indonésia",
+        "https://www.google.com/maps/search/?api=1&query=Jl.+Cideng+Timur+No.+36,+Jakarta+Pusat",
       ],
       [
-        "Disciplina",
-        "Transformamos boas decisões em padrões de produção repetíveis.",
+        "Cikande",
+        "Fábrica",
+        "Parque Industrial Modern Cikande, Serang, Banten, Indonésia",
+        "https://www.google.com/maps/search/?api=1&query=Modern+Cikande+Industrial+Estate,+Serang,+Banten",
       ],
       [
-        "Curiosidade",
-        "Continuamos a aprender com materiais, máquinas e uns com os outros.",
+        "Cikampek",
+        "Fábrica",
+        "Cikampek, Karawang, Java Ocidental, Indonésia",
+        "https://www.google.com/maps/search/?api=1&query=Cikampek,+Karawang,+Jawa+Barat",
       ],
-    ],
-    departmentsTitle: "Onde a sua experiência pode crescer",
-    departments: [
-      "Produção",
-      "Qualidade",
-      "Engenharia",
-      "Comercial",
-      "Operações",
     ],
     openingsTitle: "Vagas atuais",
-    openingsNote:
-      "Vagas de exemplo para revisão do layout. Substituir antes da publicação.",
-    openings: [
-      ["Planeador de Produção", "Jacarta · Tempo inteiro"],
-      [
-        "Especialista de Garantia da Qualidade",
-        "Operações fabris · Tempo inteiro",
-      ],
-      ["Engenheiro de Processos Têxteis", "Engenharia · Tempo inteiro"],
-    ],
-    placeholder: "Placeholder",
-    applyTitle: "Quer juntar-se a nós?",
-    applyBody:
-      "Envie o seu perfil e a função em que está interessado à nossa equipa.",
-    apply: "Enviar perfil por email",
+    viewOpenings: "Candidate-se agora",
   },
 } as const;
 
+const dummyOpenings = {
+  en: [
+    {
+      role: "Production Planner",
+      location: "Jakarta",
+      type: "Full time",
+      postedAt: "Posted 2 days ago",
+    },
+    {
+      role: "Quality Assurance Specialist",
+      location: "Factory operations",
+      type: "Full time",
+      postedAt: "Posted 5 days ago",
+    },
+    {
+      role: "Textile Process Engineer",
+      location: "Jakarta",
+      type: "Full time",
+      postedAt: "Posted 1 week ago",
+    },
+  ],
+  id: [
+    {
+      role: "Perencana Produksi",
+      location: "Jakarta",
+      type: "Penuh waktu",
+      postedAt: "Diposting 2 hari lalu",
+    },
+    {
+      role: "Spesialis Quality Assurance",
+      location: "Operasional pabrik",
+      type: "Penuh waktu",
+      postedAt: "Diposting 5 hari lalu",
+    },
+    {
+      role: "Engineer Proses Tekstil",
+      location: "Jakarta",
+      type: "Penuh waktu",
+      postedAt: "Diposting 1 minggu lalu",
+    },
+  ],
+  pt: [
+    {
+      role: "Planeador de Produção",
+      location: "Jacarta",
+      type: "Tempo inteiro",
+      postedAt: "Publicado há 2 dias",
+    },
+    {
+      role: "Especialista de Qualidade",
+      location: "Operações fabris",
+      type: "Tempo inteiro",
+      postedAt: "Publicado há 5 dias",
+    },
+    {
+      role: "Engenheiro de Processos Têxteis",
+      location: "Jacarta",
+      type: "Tempo inteiro",
+      postedAt: "Publicado há 1 semana",
+    },
+  ],
+} as const;
+
+const careerImageAlts = {
+  en: [
+    "Textile production team briefing",
+    "Engineers collaborating on the production floor",
+    "Quality specialist inspecting woven fabric",
+  ],
+  id: [
+    "Briefing tim produksi tekstil",
+    "Kolaborasi engineer di area produksi",
+    "Spesialis kualitas memeriksa kain tenun",
+  ],
+  pt: [
+    "Briefing da equipa de produção têxtil",
+    "Engenheiros a colaborar na área de produção",
+    "Especialista de qualidade a inspecionar tecido entrançado",
+  ],
+} as const;
+
 export default async function CareerPage({ locale }: { locale: Locale }) {
-  const [page, settings] = await Promise.all([
-    prisma.page.findFirst({
-      where: { slug: "career", status: "PUBLISHED" },
-      include: { translations: { where: { locale } } },
-    }),
-    prisma.siteSetting.findUnique({ where: { id: "site" } }),
-  ]);
+  const page = await prisma.page.findFirst({
+    where: { slug: "career", status: "PUBLISHED" },
+    include: { translations: { where: { locale } } },
+  });
   if (!page) redirect("/en");
 
   const translation = page.translations[0];
   const text = careerCopy[locale];
+  const openings = dummyOpenings[locale];
+  const imageAlts = careerImageAlts[locale];
 
   return (
+    /* Career page */
     <section className="mx-auto max-w-7xl px-5 py-16 md:px-10 md:py-24">
-      <div className="grid gap-12 md:grid-cols-[1.25fr_.75fr] md:gap-20">
-        <div>
-          <Badge variant="outline">{text.label}</Badge>
-          <h1 className="mt-8 max-w-4xl font-serif text-6xl leading-[.95] tracking-[-.04em] md:text-8xl">
-            {translation?.title || copy[locale].nav[3]}
-          </h1>
-          <div className="mt-9 max-w-2xl whitespace-pre-line text-lg leading-8 text-muted-foreground">
-            {translation?.body}
-          </div>
+      {/* Career introduction */}
+      <div className="grid gap-12">
+        <h1 className="mt-8 max-w-4xl font-serif text-6xl leading-[.95] tracking-[-.04em] md:text-8xl">
+          {translation?.title || copy[locale].nav[3]}
+        </h1>
+        <div className="max-w-2xl whitespace-pre-line text-lg leading-8 text-muted-foreground">
+          {translation?.body}
         </div>
-
-        <aside className="self-end rounded-[2rem] bg-primary p-7 text-primary-foreground md:p-9">
-          <p className="text-sm text-accent">{text.aside}</p>
-          <p className="mt-8 font-serif text-4xl leading-tight">
-            {text.asideBody}
-          </p>
-          <div className="mt-12 border-t border-border-subtle pt-5 text-sm leading-6 text-ink-inverse-muted">
-            {text.departments.join(" · ")}
-          </div>
-        </aside>
       </div>
 
+      {/* Career imagery */}
+      <div className="mt-16 grid gap-4 md:grid-cols-3">
+        {[
+          [productionTeam, imageAlts[0]],
+          [engineeringCollaboration, imageAlts[1]],
+          [qualitySpecialist, imageAlts[2]],
+        ].map(([src, alt], index) => (
+          <figure
+            key={alt as string}
+            className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-card"
+          >
+            <Image
+              src={src}
+              alt={alt as string}
+              fill
+              placeholder="blur"
+              priority={index === 0}
+              sizes="(max-width: 768px) 100vw, 33vw"
+              className="object-cover"
+            />
+          </figure>
+        ))}
+      </div>
+
+      {/* Career branches */}
       <section className="mt-24" aria-labelledby="career-values">
         <h2 id="career-values" className="font-serif text-5xl md:text-6xl">
-          {text.valuesTitle}
+          {text.branchesTitle}
         </h2>
         <div className="mt-10 grid gap-px overflow-hidden border border-border-subtle bg-border-subtle md:grid-cols-3">
-          {text.values.map(([title, body]) => (
-            <article key={title} className="bg-background p-7">
-              <h3 className="font-serif text-3xl">{title}</h3>
-              <p className="mt-5 leading-7 text-muted-foreground">{body}</p>
+          {text.branches.map(([location, type, address, mapsUrl]) => (
+            <article
+              key={location}
+              className="flex min-h-64 flex-col bg-card p-7"
+            >
+              <h3 className="font-serif text-3xl">{location}</h3>
+              <p className="mt-5 text-sm font-medium text-text-accent">
+                {type}
+              </p>
+              <address className="mt-6 max-w-xs text-sm not-italic leading-6 text-muted-foreground">
+                {address}
+              </address>
+              <a
+                href={mapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-auto pt-8 text-sm font-medium underline decoration-border-strong underline-offset-4 transition-colors hover:text-text-accent focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-accent"
+              >
+                {text.mapsLabel}
+              </a>
             </article>
           ))}
         </div>
       </section>
 
-      <section
-        className="mt-24 grid gap-10 md:grid-cols-[.7fr_1.3fr]"
-        aria-labelledby="career-fields"
-      >
-        <h2 id="career-fields" className="font-serif text-5xl md:text-6xl">
-          {text.departmentsTitle}
-        </h2>
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {text.departments.map((department) => (
-            <li
-              key={department}
-              className="border-t border-border-strong py-5 text-lg"
-            >
-              {department}
-            </li>
-          ))}
-        </ul>
-      </section>
-
+      {/* Job Vacancies */}
       <section
         className="mt-24 bg-secondary p-6 md:p-10"
         aria-labelledby="career-openings"
@@ -213,39 +262,45 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
             >
               {text.openingsTitle}
             </h2>
-            <p className="mt-4 text-sm text-muted-foreground">
-              {text.openingsNote}
-            </p>
           </div>
-          <Badge variant="outline">{text.placeholder}</Badge>
         </div>
-        <div>
-          {text.openings.map(([role, meta]) => (
+        <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {openings.map((opening) => (
             <article
-              key={role}
-              className="grid gap-2 border-b border-border-subtle py-6 md:grid-cols-[1fr_auto] md:items-center"
+              key={opening.role}
+              className="flex min-h-75 flex-col justify-between rounded-2xl border border-border-subtle bg-background p-6 transition-colors hover:border-text-accent hover:bg-card"
             >
-              <h3 className="font-serif text-3xl">{role}</h3>
-              <p className="text-sm text-muted-foreground">{meta}</p>
+              <div className="flex flex-col gap-2">
+                <p className="text-sm font-medium text-text-accent">
+                  {opening.type} • {opening.location}
+                </p>
+                <h3 className="font-serif text-3xl leading-tight">
+                  {opening.role}
+                </h3>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
+                  <span>{opening.location}</span>
+                </div>
+
+                <p className="text-sm text-muted-foreground">
+                  {opening.postedAt}
+                </p>
+
+                <a
+                  href="https://www.google.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-border-strong px-4 text-sm font-medium transition-colors hover:border-text-accent hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-accent mt-5"
+                >
+                  {text.viewOpenings}
+                </a>
+              </div>
             </article>
           ))}
         </div>
       </section>
-
-      <section className="mt-20 border-l-2 border-accent pl-6">
-        <h2 className="font-serif text-4xl">{text.applyTitle}</h2>
-        <p className="mt-4 max-w-xl text-muted-foreground">{text.applyBody}</p>
-        <a
-          href="mailto:career@asietex.co.id"
-          className={buttonVariants({
-            variant: "outline",
-            className: "mt-6 rounded-full",
-          })}
-        >
-          {text.apply}
-        </a>
-      </section>
-      <CatalogCta locale={locale} settings={settings} placement="career" />
     </section>
   );
 }

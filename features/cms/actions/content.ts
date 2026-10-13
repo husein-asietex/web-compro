@@ -9,15 +9,8 @@ import { requireUser } from "@/backend/auth";
 import { locales } from "@/lib/i18n";
 import { prisma } from "@/backend/prisma";
 
-const PAGE_SLUGS = [
-  "home",
-  "about",
-  "products",
-  "network",
-  "career",
-  "contact",
-] as const;
-const DIVISION_SLUGS = [
+const PAGE_SLUGS = ["home", "about", "products", "career", "contact"] as const;
+const PRODUCT_SLUGS = [
   "spinning",
   "twisting",
   "knitting",
@@ -30,7 +23,7 @@ const DIVISION_SLUGS = [
 ] as const;
 
 const pageSlugSchema = z.enum(PAGE_SLUGS);
-const divisionSlugSchema = z.enum(DIVISION_SLUGS);
+const productSlugSchema = z.enum(PRODUCT_SLUGS);
 const requiredText = z.string().trim().min(1).max(10_000);
 const optionalUrl = z.union([z.literal(""), z.url().startsWith("https://")]);
 const translationValueSchema = z.object({
@@ -42,7 +35,7 @@ const translationDraftSchema = z.object({
   id: translationValueSchema,
   pt: translationValueSchema,
 });
-const divisionDraftSchema = z.object({
+const productDraftSchema = z.object({
   capacity: z.string().max(500),
   machinery: z.string().max(5_000),
   products: z.array(z.string().min(1).max(500)),
@@ -69,20 +62,7 @@ const catalogDraftSchema = z.object({
   catalogLabelEn: requiredText.max(80),
   catalogLabelId: requiredText.max(80),
   catalogLabelPt: requiredText.max(80),
-  catalogPlacements: z
-    .array(
-      z.enum([
-        "home",
-        "about",
-        "products",
-        "division",
-        "network",
-        "career",
-        "contact",
-        "footer",
-      ]),
-    )
-    .min(1),
+  catalogPlacements: z.array(z.enum(["home", "product", "footer"])).min(1),
   catalogOpenNewTab: z.boolean(),
   catalogOn: z.boolean(),
 });
@@ -197,29 +177,28 @@ export async function publishPageAction(formData: FormData) {
   redirect(`/dashboard/content/pages/${slug}?published=1`);
 }
 
-export async function createDivisionsAction() {
+export async function createProductsAction() {
   const user = await requireUser(true);
 
   await prisma.$transaction(async (tx) => {
-    for (const [index, slug] of DIVISION_SLUGS.entries()) {
-      await tx.division.upsert({
+    for (const [index, slug] of PRODUCT_SLUGS.entries()) {
+      await tx.product.upsert({
         where: { slug },
         create: { slug, order: index + 1 },
         update: { order: index + 1 },
       });
     }
-    await audit(tx, user.id, "division", "collection", "seeded");
+    await audit(tx, user.id, "product", "collection", "seeded");
   });
 
   revalidatePath("/dashboard/content");
   redirect("/dashboard/content");
 }
 
-export async function saveDivisionAction(formData: FormData) {
+export async function saveProductAction(formData: FormData) {
   const user = await requireUser();
-  const parsedSlug = divisionSlugSchema.safeParse(getText(formData, "slug"));
-  if (!parsedSlug.success)
-    redirect("/dashboard/content?error=invalid-division");
+  const parsedSlug = productSlugSchema.safeParse(getText(formData, "slug"));
+  if (!parsedSlug.success) redirect("/dashboard/content?error=invalid-product");
 
   const slug = parsedSlug.data;
   const parsedUrls = z
@@ -238,7 +217,7 @@ export async function saveDivisionAction(formData: FormData) {
     .safeParse(getLines(formData, "gallery"));
 
   if (!parsedUrls.success || !gallery.success) {
-    redirect(`/dashboard/content/divisions/${slug}?error=invalid-url`);
+    redirect(`/dashboard/content/products/${slug}?error=invalid-url`);
   }
 
   const draft = {
@@ -255,35 +234,34 @@ export async function saveDivisionAction(formData: FormData) {
   };
 
   await prisma.$transaction(async (tx) => {
-    const division = await tx.division.update({
+    const product = await tx.product.update({
       where: { slug },
       data: { draft },
     });
-    await audit(tx, user.id, "division", division.id, "saved-draft");
+    await audit(tx, user.id, "product", product.id, "saved-draft");
   });
 
   for (const locale of locales) revalidatePath(`/${locale}/products/${slug}`);
-  redirect(`/dashboard/content/divisions/${slug}?saved=1`);
+  redirect(`/dashboard/content/products/${slug}?saved=1`);
 }
 
-export async function publishDivisionAction(formData: FormData) {
+export async function publishProductAction(formData: FormData) {
   const user = await requireUser(true);
-  const parsedSlug = divisionSlugSchema.safeParse(getText(formData, "slug"));
-  if (!parsedSlug.success)
-    redirect("/dashboard/content?error=invalid-division");
+  const parsedSlug = productSlugSchema.safeParse(getText(formData, "slug"));
+  if (!parsedSlug.success) redirect("/dashboard/content?error=invalid-product");
 
   const slug = parsedSlug.data;
-  const division = await prisma.division.findUnique({
+  const product = await prisma.product.findUnique({
     where: { slug },
     include: { translations: true },
   });
-  const draft = divisionDraftSchema.safeParse(division?.draft);
-  const existingIsComplete = division
-    ? hasCompleteTranslations(division.translations)
+  const draft = productDraftSchema.safeParse(product?.draft);
+  const existingIsComplete = product
+    ? hasCompleteTranslations(product.translations)
     : false;
 
-  if (!division || (!draft.success && !existingIsComplete)) {
-    redirect(`/dashboard/content/divisions/${slug}?error=incomplete`);
+  if (!product || (!draft.success && !existingIsComplete)) {
+    redirect(`/dashboard/content/products/${slug}?error=incomplete`);
   }
 
   await prisma.$transaction(async (tx) => {
@@ -291,14 +269,14 @@ export async function publishDivisionAction(formData: FormData) {
       for (const locale of locales) {
         const fields = draft.data.translations[locale];
         await tx.translation.upsert({
-          where: { divisionId_locale: { divisionId: division.id, locale } },
-          create: { divisionId: division.id, locale, ...fields },
+          where: { productId_locale: { productId: product.id, locale } },
+          create: { productId: product.id, locale, ...fields },
           update: fields,
         });
       }
     }
-    await tx.division.update({
-      where: { id: division.id },
+    await tx.product.update({
+      where: { id: product.id },
       data: draft.success
         ? {
             status: "PUBLISHED",
@@ -313,14 +291,14 @@ export async function publishDivisionAction(formData: FormData) {
           }
         : { status: "PUBLISHED", draft: Prisma.DbNull },
     });
-    await audit(tx, user.id, "division", division.id, "published");
+    await audit(tx, user.id, "product", product.id, "published");
   });
 
   for (const locale of locales) {
     revalidatePath(`/${locale}/products`);
     revalidatePath(`/${locale}/products/${slug}`);
   }
-  redirect(`/dashboard/content/divisions/${slug}?published=1`);
+  redirect(`/dashboard/content/products/${slug}?published=1`);
 }
 
 export async function saveCatalogAction(formData: FormData) {
@@ -404,7 +382,6 @@ export async function saveNetworkLocationAction(formData: FormData) {
     await audit(tx, user.id, "network-location", location.id, "saved-draft");
   });
 
-  for (const locale of locales) revalidatePath(`/${locale}/network`);
   redirect("/dashboard/content/network?saved=1");
 }
 
@@ -434,6 +411,5 @@ export async function publishNetworkLocationAction(formData: FormData) {
     await audit(tx, user.id, "network-location", id.data, "published");
   });
 
-  for (const locale of locales) revalidatePath(`/${locale}/network`);
   redirect("/dashboard/content/network?published=1");
 }
