@@ -1,0 +1,57 @@
+name: Build and Publish Development
+
+on:
+  push:
+    branches: [development]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-development
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: "mysql://user:pass@localhost:3306/db"
+
+      - name: Build
+        run: npm run build
+        env:
+          DATABASE_URL: "mysql://user:pass@localhost:3306/db"
+
+      - name: Prepare deploy folder
+        run: |
+          mkdir deploy
+          cp -r .next/standalone/. deploy/
+          mkdir -p deploy/.next
+          cp -r .next/static deploy/.next/static
+          cp -r public deploy/public
+          cp .cpanel.yml deploy/.cpanel.yml
+
+      - name: Publish to deploy_dev branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: deploy_dev
+          publish_dir: ./deploy
+          force_orphan: true
+          enable_jekyll: false

@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE `User` (
+CREATE TABLE `user` (
     `id` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
@@ -9,24 +9,24 @@ CREATE TABLE `User` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `User_email_key`(`email`),
+    UNIQUE INDEX `user_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Session` (
+CREATE TABLE `session` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `tokenHash` VARCHAR(191) NOT NULL,
     `expiresAt` DATETIME(3) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
-    UNIQUE INDEX `Session_tokenHash_key`(`tokenHash`),
+    UNIQUE INDEX `session_tokenHash_key`(`tokenHash`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `SiteSetting` (
+CREATE TABLE `site_setting` (
     `id` VARCHAR(191) NOT NULL DEFAULT 'site',
     `catalogUrl` VARCHAR(191) NOT NULL DEFAULT 'https://e-catalog.asietex.web.id',
     `catalogOn` BOOLEAN NOT NULL DEFAULT true,
@@ -42,7 +42,7 @@ CREATE TABLE `SiteSetting` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `ContentCollection` (
+CREATE TABLE `content_collection` (
     `key` VARCHAR(191) NOT NULL,
     `data` JSON NOT NULL,
     `draft` JSON NULL,
@@ -53,19 +53,19 @@ CREATE TABLE `ContentCollection` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Page` (
+CREATE TABLE `page` (
     `id` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `status` ENUM('DRAFT', 'PUBLISHED') NOT NULL DEFAULT 'DRAFT',
     `draft` JSON NULL,
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Page_slug_key`(`slug`),
+    UNIQUE INDEX `page_slug_key`(`slug`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Product` (
+CREATE TABLE `product` (
     `id` VARCHAR(191) NOT NULL,
     `slug` VARCHAR(191) NOT NULL,
     `order` INTEGER NOT NULL,
@@ -80,27 +80,30 @@ CREATE TABLE `Product` (
     `draft` JSON NULL,
     `updatedAt` DATETIME(3) NOT NULL,
 
-    UNIQUE INDEX `Product_slug_key`(`slug`),
-    UNIQUE INDEX `Product_order_key`(`order`),
+    UNIQUE INDEX `product_slug_key`(`slug`),
+    UNIQUE INDEX `product_order_key`(`order`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Translation` (
+CREATE TABLE `translation` (
     `id` VARCHAR(191) NOT NULL,
     `locale` VARCHAR(191) NOT NULL,
     `title` TEXT NOT NULL,
     `body` TEXT NOT NULL,
+    `capacity` VARCHAR(500) NULL,
+    `products` JSON NULL,
+    `machinery` TEXT NULL,
     `pageId` VARCHAR(191) NULL,
     `productId` VARCHAR(191) NULL,
 
-    UNIQUE INDEX `Translation_pageId_locale_key`(`pageId`, `locale`),
-    UNIQUE INDEX `Translation_productId_locale_key`(`productId`, `locale`),
+    UNIQUE INDEX `translation_pageId_locale_key`(`pageId`, `locale`),
+    UNIQUE INDEX `translation_productId_locale_key`(`productId`, `locale`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `MediaAsset` (
+CREATE TABLE `media_asset` (
     `id` VARCHAR(191) NOT NULL,
     `url` TEXT NOT NULL,
     `altEn` TEXT NOT NULL,
@@ -116,7 +119,7 @@ CREATE TABLE `MediaAsset` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Revision` (
+CREATE TABLE `revision` (
     `id` VARCHAR(191) NOT NULL,
     `entity` VARCHAR(191) NOT NULL,
     `entityId` VARCHAR(191) NOT NULL,
@@ -128,19 +131,19 @@ CREATE TABLE `Revision` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Session` ADD CONSTRAINT `Session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `session` ADD CONSTRAINT `session_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Translation` ADD CONSTRAINT `Translation_pageId_fkey` FOREIGN KEY (`pageId`) REFERENCES `Page`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `translation` ADD CONSTRAINT `translation_pageId_fkey` FOREIGN KEY (`pageId`) REFERENCES `page`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Translation` ADD CONSTRAINT `Translation_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `translation` ADD CONSTRAINT `translation_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `MediaAsset` ADD CONSTRAINT `MediaAsset_pageId_fkey` FOREIGN KEY (`pageId`) REFERENCES `Page`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `media_asset` ADD CONSTRAINT `media_asset_pageId_fkey` FOREIGN KEY (`pageId`) REFERENCES `page`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `MediaAsset` ADD CONSTRAINT `MediaAsset_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `Product`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `media_asset` ADD CONSTRAINT `media_asset_productId_fkey` FOREIGN KEY (`productId`) REFERENCES `product`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Revision` ADD CONSTRAINT `Revision_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `revision` ADD CONSTRAINT `revision_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

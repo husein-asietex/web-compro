@@ -29,6 +29,8 @@ export type TranslationMinAggregateOutputType = {
   locale: string | null
   title: string | null
   body: string | null
+  capacity: string | null
+  machinery: string | null
   pageId: string | null
   productId: string | null
 }
@@ -38,6 +40,8 @@ export type TranslationMaxAggregateOutputType = {
   locale: string | null
   title: string | null
   body: string | null
+  capacity: string | null
+  machinery: string | null
   pageId: string | null
   productId: string | null
 }
@@ -47,6 +51,9 @@ export type TranslationCountAggregateOutputType = {
   locale: number
   title: number
   body: number
+  capacity: number
+  products: number
+  machinery: number
   pageId: number
   productId: number
   _all: number
@@ -58,6 +65,8 @@ export type TranslationMinAggregateInputType = {
   locale?: true
   title?: true
   body?: true
+  capacity?: true
+  machinery?: true
   pageId?: true
   productId?: true
 }
@@ -67,6 +76,8 @@ export type TranslationMaxAggregateInputType = {
   locale?: true
   title?: true
   body?: true
+  capacity?: true
+  machinery?: true
   pageId?: true
   productId?: true
 }
@@ -76,6 +87,9 @@ export type TranslationCountAggregateInputType = {
   locale?: true
   title?: true
   body?: true
+  capacity?: true
+  products?: true
+  machinery?: true
   pageId?: true
   productId?: true
   _all?: true
@@ -158,6 +172,9 @@ export type TranslationGroupByOutputType = {
   locale: string
   title: string
   body: string
+  capacity: string | null
+  products: runtime.JsonValue | null
+  machinery: string | null
   pageId: string | null
   productId: string | null
   _count: TranslationCountAggregateOutputType | null
@@ -188,6 +205,9 @@ export type TranslationWhereInput = {
   locale?: Prisma.StringFilter<"Translation"> | string
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
+  capacity?: Prisma.StringNullableFilter<"Translation"> | string | null
+  products?: Prisma.JsonNullableFilter<"Translation">
+  machinery?: Prisma.StringNullableFilter<"Translation"> | string | null
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
   productId?: Prisma.StringNullableFilter<"Translation"> | string | null
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
@@ -199,6 +219,9 @@ export type TranslationOrderByWithRelationInput = {
   locale?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  capacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  products?: Prisma.SortOrderInput | Prisma.SortOrder
+  machinery?: Prisma.SortOrderInput | Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   page?: Prisma.PageOrderByWithRelationInput
@@ -216,6 +239,9 @@ export type TranslationWhereUniqueInput = Prisma.AtLeast<{
   locale?: Prisma.StringFilter<"Translation"> | string
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
+  capacity?: Prisma.StringNullableFilter<"Translation"> | string | null
+  products?: Prisma.JsonNullableFilter<"Translation">
+  machinery?: Prisma.StringNullableFilter<"Translation"> | string | null
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
   productId?: Prisma.StringNullableFilter<"Translation"> | string | null
   page?: Prisma.XOR<Prisma.PageNullableScalarRelationFilter, Prisma.PageWhereInput> | null
@@ -227,6 +253,9 @@ export type TranslationOrderByWithAggregationInput = {
   locale?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  capacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  products?: Prisma.SortOrderInput | Prisma.SortOrder
+  machinery?: Prisma.SortOrderInput | Prisma.SortOrder
   pageId?: Prisma.SortOrderInput | Prisma.SortOrder
   productId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.TranslationCountOrderByAggregateInput
@@ -242,6 +271,9 @@ export type TranslationScalarWhereWithAggregatesInput = {
   locale?: Prisma.StringWithAggregatesFilter<"Translation"> | string
   title?: Prisma.StringWithAggregatesFilter<"Translation"> | string
   body?: Prisma.StringWithAggregatesFilter<"Translation"> | string
+  capacity?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
+  products?: Prisma.JsonNullableWithAggregatesFilter<"Translation">
+  machinery?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
   pageId?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
   productId?: Prisma.StringNullableWithAggregatesFilter<"Translation"> | string | null
 }
@@ -251,6 +283,9 @@ export type TranslationCreateInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   page?: Prisma.PageCreateNestedOneWithoutTranslationsInput
   product?: Prisma.ProductCreateNestedOneWithoutTranslationsInput
 }
@@ -260,6 +295,9 @@ export type TranslationUncheckedCreateInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   pageId?: string | null
   productId?: string | null
 }
@@ -269,6 +307,9 @@ export type TranslationUpdateInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   page?: Prisma.PageUpdateOneWithoutTranslationsNestedInput
   product?: Prisma.ProductUpdateOneWithoutTranslationsNestedInput
 }
@@ -278,6 +319,9 @@ export type TranslationUncheckedUpdateInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -287,6 +331,9 @@ export type TranslationCreateManyInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   pageId?: string | null
   productId?: string | null
 }
@@ -296,6 +343,9 @@ export type TranslationUpdateManyMutationInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type TranslationUncheckedUpdateManyInput = {
@@ -303,6 +353,9 @@ export type TranslationUncheckedUpdateManyInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -338,6 +391,9 @@ export type TranslationCountOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  capacity?: Prisma.SortOrder
+  products?: Prisma.SortOrder
+  machinery?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -347,6 +403,8 @@ export type TranslationMaxOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  capacity?: Prisma.SortOrder
+  machinery?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -356,6 +414,8 @@ export type TranslationMinOrderByAggregateInput = {
   locale?: Prisma.SortOrder
   title?: Prisma.SortOrder
   body?: Prisma.SortOrder
+  capacity?: Prisma.SortOrder
+  machinery?: Prisma.SortOrder
   pageId?: Prisma.SortOrder
   productId?: Prisma.SortOrder
 }
@@ -449,6 +509,9 @@ export type TranslationCreateWithoutPageInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   product?: Prisma.ProductCreateNestedOneWithoutTranslationsInput
 }
 
@@ -457,6 +520,9 @@ export type TranslationUncheckedCreateWithoutPageInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   productId?: string | null
 }
 
@@ -494,6 +560,9 @@ export type TranslationScalarWhereInput = {
   locale?: Prisma.StringFilter<"Translation"> | string
   title?: Prisma.StringFilter<"Translation"> | string
   body?: Prisma.StringFilter<"Translation"> | string
+  capacity?: Prisma.StringNullableFilter<"Translation"> | string | null
+  products?: Prisma.JsonNullableFilter<"Translation">
+  machinery?: Prisma.StringNullableFilter<"Translation"> | string | null
   pageId?: Prisma.StringNullableFilter<"Translation"> | string | null
   productId?: Prisma.StringNullableFilter<"Translation"> | string | null
 }
@@ -503,6 +572,9 @@ export type TranslationCreateWithoutProductInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   page?: Prisma.PageCreateNestedOneWithoutTranslationsInput
 }
 
@@ -511,6 +583,9 @@ export type TranslationUncheckedCreateWithoutProductInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   pageId?: string | null
 }
 
@@ -545,6 +620,9 @@ export type TranslationCreateManyPageInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   productId?: string | null
 }
 
@@ -553,6 +631,9 @@ export type TranslationUpdateWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   product?: Prisma.ProductUpdateOneWithoutTranslationsNestedInput
 }
 
@@ -561,6 +642,9 @@ export type TranslationUncheckedUpdateWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -569,6 +653,9 @@ export type TranslationUncheckedUpdateManyWithoutPageInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -577,6 +664,9 @@ export type TranslationCreateManyProductInput = {
   locale: string
   title: string
   body: string
+  capacity?: string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: string | null
   pageId?: string | null
 }
 
@@ -585,6 +675,9 @@ export type TranslationUpdateWithoutProductInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   page?: Prisma.PageUpdateOneWithoutTranslationsNestedInput
 }
 
@@ -593,6 +686,9 @@ export type TranslationUncheckedUpdateWithoutProductInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -601,6 +697,9 @@ export type TranslationUncheckedUpdateManyWithoutProductInput = {
   locale?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
+  capacity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  products?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  machinery?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pageId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -611,6 +710,9 @@ export type TranslationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   locale?: boolean
   title?: boolean
   body?: boolean
+  capacity?: boolean
+  products?: boolean
+  machinery?: boolean
   pageId?: boolean
   productId?: boolean
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
@@ -624,11 +726,14 @@ export type TranslationSelectScalar = {
   locale?: boolean
   title?: boolean
   body?: boolean
+  capacity?: boolean
+  products?: boolean
+  machinery?: boolean
   pageId?: boolean
   productId?: boolean
 }
 
-export type TranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "locale" | "title" | "body" | "pageId" | "productId", ExtArgs["result"]["translation"]>
+export type TranslationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "locale" | "title" | "body" | "capacity" | "products" | "machinery" | "pageId" | "productId", ExtArgs["result"]["translation"]>
 export type TranslationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   page?: boolean | Prisma.Translation$pageArgs<ExtArgs>
   product?: boolean | Prisma.Translation$productArgs<ExtArgs>
@@ -645,6 +750,9 @@ export type $TranslationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     locale: string
     title: string
     body: string
+    capacity: string | null
+    products: runtime.JsonValue | null
+    machinery: string | null
     pageId: string | null
     productId: string | null
   }, ExtArgs["result"]["translation"]>
@@ -1022,6 +1130,9 @@ export interface TranslationFieldRefs {
   readonly locale: Prisma.FieldRef<"Translation", 'String'>
   readonly title: Prisma.FieldRef<"Translation", 'String'>
   readonly body: Prisma.FieldRef<"Translation", 'String'>
+  readonly capacity: Prisma.FieldRef<"Translation", 'String'>
+  readonly products: Prisma.FieldRef<"Translation", 'Json'>
+  readonly machinery: Prisma.FieldRef<"Translation", 'String'>
   readonly pageId: Prisma.FieldRef<"Translation", 'String'>
   readonly productId: Prisma.FieldRef<"Translation", 'String'>
 }

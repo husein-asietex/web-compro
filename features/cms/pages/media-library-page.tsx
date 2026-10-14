@@ -65,11 +65,7 @@ export default async function MediaPage() {
           ))}
           <Field>
             <FieldLabel htmlFor="credit">Credit / usage note</FieldLabel>
-            <Input
-              id="credit"
-              name="credit"
-              defaultValue="Dummy placeholder — replace before production"
-            />
+            <Input id="credit" name="credit" defaultValue="" />
           </Field>
           <Field>
             <FieldLabel htmlFor="pageId">Attach to page (optional)</FieldLabel>
