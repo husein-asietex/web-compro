@@ -26,7 +26,7 @@ const productsHeroCopy = {
 } as const;
 
 const productImages: Record<string, string> = {
-  spinning: "/products/1-spinning.JPG",
+  spinning: "/products/1-spinning-4.JPG",
   twisting: "/products/IMG_3588.JPG",
   knitting: "/products/3-knitting.JPG",
   weaving: "/products/4-weaving-1.JPG",

@@ -15,7 +15,7 @@ import { asStringArray } from "@/lib/json";
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 const COMPANY_FILM_URL = "https://www.youtube.com/watch?v=A1YoEqG4amQ";
 const PRODUCT_IMAGES: Record<string, string> = {
-  spinning: "/products/1-spinning.JPG",
+  spinning: "/products/1-spinning-4.JPG",
   twisting: "/products/IMG_3588.JPG",
   knitting: "/products/3-knitting.JPG",
   weaving: "/products/4-weaving-1.JPG",

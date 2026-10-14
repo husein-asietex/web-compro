@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "@/backend/auth";
 import { prisma } from "@/backend/prisma";
@@ -16,14 +15,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { DashboardBreadcrumb } from "@/features/admin/components/dashboard-breadcrumb";
 export const instant = false;
 type ProductDraft = {
-  capacity?: string;
-  machinery?: string;
-  products?: string[];
   gallery?: string[];
   videoEn?: string;
   videoId?: string;
   videoPt?: string;
-  translations?: Record<string, { title?: string; body?: string }>;
+  translations?: Record<
+    string,
+    {
+      title?: string;
+      body?: string;
+      capacity?: string;
+      products?: string[];
+      machinery?: string;
+    }
+  >;
 };
 export default async function ProductEditor({
   params,
@@ -79,38 +84,8 @@ export default async function ProductEditor({
           <input type="hidden" name="slug" value={slug} />
           <FieldGroup>
             <fieldset className="rounded-2xl border border-border-subtle bg-card p-6">
-              <legend className="px-2 font-medium">Production details</legend>
+              <legend className="px-2 font-medium">Media</legend>
               <FieldGroup>
-                <Field>
-                  <FieldLabel htmlFor="capacity">Capacity</FieldLabel>
-                  <Input
-                    id="capacity"
-                    name="capacity"
-                    defaultValue={draft?.capacity ?? product.capacity ?? ""}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="products">
-                    Products (one per line)
-                  </FieldLabel>
-                  <Textarea
-                    id="products"
-                    name="products"
-                    defaultValue={(
-                      draft?.products ?? asStringArray(product.products)
-                    ).join("\n")}
-                    rows={4}
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="machinery">Machinery</FieldLabel>
-                  <Textarea
-                    id="machinery"
-                    name="machinery"
-                    defaultValue={draft?.machinery ?? product.machinery ?? ""}
-                    rows={3}
-                  />
-                </Field>
                 <Field>
                   <FieldLabel htmlFor="gallery">
                     Gallery URLs (one per line)
@@ -184,6 +159,46 @@ export default async function ProductEditor({
                       name={`${locale}_body`}
                       defaultValue={translation(locale)?.body ?? ""}
                       rows={4}
+                    />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor={`${locale}_capacity`}>
+                      Capacity
+                    </FieldLabel>
+                    <Input
+                      id={`${locale}_capacity`}
+                      name={`${locale}_capacity`}
+                      defaultValue={
+                        translation(locale)?.capacity ?? product.capacity ?? ""
+                      }
+                    />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor={`${locale}_products`}>
+                      Products (one per line)
+                    </FieldLabel>
+                    <Textarea
+                      id={`${locale}_products`}
+                      name={`${locale}_products`}
+                      defaultValue={asStringArray(
+                        translation(locale)?.products ?? product.products,
+                      ).join("\n")}
+                      rows={4}
+                    />
+                  </Field>
+                  <Field>
+                    <FieldLabel htmlFor={`${locale}_machinery`}>
+                      Machinery
+                    </FieldLabel>
+                    <Textarea
+                      id={`${locale}_machinery`}
+                      name={`${locale}_machinery`}
+                      defaultValue={
+                        translation(locale)?.machinery ??
+                        product.machinery ??
+                        ""
+                      }
+                      rows={3}
                     />
                   </Field>
                 </FieldGroup>

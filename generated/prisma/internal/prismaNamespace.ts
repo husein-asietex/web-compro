@@ -1145,6 +1145,9 @@ export const TranslationScalarFieldEnum = {
   locale: 'locale',
   title: 'title',
   body: 'body',
+  capacity: 'capacity',
+  products: 'products',
+  machinery: 'machinery',
   pageId: 'pageId',
   productId: 'productId'
 } as const
@@ -1291,6 +1294,8 @@ export const TranslationOrderByRelevanceFieldEnum = {
   locale: 'locale',
   title: 'title',
   body: 'body',
+  capacity: 'capacity',
+  machinery: 'machinery',
   pageId: 'pageId',
   productId: 'productId'
 } as const

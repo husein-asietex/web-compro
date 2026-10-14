@@ -42,15 +42,22 @@ const translationDraftSchema = z.object({
   id: translationValueSchema,
   pt: translationValueSchema,
 });
-const productDraftSchema = z.object({
+const productTranslationValueSchema = translationValueSchema.extend({
   capacity: z.string().max(500),
   machinery: z.string().max(5_000),
   products: z.array(z.string().min(1).max(500)),
+});
+const productTranslationDraftSchema = z.object({
+  en: productTranslationValueSchema,
+  id: productTranslationValueSchema,
+  pt: productTranslationValueSchema,
+});
+const productDraftSchema = z.object({
   gallery: z.array(z.url().startsWith("https://")),
   videoEn: optionalUrl,
   videoId: optionalUrl,
   videoPt: optionalUrl,
-  translations: translationDraftSchema,
+  translations: productTranslationDraftSchema,
 });
 const catalogDraftSchema = z.object({
   catalogUrl: z.url().startsWith("https://"),
@@ -88,6 +95,15 @@ function getTranslationFields(formData: FormData, locale: string) {
   return {
     title: getText(formData, `${locale}_title`),
     body: getText(formData, `${locale}_body`),
+  };
+}
+
+function getProductTranslationFields(formData: FormData, locale: string) {
+  return {
+    ...getTranslationFields(formData, locale),
+    capacity: getText(formData, `${locale}_capacity`),
+    products: getLines(formData, `${locale}_products`),
+    machinery: getText(formData, `${locale}_machinery`),
   };
 }
 
@@ -130,6 +146,31 @@ function hasCompleteTranslations(
       translation &&
       requiredText.safeParse(translation.title).success &&
       requiredText.safeParse(translation.body).success
+    );
+  });
+}
+
+function hasCompleteProductTranslations(
+  translations: {
+    locale: string;
+    title: string;
+    body: string;
+    capacity: string | null;
+    products: Prisma.JsonValue | null;
+    machinery: string | null;
+  }[],
+) {
+  return locales.every((locale) => {
+    const translation = translations.find((item) => item.locale === locale);
+    return (
+      translation &&
+      productTranslationValueSchema.safeParse({
+        title: translation.title,
+        body: translation.body,
+        capacity: translation.capacity ?? "",
+        products: translation.products ?? [],
+        machinery: translation.machinery ?? "",
+      }).success
     );
   });
 }
@@ -241,15 +282,15 @@ export async function saveProductAction(formData: FormData) {
   }
 
   const draft = {
-    capacity: getText(formData, "capacity"),
-    machinery: getText(formData, "machinery"),
-    products: getLines(formData, "products"),
     gallery: gallery.data,
     videoEn: parsedUrls.data.videoEn,
     videoId: parsedUrls.data.videoId,
     videoPt: parsedUrls.data.videoPt,
     translations: Object.fromEntries(
-      locales.map((locale) => [locale, getTranslationFields(formData, locale)]),
+      locales.map((locale) => [
+        locale,
+        getProductTranslationFields(formData, locale),
+      ]),
     ),
   };
 
@@ -277,7 +318,7 @@ export async function publishProductAction(formData: FormData) {
   });
   const draft = productDraftSchema.safeParse(product?.draft);
   const existingIsComplete = product
-    ? hasCompleteTranslations(product.translations)
+    ? hasCompleteProductTranslations(product.translations)
     : false;
 
   if (!product || (!draft.success && !existingIsComplete)) {
@@ -301,9 +342,9 @@ export async function publishProductAction(formData: FormData) {
         ? {
             status: "PUBLISHED",
             draft: Prisma.DbNull,
-            capacity: draft.data.capacity || null,
-            machinery: draft.data.machinery || null,
-            products: draft.data.products,
+            capacity: draft.data.translations.en.capacity || null,
+            machinery: draft.data.translations.en.machinery || null,
+            products: draft.data.translations.en.products,
             gallery: draft.data.gallery,
             videoEn: draft.data.videoEn || null,
             videoId: draft.data.videoId || null,

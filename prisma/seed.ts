@@ -37,6 +37,78 @@ const PRODUCT_SLUGS = [
 
 const LOCALES = ["en", "id", "pt"] as const;
 type Locale = (typeof LOCALES)[number];
+type ProductSlug = (typeof PRODUCT_SLUGS)[number];
+
+const PRODUCT_TITLES: Record<Locale, Record<ProductSlug, string>> = {
+  en: {
+    spinning: "Spinning",
+    twisting: "Twisting",
+    knitting: "Knitting",
+    weaving: "Weaving",
+    dyeing: "Dyeing",
+    "yarn-dyeing": "Yarn Dyeing",
+    garment: "Garment",
+    printing: "Printing",
+    finishing: "Finishing",
+  },
+  id: {
+    spinning: "Pemintalan",
+    twisting: "Pemuntiran",
+    knitting: "Perajutan",
+    weaving: "Pertenunan",
+    dyeing: "Pencelupan",
+    "yarn-dyeing": "Pencelupan Benang",
+    garment: "Garmen",
+    printing: "Pencetakan",
+    finishing: "Penyempurnaan",
+  },
+  pt: {
+    spinning: "Fiação",
+    twisting: "Torção",
+    knitting: "Malharia",
+    weaving: "Tecelagem",
+    dyeing: "Tingimento",
+    "yarn-dyeing": "Tingimento de Fios",
+    garment: "Vestuário",
+    printing: "Estamparia",
+    finishing: "Acabamento",
+  },
+};
+
+const PRODUCT_DETAIL_COPY: Record<
+  Locale,
+  {
+    body: (title: string) => string;
+    range: (title: string) => string;
+    custom: string;
+    capacityPending: string;
+    machinery: string;
+  }
+> = {
+  en: {
+    body: (title) => `${title} products for connected textile production.`,
+    range: (title) => `${title} product range`,
+    custom: "Custom textile production",
+    capacityPending: "To be provided",
+    machinery: "Asian and European machinery",
+  },
+  id: {
+    body: (title) =>
+      `Produk ${title.toLowerCase()} untuk rantai produksi tekstil yang terintegrasi.`,
+    range: (title) => `Ragam produk ${title.toLowerCase()}`,
+    custom: "Produksi tekstil sesuai kebutuhan",
+    capacityPending: "Akan diinformasikan",
+    machinery: "Mesin berteknologi Asia dan Eropa",
+  },
+  pt: {
+    body: (title) =>
+      `Produtos de ${title.toLowerCase()} para uma produção têxtil integrada.`,
+    range: (title) => `Gama de produtos de ${title.toLowerCase()}`,
+    custom: "Produção têxtil personalizada",
+    capacityPending: "A fornecer",
+    machinery: "Maquinaria asiática e europeia",
+  },
+};
 
 const COPY: Record<Locale, { title: string; body: string }> = {
   en: {
@@ -524,9 +596,15 @@ async function seedProducts() {
     });
 
     for (const locale of LOCALES) {
+      const localizedTitle = PRODUCT_TITLES[locale][slug];
+      const localizedCopy = PRODUCT_DETAIL_COPY[locale];
       const translation = {
-        title: slug.replaceAll("-", " "),
-        body: `${slug.replaceAll("-", " ")} products for connected textile production.`,
+        title: localizedTitle,
+        body: localizedCopy.body(localizedTitle),
+        capacity:
+          slug === "dyeing" ? "50,000 t / yr" : localizedCopy.capacityPending,
+        products: [localizedCopy.range(localizedTitle), localizedCopy.custom],
+        machinery: localizedCopy.machinery,
       };
 
       await prisma.translation.upsert({
@@ -552,7 +630,7 @@ async function seedProducts() {
           altEn: `${slug} textile production`,
           altId: `Produksi tekstil ${slug}`,
           altPt: `Produção têxtil ${slug}`,
-          credit: "Dummy placeholder — replace before production",
+          credit: "",
           approved: true,
           productId: product.id,
         },

@@ -38,7 +38,7 @@ const productCopy = {
 } as const;
 
 const productImages: Record<string, string> = {
-  spinning: "/products/1-spinning.JPG",
+  spinning: "/products/1-spinning-4.JPG",
   twisting: "/products/IMG_3588.JPG",
   knitting: "/products/3-knitting.JPG",
   weaving: "/products/4-weaving-1.JPG",
@@ -71,7 +71,7 @@ export default async function ProductDetailPage({
   const gallery = Array.from(
     new Set([...linkedImages, ...asStringArray(product.gallery)]),
   );
-  const productItems = asStringArray(product.products);
+  const productItems = asStringArray(translation?.products ?? product.products);
   const videoUrl =
     locale === "id"
       ? product.videoId
@@ -127,13 +127,17 @@ export default async function ProductDetailPage({
           <dt className="text-xs uppercase tracking-[0.16em] text-text-accent">
             {text.capacity}
           </dt>
-          <dd className="mt-3 text-xl">{product.capacity || text.confirm}</dd>
+          <dd className="mt-3 text-xl">
+            {translation?.capacity || product.capacity || text.confirm}
+          </dd>
         </div>
         <div className="py-5 sm:pl-8">
           <dt className="text-xs uppercase tracking-[0.16em] text-text-accent">
             {text.machinery}
           </dt>
-          <dd className="mt-3 text-xl">{product.machinery || text.confirm}</dd>
+          <dd className="mt-3 text-xl">
+            {translation?.machinery || product.machinery || text.confirm}
+          </dd>
         </div>
       </dl>
 

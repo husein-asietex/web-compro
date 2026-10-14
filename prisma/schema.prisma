@@ -40,16 +40,16 @@ model Session {
 }
 
 model SiteSetting {
-  id                 String   @id @default("site")
-  catalogUrl         String   @default("https://e-catalog.asietex.web.id")
-  catalogOn          Boolean  @default(true)
-  catalogLabelEn     String   @default("Explore e-catalog")
-  catalogLabelId     String   @default("Buka e-catalog")
-  catalogLabelPt     String   @default("Ver e-catalog")
-  catalogPlacements  Json     @default("[\"home\", \"product\", \"footer\"]")
-  catalogOpenNewTab  Boolean  @default(true)
-  draft              Json?
-  updatedAt          DateTime @updatedAt
+  id                String   @id @default("site")
+  catalogUrl        String   @default("https://e-catalog.asietex.web.id")
+  catalogOn         Boolean  @default(true)
+  catalogLabelEn    String   @default("Explore e-catalog")
+  catalogLabelId    String   @default("Buka e-catalog")
+  catalogLabelPt    String   @default("Ver e-catalog")
+  catalogPlacements Json     @default("[\"home\", \"product\", \"footer\"]")
+  catalogOpenNewTab Boolean  @default(true)
+  draft             Json?
+  updatedAt         DateTime @updatedAt
 }
 
 model ContentCollection {
@@ -89,13 +89,16 @@ model Product {
 }
 
 model Translation {
-  id         String    @id @default(cuid())
-  locale     String
-  title      String    @db.Text
-  body       String    @db.Text
-  pageId     String?
+  id        String   @id @default(cuid())
+  locale    String
+  title     String   @db.Text
+  body      String   @db.Text
+  capacity  String?  @db.VarChar(500)
+  products  Json?
+  machinery String?  @db.Text
+  pageId    String?
   productId String?
-  page       Page?     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  page      Page?    @relation(fields: [pageId], references: [id], onDelete: Cascade)
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([pageId, locale])
@@ -103,18 +106,18 @@ model Translation {
 }
 
 model MediaAsset {
-  id         String    @id @default(cuid())
-  url        String    @db.Text
-  altEn      String    @db.Text
-  altId      String    @db.Text
-  altPt      String    @db.Text
-  credit     String?   @db.Text
-  approved   Boolean   @default(false)
-  pageId     String?
+  id        String   @id @default(cuid())
+  url       String   @db.Text
+  altEn     String   @db.Text
+  altId     String   @db.Text
+  altPt     String   @db.Text
+  credit    String?  @db.Text
+  approved  Boolean  @default(false)
+  pageId    String?
   productId String?
-  page       Page?     @relation(fields: [pageId], references: [id], onDelete: SetNull)
+  page      Page?    @relation(fields: [pageId], references: [id], onDelete: SetNull)
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
-  createdAt  DateTime  @default(now())
+  createdAt DateTime @default(now())
 }
 
 model Revision {
