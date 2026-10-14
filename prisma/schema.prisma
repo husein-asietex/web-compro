@@ -28,6 +28,8 @@ model User {
   updatedAt    DateTime   @updatedAt
   sessions     Session[]
   revisions    Revision[]
+
+  @@map("user")
 }
 
 model Session {
@@ -37,6 +39,8 @@ model Session {
   expiresAt DateTime
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
 }
 
 model SiteSetting {
@@ -50,6 +54,8 @@ model SiteSetting {
   catalogOpenNewTab Boolean  @default(true)
   draft             Json?
   updatedAt         DateTime @updatedAt
+
+  @@map("site_setting")
 }
 
 model ContentCollection {
@@ -58,6 +64,8 @@ model ContentCollection {
   draft     Json?
   status    ContentStatus @default(DRAFT)
   updatedAt DateTime      @updatedAt
+
+  @@map("content_collection")
 }
 
 model Page {
@@ -68,6 +76,8 @@ model Page {
   translations Translation[]
   media        MediaAsset[]
   updatedAt    DateTime      @updatedAt
+
+  @@map("page")
 }
 
 model Product {
@@ -86,6 +96,8 @@ model Product {
   translations Translation[]
   media        MediaAsset[]
   updatedAt    DateTime      @updatedAt
+
+  @@map("product")
 }
 
 model Translation {
@@ -103,6 +115,7 @@ model Translation {
 
   @@unique([pageId, locale])
   @@unique([productId, locale])
+  @@map("translation")
 }
 
 model MediaAsset {
@@ -118,6 +131,8 @@ model MediaAsset {
   page      Page?    @relation(fields: [pageId], references: [id], onDelete: SetNull)
   product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   createdAt DateTime @default(now())
+
+  @@map("media_asset")
 }
 
 model Revision {
@@ -128,4 +143,6 @@ model Revision {
   userId    String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("revision")
 }

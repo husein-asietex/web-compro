@@ -39,6 +39,18 @@ const LOCALES = ["en", "id", "pt"] as const;
 type Locale = (typeof LOCALES)[number];
 type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
+const PRODUCT_GALLERIES: Record<ProductSlug, [string, string]> = {
+  spinning: ["/products/1-spinning-4.JPG", "/products/1-spinning-3.JPG"],
+  twisting: ["/products/IMG_3588.JPG", "/products/IMG_3589.JPG"],
+  knitting: ["/products/3-knitting.JPG", "/products/3-knitting-2.JPG"],
+  weaving: ["/products/4-weaving-1.JPG", "/products/4-weaving-2.JPG"],
+  dyeing: ["/products/IMG_4017.JPG", "/products/IMG_4022.JPG"],
+  "yarn-dyeing": ["/products/IMG_3726-yarn.JPG", "/products/IMG_3733.JPG"],
+  garment: ["/products/IMG_3025.JPG", "/products/IMG_3028.JPG"],
+  printing: ["/products/IMG_3063.JPG", "/products/IMG_3065.JPG"],
+  finishing: ["/products/IMG_3548.JPG", "/products/IMG_3557.JPG"],
+};
+
 const PRODUCT_TITLES: Record<Locale, Record<ProductSlug, string>> = {
   en: {
     spinning: "Spinning",
@@ -570,6 +582,13 @@ async function seedContentCollections() {
 }
 
 async function seedProducts() {
+  await prisma.mediaAsset.deleteMany({
+    where: {
+      productId: { not: null },
+      url: { startsWith: DUMMY_IMAGE_BASE },
+    },
+  });
+
   for (const [index, slug] of PRODUCT_SLUGS.entries()) {
     const productData = {
       order: index + 1,
@@ -579,10 +598,7 @@ async function seedProducts() {
         "Custom textile production",
       ],
       machinery: "Asian and European machinery",
-      gallery: [
-        `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} production`)}`,
-        `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} products`)}`,
-      ],
+      gallery: PRODUCT_GALLERIES[slug],
       status: "PUBLISHED" as const,
     };
 
@@ -615,25 +631,6 @@ async function seedProducts() {
           ...translation,
         },
         update: translation,
-      });
-    }
-
-    const mediaUrl = `${DUMMY_IMAGE_BASE}?text=${encodeURIComponent(`${slug} product`)}`;
-    const existingMedia = await prisma.mediaAsset.findFirst({
-      where: { url: mediaUrl },
-    });
-
-    if (!existingMedia) {
-      await prisma.mediaAsset.create({
-        data: {
-          url: mediaUrl,
-          altEn: `${slug} textile production`,
-          altId: `Produksi tekstil ${slug}`,
-          altPt: `Produção têxtil ${slug}`,
-          credit: "",
-          approved: true,
-          productId: product.id,
-        },
       });
     }
   }
