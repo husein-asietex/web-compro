@@ -14,6 +14,17 @@ import { asStringArray } from "@/lib/json";
 
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 const COMPANY_FILM_URL = "https://www.youtube.com/watch?v=A1YoEqG4amQ";
+const PRODUCT_IMAGES: Record<string, string> = {
+  spinning: "/products/1-spinning.JPG",
+  twisting: "/products/IMG_3588.JPG",
+  knitting: "/products/3-knitting.JPG",
+  weaving: "/products/4-weaving-1.JPG",
+  dyeing: "/products/IMG_4017.JPG",
+  "yarn-dyeing": "/products/IMG_3726.JPG",
+  garment: "/products/IMG_3025.JPG",
+  printing: "/products/IMG_3063.JPG",
+  finishing: "/products/IMG_3548.JPG",
+};
 type Partner = { name: string; src: string };
 type Testimonial = { quote: string; attribution: string };
 
@@ -296,7 +307,7 @@ export default async function LocalizedHome({
                   {body}
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  {showCatalog && (
+                  {/* {showCatalog && (
                     <a
                       href={catalogUrl}
                       target={
@@ -320,7 +331,7 @@ export default async function LocalizedHome({
                         data-icon="inline-end"
                       />
                     </a>
-                  )}
+                  )} */}
                   <Link
                     href={`/${locale}/products`}
                     className={buttonVariants({
@@ -378,17 +389,28 @@ export default async function LocalizedHome({
               <Link
                 key={product.id}
                 href={`/${locale}/products/${product.slug}`}
-                className="flex min-h-28 flex-col justify-between bg-background p-4 transition-colors hover:bg-surface-warm focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-text-accent md:min-h-40 md:p-5"
+                className="group min-w-0 bg-background focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-text-accent"
               >
-                <span className="text-sm text-text-soft">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span>
-                  <span className="hidden text-xs text-text-accent sm:inline">
-                    {content.product}
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-subtle outline outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10">
+                  <Image
+                    src={PRODUCT_IMAGES[product.slug]}
+                    alt={text?.title || product.slug.replaceAll("-", " ")}
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 33vw"
+                    className="object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.02]"
+                  />
+                </div>
+                <span className="flex min-h-28 flex-col justify-between p-4 md:min-h-32 md:p-5">
+                  <span className="text-sm text-text-soft">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="block font-serif text-2xl capitalize sm:mt-2 sm:text-3xl">
-                    {text?.title || product.slug.replaceAll("-", " ")}
+                  <span>
+                    <span className="hidden text-xs text-text-accent sm:inline">
+                      {content.product}
+                    </span>
+                    <span className="block font-serif text-2xl capitalize sm:mt-2 sm:text-3xl">
+                      {text?.title || product.slug.replaceAll("-", " ")}
+                    </span>
                   </span>
                 </span>
               </Link>
@@ -563,7 +585,7 @@ export default async function LocalizedHome({
 
           <form
             className="grid content-start gap-4 sm:grid-cols-2"
-            action="mailto:contact.us@asietex.co.id"
+            action="mailto:contact.us@asietex.com"
             method="post"
             encType="text/plain"
           >

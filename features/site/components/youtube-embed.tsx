@@ -47,8 +47,6 @@ export function YouTubeEmbed({
         JSON.stringify({ event: "command", func: "stopVideo", args: [] }),
         "*",
       );
-
-      if (iframe) iframe.src = "about:blank";
     };
   }, [pathname]);
 

@@ -87,9 +87,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <address className="mt-4 grid gap-3 text-sm not-italic text-ink-inverse-muted">
               <a
                 className="underline-offset-4 hover:text-primary-foreground hover:underline"
-                href="mailto:contact.us@asietex.co.id"
+                href="mailto:contact.us@asietex.com"
               >
-                contact.us@asietex.co.id
+                contact.us@asietex.com
               </a>
               <a
                 className="underline-offset-4 hover:text-primary-foreground hover:underline"
