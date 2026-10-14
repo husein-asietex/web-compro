@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 
 function youtubeId(url: string) {
@@ -24,24 +26,45 @@ export function YouTubeEmbed({
   url,
   title,
   posterSrc,
+  loadImmediately = false,
 }: {
   url: string;
   title: string;
   posterSrc?: string;
+  loadImmediately?: boolean;
 }) {
+  const pathname = usePathname();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [playing, setPlaying] = useState(false);
   const id = youtubeId(url);
+  const showPlayer = loadImmediately || playing;
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+
+    return () => {
+      iframe?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func: "stopVideo", args: [] }),
+        "*",
+      );
+
+      if (iframe) iframe.src = "about:blank";
+    };
+  }, [pathname]);
+
   if (!id) return null;
 
   return (
-    /* Video embed */
     <div className="aspect-video overflow-hidden rounded-2xl bg-primary text-primary-foreground">
-      {playing ? (
+      {showPlayer ? (
         <iframe
-          className="size-full"
-          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
+          ref={iframeRef}
+          className="size-full border-0"
+          src={`https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1&rel=0`}
           title={title}
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         />
       ) : (
@@ -52,7 +75,6 @@ export function YouTubeEmbed({
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover"
-            priority
           />
           <div
             className="absolute inset-0 bg-foreground/25"
@@ -65,11 +87,7 @@ export function YouTubeEmbed({
               onClick={() => setPlaying(true)}
               aria-label={title}
               className="size-16 rounded-full bg-card/95 p-0 text-foreground shadow-xl transition-transform hover:scale-105"
-            >
-              <span aria-hidden="true" className="ml-1 text-2xl">
-                ▶
-              </span>
-            </Button>
+            ></Button>
           </div>
         </div>
       )}
