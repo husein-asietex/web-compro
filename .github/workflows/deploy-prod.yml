@@ -41,7 +41,7 @@ jobs:
           mkdir -p deploy/.next
           cp -r .next/static deploy/.next/static
           cp -r public deploy/public
-          cp .cpanel.yml deploy/.cpanel.yml
+          cp .cpanel-prod.yml deploy/.cpanel.yml
 
       - name: Publish to deploy branch
         uses: peaceiris/actions-gh-pages@v4
