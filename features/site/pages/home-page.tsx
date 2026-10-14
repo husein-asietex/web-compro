@@ -13,7 +13,7 @@ import { prisma } from "@/backend/prisma";
 import { asStringArray } from "@/lib/json";
 
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
-const COMPANY_FILM_URL = "https://youtu.be/bwxw2O6NMs0?si=T2BPqraQGgzgCl3N";
+const COMPANY_FILM_URL = "https://www.youtube.com/watch?v=A1YoEqG4amQ";
 type Partner = { name: string; src: string };
 type Testimonial = { quote: string; attribution: string };
 
@@ -443,7 +443,7 @@ export default async function LocalizedHome({
           <YouTubeEmbed
             url={COMPANY_FILM_URL}
             title={content.filmTitle}
-            posterSrc="/company-film/IMG_3424.JPG"
+            loadImmediately
           />
         </div>
       </section>
