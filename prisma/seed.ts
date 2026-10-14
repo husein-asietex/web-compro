@@ -129,7 +129,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian",
     phone: "(+62) 822-1018-0344",
     phoneHref: "+6282210180344",
-    email: "oki.haryanto@asietex.co.id",
+    email: "oki.haryanto@asietex.com",
   },
   {
     name: "Dias Riski Yandi",
@@ -137,7 +137,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian",
     phone: "(+62) 857-1755-5253",
     phoneHref: "+6285717555253",
-    email: "marketing.dias@asietex.co.id",
+    email: "dias.riski@asietex.com",
   },
   {
     name: "Yudi Prahmana",
@@ -145,7 +145,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian",
     phone: "(+62) 857-8094-8007",
     phoneHref: "+6285780948007",
-    email: "yudhi.prahmana@asietex.co.id",
+    email: "yudhi.prahmana@asietex.com",
   },
   {
     name: "Yuni Elpiyanti",
@@ -153,7 +153,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian, English",
     phone: "(+62) 852-1677-1919",
     phoneHref: "+6285216771919",
-    email: "marketing.yuni@asietex.co.id",
+    email: "yuni.elpiyanti@asietex.com",
   },
   {
     name: "Nurdjanah",
@@ -161,7 +161,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian, English",
     phone: "(+62) 822-9700-4135",
     phoneHref: "+6282297004135",
-    email: "nurdjanah@asietex.co.id",
+    email: "nurdjanah@asietex.com",
   },
   {
     name: "Hendra Wijaya",
@@ -169,7 +169,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian, English",
     phone: "(+62) 818-0886-2111",
     phoneHref: "+6281808862111",
-    email: "hendra.wijaya@asietex.co.id",
+    email: "hendra.wijaya@asietex.com",
   },
   {
     name: "Nia Komalasari",
@@ -177,7 +177,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian",
     phone: "(+62) 822-1902-4589",
     phoneHref: "+6282219024589",
-    email: "nia.komalasari@asietex.co.id",
+    email: "nia.komalasari@asietex.com",
   },
   {
     name: "Nadia Hermawan",
@@ -185,7 +185,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian, English",
     phone: "(+62) 895-3933-75890",
     phoneHref: "+62895393375890",
-    email: "accounting.nadia@asietex.co.id",
+    email: "nadia.hernawan@asietex.com",
   },
   {
     name: "Ajeng Rena Sari",
@@ -233,7 +233,7 @@ const MARKETING_CONTACTS = [
     language: "Indonesian",
     phone: "(+62) 813-2303-3433",
     phoneHref: "+6281323033433",
-    email: "Marketing.arifkurnia@asietex.co.id",
+    email: "arifkurnia@asietex.com",
   },
   {
     name: "Bambang Sihono",

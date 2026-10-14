@@ -217,7 +217,7 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
       </section>
 
       {/* Job Vacancies */}
-      <section
+      {/* <section
         className="mt-24 bg-secondary p-6 md:p-10"
         aria-labelledby="career-openings"
       >
@@ -264,7 +264,7 @@ export default async function CareerPage({ locale }: { locale: Locale }) {
             </article>
           ))}
         </div>
-      </section>
+      </section> */}
     </section>
   );
 }

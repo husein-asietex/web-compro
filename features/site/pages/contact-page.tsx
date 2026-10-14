@@ -136,7 +136,7 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
               </div>
               <div>
                 <dt className="text-muted-foreground">{content.emailLabel}</dt>
-                <dd className="mt-1 font-medium">contact.us@asietex.co.id</dd>
+                <dd className="mt-1 font-medium">contact.us@asietex.com</dd>
               </div>
               <div>
                 <dt className="text-muted-foreground">{content.hoursLabel}</dt>
@@ -218,7 +218,12 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
           <p className="mt-4 max-w-md leading-7 text-muted-foreground">
             {content.formIntro}
           </p>
-          <form className="mt-8 space-y-5">
+          <form
+            className="mt-8 space-y-5"
+            action="mailto:contact.us@asietex.com"
+            method="post"
+            encType="text/plain"
+          >
             <div>
               <label htmlFor="contact-name" className="text-sm font-medium">
                 {content.name}
