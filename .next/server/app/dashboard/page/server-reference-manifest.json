@@ -1,0 +1,15 @@
+{
+  "node": {
+    "009e435e41950b70e3e2d212ee2e1e3495abd4c10d": {
+      "workers": {
+        "app/dashboard/page": {
+          "moduleId": 25542,
+          "async": false
+        }
+      },
+      "exportedName": "logoutAction",
+      "filename": "features/auth/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

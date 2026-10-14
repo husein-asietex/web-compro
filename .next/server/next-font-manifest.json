@@ -1,0 +1,61 @@
+{
+  "app": {
+    "[project]/app/(site)/[locale]/about/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/career/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/contact/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/marketing-contact/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/products/[slug]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/(site)/[locale]/products/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/_not-found/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/account/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/content/collections/[key]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/content/divisions/[slug]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/content/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/content/pages/[slug]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/content/products/[slug]/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/media/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/dashboard/users/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ],
+    "[project]/app/login/page": [
+      "static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

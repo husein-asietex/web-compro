@@ -1,0 +1,3 @@
+module.exports=[3171,a=>{"use strict";var b=a.i(87924);a.s(["default",0,function({reset:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsx)("body",{children:(0,b.jsxs)("main",{style:{padding:32,fontFamily:"Arial, sans-serif"},children:[(0,b.jsx)("h1",{children:"Asietex could not load"}),(0,b.jsx)("button",{type:"button",onClick:a,children:"Try again"})]})})})}])}];
+
+//# sourceMappingURL=app_global-error_tsx_1kp6l3x33jqb6._.js.map

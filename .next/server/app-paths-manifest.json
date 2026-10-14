@@ -1,0 +1,23 @@
+{
+  "/(site)/[locale]/about/page": "app/(site)/[locale]/about/page.js",
+  "/(site)/[locale]/career/page": "app/(site)/[locale]/career/page.js",
+  "/(site)/[locale]/contact/page": "app/(site)/[locale]/contact/page.js",
+  "/(site)/[locale]/marketing-contact/page": "app/(site)/[locale]/marketing-contact/page.js",
+  "/(site)/[locale]/page": "app/(site)/[locale]/page.js",
+  "/(site)/[locale]/products/[slug]/page": "app/(site)/[locale]/products/[slug]/page.js",
+  "/(site)/[locale]/products/page": "app/(site)/[locale]/products/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/account/page": "app/dashboard/account/page.js",
+  "/dashboard/content/collections/[key]/page": "app/dashboard/content/collections/[key]/page.js",
+  "/dashboard/content/divisions/[slug]/page": "app/dashboard/content/divisions/[slug]/page.js",
+  "/dashboard/content/page": "app/dashboard/content/page.js",
+  "/dashboard/content/pages/[slug]/page": "app/dashboard/content/pages/[slug]/page.js",
+  "/dashboard/content/products/[slug]/page": "app/dashboard/content/products/[slug]/page.js",
+  "/dashboard/media/page": "app/dashboard/media/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/users/page": "app/dashboard/users/page.js",
+  "/login/page": "app/login/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
+}
