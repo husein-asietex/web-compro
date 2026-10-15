@@ -1,2 +1,1 @@
-export const instant = false;
-export { default } from "@/features/cms/pages/content-library-page";
+export { StaticPreviewNotice as default } from "@/components/static-preview-notice";

@@ -3,10 +3,15 @@ import { notFound } from "next/navigation";
 import ProductDetailPage from "@/features/site/pages/product-detail-page";
 import { getPageMetadata } from "@/features/site/lib/site-page-helpers";
 import { isLocale } from "@/lib/i18n";
+import { PRODUCT_SLUGS, LOCALES } from "@/data/mock/products";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export const instant = false;
+export function generateStaticParams() {
+  return LOCALES.flatMap((locale) =>
+    PRODUCT_SLUGS.map((slug) => ({ locale, slug })),
+  );
+}
 
 export async function generateMetadata({ params }: Props) {
   const { locale, slug } = await params;

@@ -1,8 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
-
-import { prisma } from "@/backend/prisma";
 import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -13,10 +10,10 @@ import {
 import { WorldMarketMap } from "@/features/site/components/world-market-map";
 import type { Locale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
-import type { AboutContent } from "@/prisma/seed-data/about";
+import { ABOUT_CONTENT, type AboutContent } from "@/data/mock/about";
 
-const HERO_IMAGE = "/about/IMG_3426.JPG";
-const FACTORY_IMAGE = "/about/IMG_3376.JPG";
+const HERO_IMAGE = "/about/IMG_3426.webp";
+const FACTORY_IMAGE = "/about/IMG_3376.webp";
 
 function getLocalizedContent(
   value: unknown,
@@ -45,22 +42,17 @@ function getLocalizedContent(
   return candidate as AboutContent;
 }
 
-export default async function AboutPage({ locale }: { locale: Locale }) {
-  const [page, collection] = await Promise.all([
-    prisma.page.findFirst({
-      where: { slug: "about", status: "PUBLISHED" },
-      include: { translations: { where: { locale } } },
-    }),
-    prisma.contentCollection.findFirst({
-      where: { key: "about-company", status: "PUBLISHED" },
-    }),
-  ]);
-
-  if (!page || !collection) redirect(`/${locale}`);
-
-  const translation = page.translations[0];
-  const content = getLocalizedContent(collection.data, locale);
-  if (!content) redirect(`/${locale}`);
+export default function AboutPage({ locale }: { locale: Locale }) {
+  const translation = {
+    title:
+      locale === "id"
+        ? "Tentang Asietex"
+        : locale === "pt"
+          ? "Sobre a Asietex"
+          : "About Asietex",
+    body: ABOUT_CONTENT[locale].hero.intro.join(" "),
+  };
+  const content = getLocalizedContent(ABOUT_CONTENT, locale)!;
 
   return (
     <main>

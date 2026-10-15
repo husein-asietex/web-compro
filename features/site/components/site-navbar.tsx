@@ -119,7 +119,7 @@ export function SiteNavbar({
             aria-label={ui.home}
           >
             <Image
-              src="/LOGOASIETEX.png"
+              src="/LOGOASIETEX.webp"
               alt="Asietex"
               width={140}
               height={36}

@@ -4,11 +4,11 @@ import { redirect } from "next/navigation";
 import { ArrowLeft02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-import { prisma } from "@/backend/prisma";
-import { asStringArray } from "@/lib/json";
+import { getProductBySlug } from "@/data/mock/products";
 import { YouTubeEmbed } from "@/features/site/components/youtube-embed";
-import { DUMMY_IMAGE, mediaAlt } from "@/features/site/lib/site-page-helpers";
 import { copy, type Locale } from "@/lib/i18n";
+
+const DUMMY_IMAGE = "/products/1-spinning-4.webp";
 
 const productCopy = {
   en: {
@@ -37,19 +37,7 @@ const productCopy = {
   },
 } as const;
 
-const productImages: Record<string, string> = {
-  spinning: "/products/1-spinning-4.JPG",
-  twisting: "/products/IMG_3588.JPG",
-  knitting: "/products/3-knitting.JPG",
-  weaving: "/products/4-weaving-1.JPG",
-  dyeing: "/products/IMG_4017.JPG",
-  "yarn-dyeing": "/products/IMG_3726.JPG",
-  garment: "/products/IMG_3025.JPG",
-  printing: "/products/IMG_3063.JPG",
-  finishing: "/products/IMG_3548.JPG",
-};
-
-export default async function ProductDetailPage({
+export default function ProductDetailPage({
   locale,
   slug,
 }: {
@@ -57,29 +45,21 @@ export default async function ProductDetailPage({
   slug: string;
 }) {
   const text = productCopy[locale];
-  const product = await prisma.product.findFirst({
-    where: { slug, status: "PUBLISHED" },
-    include: {
-      translations: { where: { locale } },
-      media: { where: { approved: true } },
-    },
-  });
-  if (!product) redirect("/en");
+  const product = getProductBySlug(slug);
 
-  const translation = product.translations[0];
-  const linkedImages = product.media.map((item) => item.url);
-  const gallery = Array.from(
-    new Set([...linkedImages, ...asStringArray(product.gallery)]),
-  );
-  const productItems = asStringArray(translation?.products ?? product.products);
+  if (!product) redirect(`/${locale}`);
+
+  const translation = product.translations[locale];
+  const gallery = product.gallery;
+  const productItems = translation.products;
   const videoUrl =
     locale === "id"
       ? product.videoId
       : locale === "pt"
         ? product.videoPt
         : product.videoEn;
-  const heroImage = productImages[product.slug] || gallery[0] || DUMMY_IMAGE;
-  const title = translation?.title || product.slug.replaceAll("-", " ");
+  const heroImage = product.heroImage || gallery[0] || DUMMY_IMAGE;
+  const title = translation.title || slug.replaceAll("-", " ");
 
   return (
     /* Product detail page */
@@ -103,13 +83,13 @@ export default async function ProductDetailPage({
             {title}
           </h1>
           <p className="mt-8 max-w-xl text-lg leading-8 text-muted-foreground">
-            {translation?.body}
+            {translation.body}
           </p>
         </div>
         <div className="relative aspect-[1.45] overflow-hidden rounded-2xl bg-surface-subtle shadow-[0_24px_70px_-35px_var(--shadow-soft)]">
           <Image
             src={heroImage}
-            alt={`${product.slug} textile production`}
+            alt={`${slug} textile production`}
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 55vw"
@@ -128,7 +108,7 @@ export default async function ProductDetailPage({
             {text.capacity}
           </dt>
           <dd className="mt-3 text-xl">
-            {translation?.capacity || product.capacity || text.confirm}
+            {translation.capacity || product.capacity || text.confirm}
           </dd>
         </div>
         <div className="py-5 sm:pl-8">
@@ -136,7 +116,7 @@ export default async function ProductDetailPage({
             {text.machinery}
           </dt>
           <dd className="mt-3 text-xl">
-            {translation?.machinery || product.machinery || text.confirm}
+            {translation.machinery || product.machinery || text.confirm}
           </dd>
         </div>
       </dl>
@@ -148,12 +128,12 @@ export default async function ProductDetailPage({
             {text.products}
           </h2>
           <ul className="mt-6 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-            {productItems.map((product) => (
+            {productItems.map((item) => (
               <li
-                key={product}
+                key={item}
                 className="border-b border-border-subtle py-4 text-lg"
               >
-                {product}
+                {item}
               </li>
             ))}
           </ul>
@@ -166,34 +146,22 @@ export default async function ProductDetailPage({
           {text.gallery}
         </h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          {(gallery.length ? gallery : [DUMMY_IMAGE]).map((url, index) => {
-            const media = product.media.find((item) => item.url === url);
-            return (
-              <figure
-                key={`${url}-${index}`}
-                className="overflow-hidden rounded-2xl bg-card"
-              >
-                <div className="relative aspect-[3/2]">
-                  <Image
-                    src={url}
-                    alt={
-                      media
-                        ? mediaAlt(locale, media)
-                        : `${product.slug} gallery ${index + 1}`
-                    }
-                    fill
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-                {media?.credit && (
-                  <figcaption className="p-3 text-xs text-muted-foreground">
-                    {media.credit}
-                  </figcaption>
-                )}
-              </figure>
-            );
-          })}
+          {(gallery.length ? gallery : [DUMMY_IMAGE]).map((url, index) => (
+            <figure
+              key={`${url}-${index}`}
+              className="overflow-hidden rounded-2xl bg-card"
+            >
+              <div className="relative aspect-[3/2]">
+                <Image
+                  src={url}
+                  alt={`${slug} gallery ${index + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </figure>
+          ))}
         </div>
       </section>
 

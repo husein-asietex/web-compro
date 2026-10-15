@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import type { Metadata } from "next";
 import { Source_Serif_4 } from "next/font/google";
 import "@/styles/globals.css";
@@ -9,23 +8,18 @@ const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
 });
 
-export const instant = false;
-
 export const metadata: Metadata = {
   icons: {
-    icon: "/LOGOASIETEX.png",
-    shortcut: "/LOGOASIETEX.png",
-    apple: "/LOGOASIETEX.png",
+    icon: "/LOGOASIETEX.webp",
+    shortcut: "/LOGOASIETEX.webp",
+    apple: "/LOGOASIETEX.webp",
   },
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const requestHeaders = await headers();
-  const locale = requestHeaders.get("x-locale") ?? "en";
-
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang={locale}
+      lang="en"
       className={`${sourceSerif.variable} h-full antialiased lining-nums`}
     >
       <body className="min-h-full">{children}</body>

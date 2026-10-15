@@ -71,7 +71,7 @@ export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
           className="flex items-center gap-2 overflow-hidden px-2 py-2 font-serif text-xl group-data-[collapsible=icon]:justify-center"
         >
           <Image
-            src="/LOGOASIETEX.png"
+            src="/LOGOASIETEX.webp"
             alt="Asietex"
             width={28}
             height={28}

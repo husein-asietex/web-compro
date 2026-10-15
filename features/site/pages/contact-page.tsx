@@ -1,16 +1,13 @@
 import Image from "next/image";
-import { redirect } from "next/navigation";
-
-import { prisma } from "@/backend/prisma";
 import { Button } from "@/components/ui/button";
 import { copy, type Locale } from "@/lib/i18n";
 import { SendIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-const buyerMeetingSpace = "/contact/IMG_3983.JPG";
-const factoryExterior = "/about/IMG_3376.JPG";
-const productionFloor = "/why-asietex/IMG_2875.JPG";
-const qualityTeam = "/career/IMG_3545.JPG";
+const buyerMeetingSpace = "/contact/IMG_3983.webp";
+const factoryExterior = "/about/IMG_3376.webp";
+const productionFloor = "/why-asietex/IMG_2875.webp";
+const qualityTeam = "/career/IMG_3545.webp";
 
 const contactCopy = {
   en: {
@@ -87,14 +84,7 @@ const contactCopy = {
   },
 } as const;
 
-export default async function ContactPage({ locale }: { locale: Locale }) {
-  const page = await prisma.page.findFirst({
-    where: { slug: "contact", status: "PUBLISHED" },
-    include: { translations: { where: { locale } } },
-  });
-  if (!page) redirect("/en");
-
-  const translation = page.translations[0];
+export default function ContactPage({ locale }: { locale: Locale }) {
   const content = contactCopy[locale];
 
   return (
@@ -104,13 +94,8 @@ export default async function ContactPage({ locale }: { locale: Locale }) {
       {/* Contact hero */}
       <div className="max-w-3xl">
         <h1 className="mt-8 max-w-4xl font-serif text-5xl leading-[0.98] md:text-7xl">
-          {translation?.title || copy[locale].nav[4]}
+          {copy[locale].nav[4]}
         </h1>
-        {translation?.body && (
-          <p className="mt-6 max-w-2xl whitespace-pre-line text-lg leading-8 text-muted-foreground">
-            {translation.body}
-          </p>
-        )}
       </div>
 
       {/* Office details and inquiry form */}

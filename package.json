@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "prisma:generate": "prisma generate --config ./prisma7.config.ts",
-    "prebuild": "npm run prisma:generate",
-    "build": "next build",
+    "convert:images": "node scripts/convert-images-to-webp.mjs",
+    "convert:public-images": "node scripts/convert-images-to-webp.mjs public",
+    "prebuild": "npm run convert:public-images && node -e \"require('fs').rmSync('out',{recursive:true,force:true})\"",
+    "postbuild": "npm run convert:images",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "map:prepare": "node scripts/prepare-world-map.mjs",
@@ -35,6 +38,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/turbopack": "^4",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^20",

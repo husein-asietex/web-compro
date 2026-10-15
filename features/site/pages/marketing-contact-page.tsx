@@ -1,7 +1,7 @@
 import type { Locale } from "@/lib/i18n";
+import { marketingContactsByLocale } from "@/data/mock/marketing-contacts";
 import { Message01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { prisma } from "@/backend/prisma";
 
 const pageCopy = {
   en: {
@@ -21,39 +21,9 @@ const pageCopy = {
   },
 } as const;
 
-type MarketingContact = {
-  name: string;
-  role: string;
-  language: string;
-  phone: string;
-  phoneHref: string;
-  email: string;
-};
-
-function getContacts(data: unknown, locale: Locale): MarketingContact[] {
-  if (!data || typeof data !== "object" || !(locale in data)) return [];
-  const contacts = (data as Record<string, unknown>)[locale];
-  if (!Array.isArray(contacts)) return [];
-  return contacts.filter(
-    (contact): contact is MarketingContact =>
-      Boolean(contact) &&
-      typeof contact === "object" &&
-      ["name", "role", "language", "phone", "phoneHref", "email"].every(
-        (key) => typeof (contact as Record<string, unknown>)[key] === "string",
-      ),
-  );
-}
-
-export default async function MarketingContactPage({
-  locale,
-}: {
-  locale: Locale;
-}) {
+export default function MarketingContactPage({ locale }: { locale: Locale }) {
   const t = pageCopy[locale];
-  const collection = await prisma.contentCollection.findFirst({
-    where: { key: "marketing-contacts", status: "PUBLISHED" },
-  });
-  const contacts = getContacts(collection?.data, locale);
+  const contacts = marketingContactsByLocale[locale];
 
   return (
     /* Marketing contact page */
@@ -90,13 +60,15 @@ export default async function MarketingContactPage({
             </div>
 
             <div className="flex flex-col gap-1 border-border-subtle text-sm">
-              <a
-                href={`tel:${contact.phoneHref}`}
-                className="w-fit underline decoration-border-strong underline-offset-4 transition-colors hover:text-text-accent focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-accent"
-              >
-                <span className="sr-only">{t.phoneLabel}: </span>
-                {contact.phone}
-              </a>
+              {contact.phone && (
+                <a
+                  href={`tel:${contact.phoneHref}`}
+                  className="w-fit underline decoration-border-strong underline-offset-4 transition-colors hover:text-text-accent focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-text-accent"
+                >
+                  <span className="sr-only">{t.phoneLabel}: </span>
+                  {contact.phone}
+                </a>
+              )}
 
               <a
                 href={`mailto:${contact.email}`}

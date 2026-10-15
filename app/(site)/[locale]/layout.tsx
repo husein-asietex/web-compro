@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { currentUser } from "@/backend/auth";
 import { SiteFooter } from "@/features/site/components/site-footer";
 import { SiteNavbar } from "@/features/site/components/site-navbar";
 import { copy, isLocale } from "@/lib/i18n";
@@ -26,14 +25,12 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const user = await currentUser();
-
   return (
     <main id="main-content" className="min-h-dvh bg-background text-foreground">
       <SiteNavbar
         locale={locale}
         labels={copy[locale].nav}
-        isAuthenticated={Boolean(user)}
+        isAuthenticated={false}
       />
       <div className="mb-20">{children}</div>
       <SiteFooter locale={locale} />

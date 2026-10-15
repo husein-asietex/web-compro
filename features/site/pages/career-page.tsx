@@ -1,15 +1,12 @@
 import Image from "next/image";
-import { redirect } from "next/navigation";
-
-import { prisma } from "@/backend/prisma";
 import { copy, type Locale } from "@/lib/i18n";
 
 import { SendIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 
-const engineeringCollaboration = "/career/IMG_3869.JPG";
-const productionTeam = "/career/IMG_4033.JPG";
-const qualitySpecialist = "/career/IMG_3001.JPG";
+const engineeringCollaboration = "/career/IMG_3869.webp";
+const productionTeam = "/career/IMG_4033.webp";
+const qualitySpecialist = "/career/IMG_3001.webp";
 
 const careerCopy = {
   en: {
@@ -132,21 +129,10 @@ const careerImageAlts = {
   ],
 } as const;
 
-export default async function CareerPage({ locale }: { locale: Locale }) {
-  const [page, openingsCollection] = await Promise.all([
-    prisma.page.findFirst({
-      where: { slug: "career", status: "PUBLISHED" },
-      include: { translations: { where: { locale } } },
-    }),
-    prisma.contentCollection.findFirst({
-      where: { key: "career-openings", status: "PUBLISHED" },
-    }),
-  ]);
-  if (!page) redirect("/en");
-
-  const translation = page.translations[0];
+export default function CareerPage({ locale }: { locale: Locale }) {
+  const translation = { title: copy[locale].nav[3], body: "" };
   const text = careerCopy[locale];
-  const openings = getOpenings(openingsCollection?.data, locale);
+  const openings = getOpenings(undefined, locale);
   const imageAlts = careerImageAlts[locale];
 
   return (

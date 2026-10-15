@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n";
 
+export const dynamic = "force-static";
+
 const pages = [
   "",
   "about",

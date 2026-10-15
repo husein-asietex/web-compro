@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { prisma } from "@/backend/prisma";
 import { isLocale, type Locale } from "@/lib/i18n";
 
 export const DUMMY_IMAGE =
@@ -52,25 +51,14 @@ export async function getPageMetadata(
 
   const isProduct = path.length === 2 && path[0] === "products";
   const slug = isProduct ? path[1] : path.join("/");
-  const record = isProduct
-    ? await prisma.product.findFirst({
-        where: { slug, status: "PUBLISHED" },
-        include: { translations: { where: { locale } } },
-      })
-    : await prisma.page.findFirst({
-        where: { slug, status: "PUBLISHED" },
-        include: { translations: { where: { locale } } },
-      });
-  const translation = record?.translations[0];
   const localizedPath = path.join("/");
   const pageTitle =
     !isProduct && path.length === 1
       ? pageTitles[locale][path[0] as keyof (typeof pageTitles)[typeof locale]]
-      : translation?.title || slug.replaceAll("-", " ");
+      : slug.replaceAll("-", " ");
 
   return {
     title: pageTitle,
-    description: translation?.body.slice(0, 160),
     alternates: {
       languages: {
         en: `/en/${localizedPath}`,

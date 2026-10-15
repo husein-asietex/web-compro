@@ -2,28 +2,26 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { connection } from "next/server";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
 
 import { buttonVariants } from "@/components/ui/button";
 import { YouTubeEmbed } from "@/features/site/components/youtube-embed";
 import { copy, isLocale, locales } from "@/lib/i18n";
-import { prisma } from "@/backend/prisma";
-import { asStringArray } from "@/lib/json";
+import { PRODUCTS } from "@/data/mock/products";
 
 const DEFAULT_CATALOG_URL = "https://e-catalog.asietex.web.id";
 const COMPANY_FILM_URL = "https://www.youtube.com/watch?v=A1YoEqG4amQ";
 const PRODUCT_IMAGES: Record<string, string> = {
-  spinning: "/products/1-spinning-4.JPG",
-  twisting: "/products/IMG_3588.JPG",
-  knitting: "/products/3-knitting.JPG",
-  weaving: "/products/4-weaving-1.JPG",
-  dyeing: "/products/IMG_4017.JPG",
-  "yarn-dyeing": "/products/IMG_3726.JPG",
-  garment: "/products/IMG_3025.JPG",
-  printing: "/products/IMG_3063.JPG",
-  finishing: "/products/IMG_3548.JPG",
+  spinning: "/products/1-spinning-4.webp",
+  twisting: "/products/IMG_3588.webp",
+  knitting: "/products/3-knitting.webp",
+  weaving: "/products/4-weaving-1.webp",
+  dyeing: "/products/IMG_4017.webp",
+  "yarn-dyeing": "/products/IMG_3726.webp",
+  garment: "/products/IMG_3025.webp",
+  printing: "/products/IMG_3063.webp",
+  finishing: "/products/IMG_3548.webp",
 };
 type Partner = { name: string; src: string };
 type Testimonial = { quote: string; attribution: string };
@@ -207,17 +205,11 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]">): Promise<Metadata> {
-  await connection();
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const page = await prisma.page.findFirst({
-    where: { slug: "home", status: "PUBLISHED" },
-    include: { translations: { where: { locale } } },
-  });
-  const translation = page?.translations[0];
   return {
     title: locale === "id" ? "Beranda" : locale === "pt" ? "Início" : "Home",
-    description: translation?.body.slice(0, 160) || copy[locale].body,
+    description: copy[locale].body,
     alternates: { languages: { en: "/en", id: "/id", pt: "/pt" } },
   };
 }
@@ -225,27 +217,15 @@ export async function generateMetadata({
 export const instant = false;
 
 async function getHomeContent(locale: LocaleCode) {
-  await connection();
-  const [page, settings, products, socialProof] = await Promise.all([
-    prisma.page.findFirst({
-      where: { slug: "home", status: "PUBLISHED" },
-      include: { translations: { where: { locale } } },
-    }),
-    prisma.siteSetting.findUnique({ where: { id: "site" } }),
-    prisma.product.findMany({
-      where: { status: "PUBLISHED" },
-      orderBy: { order: "asc" },
-      include: { translations: { where: { locale } } },
-    }),
-    prisma.contentCollection.findFirst({
-      where: { key: "home-social-proof", status: "PUBLISHED" },
-    }),
-  ]);
   return {
-    translation: page?.translations[0],
-    settings,
-    products,
-    socialProof,
+    translation: { title: copy[locale].hero, body: copy[locale].body },
+    settings: null,
+    products: PRODUCTS.map((product) => ({
+      ...product,
+      id: product.slug,
+      translations: [product.translations[locale]],
+    })),
+    socialProof: null,
   };
 }
 
@@ -255,24 +235,11 @@ export default async function LocalizedHome({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = copy[locale];
-  const { translation, settings, products, socialProof } =
-    await getHomeContent(locale);
+  const { translation, products } = await getHomeContent(locale);
   const title = translation?.title || t.hero;
   const body = translation?.body || t.body;
-  const showCatalog =
-    settings?.catalogOn !== false &&
-    (settings
-      ? asStringArray(settings.catalogPlacements).includes("home")
-      : true);
-  const catalogUrl = settings?.catalogUrl || DEFAULT_CATALOG_URL;
-  const catalogLabel =
-    locale === "id"
-      ? settings?.catalogLabelId || t.catalog
-      : locale === "pt"
-        ? settings?.catalogLabelPt || t.catalog
-        : settings?.catalogLabelEn || t.catalog;
   const content = homeCopy[locale];
-  const { partners, testimonials } = getSocialProof(socialProof?.data, locale);
+  const { partners, testimonials } = getSocialProof(null, locale);
 
   return (
     <>
@@ -281,7 +248,7 @@ export default async function LocalizedHome({
         {/* Home hero */}
         <div className="relative isolate min-h-[42rem] overflow-hidden bg-primary text-primary-foreground md:min-h-[46rem]">
           <Image
-            src="/home/IMG_3406.JPG"
+            src="/home/IMG_3406.webp"
             alt="Integrated textile production with yarn preparation, machinery, and fabric quality inspection"
             fill
             priority
@@ -441,7 +408,7 @@ export default async function LocalizedHome({
           </div>
           <div className="relative aspect-[2/1] overflow-hidden rounded-2xl md:col-span-2">
             <Image
-              src="/why-asietex/IMG_2875.JPG"
+              src="/why-asietex/IMG_2875.webp"
               alt={content.aboutTitle}
               fill
               sizes="(max-width: 768px) 100vw, 1200px"
@@ -575,7 +542,7 @@ export default async function LocalizedHome({
 
           <div className="relative min-h-80 overflow-hidden rounded-2xl">
             <Image
-              src="/request-samples/IMG_3723.JPG"
+              src="/request-samples/IMG_3723.webp"
               alt={content.requestTitle}
               fill
               sizes="(max-width: 768px) 100vw, 30vw"

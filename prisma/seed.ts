@@ -40,15 +40,15 @@ type Locale = (typeof LOCALES)[number];
 type ProductSlug = (typeof PRODUCT_SLUGS)[number];
 
 const PRODUCT_GALLERIES: Record<ProductSlug, [string, string]> = {
-  spinning: ["/products/1-spinning-4.JPG", "/products/1-spinning-3.JPG"],
-  twisting: ["/products/IMG_3588.JPG", "/products/IMG_3589.JPG"],
-  knitting: ["/products/3-knitting.JPG", "/products/3-knitting-2.JPG"],
-  weaving: ["/products/4-weaving-1.JPG", "/products/4-weaving-2.JPG"],
-  dyeing: ["/products/IMG_4017.JPG", "/products/IMG_4022.JPG"],
-  "yarn-dyeing": ["/products/IMG_3726-yarn.JPG", "/products/IMG_3733.JPG"],
-  garment: ["/products/IMG_3025.JPG", "/products/IMG_3028.JPG"],
-  printing: ["/products/IMG_3063.JPG", "/products/IMG_3065.JPG"],
-  finishing: ["/products/IMG_3548.JPG", "/products/IMG_3557.JPG"],
+  spinning: ["/products/1-spinning-4.webp", "/products/1-spinning-3.webp"],
+  twisting: ["/products/IMG_3588.webp", "/products/IMG_3589.webp"],
+  knitting: ["/products/3-knitting.webp", "/products/3-knitting-2.webp"],
+  weaving: ["/products/4-weaving-1.webp", "/products/4-weaving-2.webp"],
+  dyeing: ["/products/IMG_4017.webp", "/products/IMG_4022.webp"],
+  "yarn-dyeing": ["/products/IMG_3726-yarn.webp", "/products/IMG_3733.webp"],
+  garment: ["/products/IMG_3025.webp", "/products/IMG_3028.webp"],
+  printing: ["/products/IMG_3063.webp", "/products/IMG_3065.webp"],
+  finishing: ["/products/IMG_3548.webp", "/products/IMG_3557.webp"],
 };
 
 const PRODUCT_TITLES: Record<Locale, Record<ProductSlug, string>> = {
@@ -198,12 +198,12 @@ const PAGE_COPY: Record<
 };
 
 const PARTNERS = [
-  { name: "Adidas", src: "/partners/adidas.png" },
-  { name: "New Balance", src: "/partners/new-balance.png" },
-  { name: "Nike", src: "/partners/nike.png" },
-  { name: "Puma", src: "/partners/puma.png" },
-  { name: "Reebok", src: "/partners/reebok.png" },
-  { name: "Umbro", src: "/partners/umbro.png" },
+  { name: "Adidas", src: "/partners/adidas.webp" },
+  { name: "New Balance", src: "/partners/new-balance.webp" },
+  { name: "Nike", src: "/partners/nike.webp" },
+  { name: "Puma", src: "/partners/puma.webp" },
+  { name: "Reebok", src: "/partners/reebok.webp" },
+  { name: "Umbro", src: "/partners/umbro.webp" },
 ];
 
 const MARKETING_CONTACTS = [
