@@ -1,0 +1,42 @@
+1:"/_next/static/chunks/1tq6ppe__m8m-.js"
+2:"LoadingBoundaryProvider"
+3:I[39756,["$1"],"$2"]
+4:"$Sreact.fragment"
+b:I[39756,["$1"],"default"]
+c:I[37457,["$1"],"default"]
+10:I[97367,["$1"],"OutletBoundary"]
+11:"$Sreact.suspense"
+14:"ViewportBoundary"
+15:I[97367,["$1"],"$14"]
+17:"MetadataBoundary"
+18:I[97367,["$1"],"$17"]
+1b:"/_next/static/chunks/2y43uo0yg7afd.js"
+1c:I[53348,["$1","$1b"],"default"]
+:HL["/_next/static/chunks/19_8j3-46huqb.css","style"]
+:HL["/_next/static/chunks/3a2ekru522wno.css","style"]
+:HL["/_next/static/media/68d403cf9f2c68c5-s.p.012bmydply3go.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+6:X
+9:X
+d:X
+13:X
+e:[["children",{"s":"__PAGE__","h":8706,"d":{"r":["$","$4","c",{"children":["$Lf",[["$","script","script-0",{"src":"/_next/static/chunks/2v42o6qe8tu49.js","async":true,"nonce":"$undefined"}]],["$","$L10",null,{"children":["$","$11",null,{"name":"Next.MetadataOutlet","children":"$@12"}]}]]}],"p":true,"v":"$13"}}]]
+a:[["children",{"s":"users","h":8706,"d":{"r":["$","$4","c",{"children":[null,["$","$Lb",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$Lc",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":true,"v":"$d"},"c":"$Qe"}]]
+7:[["children",{"s":"dashboard","h":8706,"d":{"r":["$","$4","c",{"children":[[["$","script","script-0",{"src":"/_next/static/chunks/3nqjr-a_xd269.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/3w8e4qtrtxjdn.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/3ibpufhnqb5_u.js","async":true,"nonce":"$undefined"}],["$","script","script-3",{"src":"/_next/static/chunks/0hsucw85__nxc.js","async":true,"nonce":"$undefined"}]],"$L8"]}],"p":true,"v":"$9"},"c":"$Qa"}]]
+1a:X
+1d:X
+1e:X
+0:{"P":null,"c":["","dashboard","users"],"q":"","i":false,"t":{"t":{"s":"","h":8726,"d":{"r":["$","$L3",null,{"loading":[["$","main","l",{"className":"grid min-h-dvh place-items-center bg-background text-foreground","children":["$","p",null,{"role":"status","className":"text-sm text-muted-foreground","children":"Loading Asietex…"}]}],[],null],"children":["$","$4","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/19_8j3-46huqb.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/3a2ekru522wno.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/1tq6ppe__m8m-.js","async":true,"nonce":"$undefined"}]],"$L5"]}]}],"p":true,"v":"$6"},"c":"$Q7"},"h":{"r":["$","$4","h",{"children":[null,["$","$L15",null,{"children":"$L16"}],["$","$L18",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$11",null,{"name":"Next.Metadata","children":"$L19"}]}],null]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"p":true,"v":"$1a"}},"m":"$undefined","G":["$1c",[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/19_8j3-46huqb.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/3a2ekru522wno.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$1d","s":"$1e","a":"$@1f","l":"$undefined","p":"$undefined","d":"$undefined","b":"b6hiXqNwFXZrEarZfdSDV","u":"$@20"}
+d:C
+1e:300
+20:true
+16:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+21:I[27201,["$1"],"IconMark"]
+12:null
+19:[["$","title","0",{"children":"Dashboard"}],["$","meta","1",{"name":"robots","content":"noindex, nofollow"}],["$","link","2",{"rel":"shortcut icon","href":"/LOGOASIETEX.png"}],["$","link","3",{"rel":"icon","href":"/LOGOASIETEX.png"}],["$","link","4",{"rel":"apple-touch-icon","href":"/LOGOASIETEX.png"}],["$","$L21","5",{}]]
+1e:C
+1a:C
+1d:C
+13:C
+9:C
+6:C
+1f:null

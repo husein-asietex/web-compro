@@ -1,0 +1,55 @@
+{
+  "node": {
+    "009f611093dc2915e2032069ac916215091c730124": {
+      "workers": {
+        "app/dashboard/users/page": {
+          "moduleId": 55367,
+          "async": false
+        }
+      },
+      "exportedName": "logoutAction",
+      "filename": "features/auth/actions/auth.ts"
+    },
+    "4003e0e0ea6b32ab6c6d6b5412bd95f693734a5e88": {
+      "workers": {
+        "app/dashboard/users/page": {
+          "moduleId": 55367,
+          "async": false
+        }
+      },
+      "exportedName": "toggleUserAction",
+      "filename": "features/admin/actions/users.ts"
+    },
+    "4069710c618ac76ad7db77afe2f4f035d0cd7b02e1": {
+      "workers": {
+        "app/dashboard/users/page": {
+          "moduleId": 55367,
+          "async": false
+        }
+      },
+      "exportedName": "changeMyPasswordAction",
+      "filename": "features/admin/actions/users.ts"
+    },
+    "4083cbec91059158da349eea28920f62227cfef961": {
+      "workers": {
+        "app/dashboard/users/page": {
+          "moduleId": 55367,
+          "async": false
+        }
+      },
+      "exportedName": "updateUserRoleAction",
+      "filename": "features/admin/actions/users.ts"
+    },
+    "40d250b0ddc500a42617121959cf835e2cf7a99a10": {
+      "workers": {
+        "app/dashboard/users/page": {
+          "moduleId": 55367,
+          "async": false
+        }
+      },
+      "exportedName": "createStaffAction",
+      "filename": "features/admin/actions/users.ts"
+    }
+  },
+  "edge": {}
+}

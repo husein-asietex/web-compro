@@ -1,0 +1,25 @@
+{
+  "node": {
+    "009f611093dc2915e2032069ac916215091c730124": {
+      "workers": {
+        "app/login/page": {
+          "moduleId": 11356,
+          "async": false
+        }
+      },
+      "exportedName": "logoutAction",
+      "filename": "features/auth/actions/auth.ts"
+    },
+    "40d34123c393c27d96ef64e4e672527053518053c2": {
+      "workers": {
+        "app/login/page": {
+          "moduleId": 11356,
+          "async": false
+        }
+      },
+      "exportedName": "loginAction",
+      "filename": "features/auth/actions/auth.ts"
+    }
+  },
+  "edge": {}
+}

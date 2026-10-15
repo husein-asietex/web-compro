@@ -1,0 +1,23 @@
+{
+  "/(site)/[locale]/about/page": "/[locale]/about",
+  "/(site)/[locale]/career/page": "/[locale]/career",
+  "/(site)/[locale]/contact/page": "/[locale]/contact",
+  "/(site)/[locale]/marketing-contact/page": "/[locale]/marketing-contact",
+  "/(site)/[locale]/page": "/[locale]",
+  "/(site)/[locale]/products/[slug]/page": "/[locale]/products/[slug]",
+  "/(site)/[locale]/products/page": "/[locale]/products",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/dashboard/account/page": "/dashboard/account",
+  "/dashboard/content/collections/[key]/page": "/dashboard/content/collections/[key]",
+  "/dashboard/content/divisions/[slug]/page": "/dashboard/content/divisions/[slug]",
+  "/dashboard/content/page": "/dashboard/content",
+  "/dashboard/content/pages/[slug]/page": "/dashboard/content/pages/[slug]",
+  "/dashboard/content/products/[slug]/page": "/dashboard/content/products/[slug]",
+  "/dashboard/media/page": "/dashboard/media",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/users/page": "/dashboard/users",
+  "/login/page": "/login",
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml"
+}
